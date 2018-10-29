@@ -10,7 +10,7 @@ namespace Project56
         public GameObject Zombie;
         public GameObject Platform;
 
-        public int PlatformCount = 3;
+        public int PlatformCount = 5;
         public int ZombieCount = 5;
 
         public Transform PooledObjectsHolder;
@@ -104,15 +104,12 @@ namespace Project56
 
         public GameObject GetPlatform()
         {
-            Debug.Log("Getting Platform");
             //Perform normal return of the selected cube from selected queue
             for (int i = 0; i < Platforms.Count; i++)
             {
                 GameObject Platform = Platforms.Pop();
                 if (!Platform.activeInHierarchy)
                 {
-                    Debug.Log("Found Platform");
-
                     return Platform;
                 }
             }
@@ -120,8 +117,6 @@ namespace Project56
             //Increase count in the start if this case arrives while testing
             if (shouldExpand)
             {
-                Debug.Log("No  Platform");
-
                 GameObject gameObject = Instantiate(Platform);
                 gameObject.SetActive(false);
                 Platforms.Push(gameObject);
@@ -129,9 +124,7 @@ namespace Project56
             }
             else
             {
-                Debug.Log("Getting Null");
-
-                return null;
+               return null;
             }
         }
     }

@@ -8,6 +8,7 @@ namespace Project56
     {
         public void ActivateAndSetPosition(Vector3 position)
         {
+            gameObject.SetActive(true);
             transform.SetPositionAndRotation(position, Quaternion.identity);
         }
 

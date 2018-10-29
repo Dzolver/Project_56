@@ -23,7 +23,6 @@ public class Player : MonoBehaviour, IPlayer
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision  " + collision.gameObject.name);
         if (collision.gameObject.tag.Equals("Zombie"))
         {
             Deactivate();
