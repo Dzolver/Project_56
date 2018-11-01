@@ -15,7 +15,6 @@ namespace Project56
         public void Deactivate()
         {
             gameObject.SetActive(false);
-            ObjectPool.Instance.ReturnPlatformToStack(gameObject);
         }
 
         // Use this for initialization

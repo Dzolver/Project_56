@@ -12,9 +12,9 @@ public class PlatformGenerator : MonoBehaviour
     public Transform playerTransform;
 
     [SerializeField]
-    GameObject CurrentPlatform, LeftPlatform, RightPlatform;
+    private GameObject CurrentPlatform, LeftPlatform, RightPlatform;
 
-    void Start()
+    private void Start()
     {
         CurrentPlatform = ObjectPool.Instance.GetPlatform();
         CurrentPlatform.GetComponent<Platform>().ActivateAndSetPosition(startPoint.localPosition);
@@ -27,13 +27,12 @@ public class PlatformGenerator : MonoBehaviour
         RightPlatform.GetComponent<Platform>().ActivateAndSetPosition(new Vector2(startPoint.position.x + platformWidth, startPoint.position.y));
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (playerTransform.position.x - CurrentPlatform.transform.position.x > platformWidth / 2)
             ActivateRightPlatform();
         else if (CurrentPlatform.transform.position.x - playerTransform.position.x > platformWidth / 2)
             ActivateLeftPlatform();
-
     }
 
     private void ActivateRightPlatform()
@@ -64,4 +63,3 @@ public class PlatformGenerator : MonoBehaviour
         zombie.ActivateAndSetPosition(position);
     }
 }
-

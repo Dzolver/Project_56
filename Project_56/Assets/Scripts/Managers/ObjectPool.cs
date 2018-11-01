@@ -10,16 +10,16 @@ namespace Project56
         public GameObject Zombie;
         public GameObject Platform;
 
-        public int PlatformCount = 5;
+        public int PlatformCount = 3;
         public int ZombieCount = 5;
 
         public Transform PooledObjectsHolder;
 
         [HideInInspector]
-        public Stack<GameObject> Zombies = new Stack<GameObject>();
+        public List<GameObject> Zombies = new List<GameObject>();
 
         [HideInInspector]
-        public Stack<GameObject> Platforms = new Stack<GameObject>();
+        public List<GameObject> Platforms = new List<GameObject>();
 
         public bool shouldExpand = false;
         private WaitForSeconds wait = new WaitForSeconds(0.001f);
@@ -49,7 +49,7 @@ namespace Project56
                     GameObject gameObject = Instantiate(Zombie, PooledObjectsHolder);
                     gameObject.name = "Zombie -" + i;
                     gameObject.SetActive(false);
-                    Zombies.Push(gameObject);
+                    Zombies.Add(gameObject);
                     yield return wait;
                 }
             }
@@ -60,28 +60,17 @@ namespace Project56
                     GameObject gameObject = Instantiate(Platform, PooledObjectsHolder);
                     gameObject.name = "Platform -" + i;
                     gameObject.SetActive(false);
-                    Platforms.Push(gameObject);
+                    Platforms.Add(gameObject);
                     yield return wait;
                 }
             }
         }
 
-        public void ReturnZombieToStack(GameObject gameObject)
-        {
-            Zombies.Push(gameObject);
-        }
-
-        public void ReturnPlatformToStack(GameObject platform)
-        {
-            Platforms.Push(gameObject);
-        }
-
         public GameObject GetZombie()
         {
             //Perform normal return of the selected cube from selected queue
-            for (int i = 0; i < Zombies.Count; i++)
+            foreach (GameObject zombie in Zombies)
             {
-                GameObject zombie = Zombies.Pop();
                 if (!zombie.activeInHierarchy)
                 {
                     return zombie;
@@ -93,7 +82,7 @@ namespace Project56
             {
                 GameObject gameObject = Instantiate(Zombie);
                 gameObject.SetActive(false);
-                Zombies.Push(gameObject);
+                Zombies.Add(gameObject);
                 return gameObject;
             }
             else
@@ -105,9 +94,8 @@ namespace Project56
         public GameObject GetPlatform()
         {
             //Perform normal return of the selected cube from selected queue
-            for (int i = 0; i < Platforms.Count; i++)
+            foreach (GameObject Platform in Platforms)
             {
-                GameObject Platform = Platforms.Pop();
                 if (!Platform.activeInHierarchy)
                 {
                     return Platform;
@@ -117,14 +105,18 @@ namespace Project56
             //Increase count in the start if this case arrives while testing
             if (shouldExpand)
             {
+                Debug.Log("No  Platform");
+
                 GameObject gameObject = Instantiate(Platform);
                 gameObject.SetActive(false);
-                Platforms.Push(gameObject);
+                Platforms.Add(gameObject);
                 return gameObject;
             }
             else
             {
-               return null;
+                Debug.Log("Getting Null");
+
+                return null;
             }
         }
     }

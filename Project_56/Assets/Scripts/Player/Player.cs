@@ -1,31 +1,35 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerController))]
-public class Player : MonoBehaviour, IPlayer
+namespace Project56
 {
-    public void ActivateAndSetPosition(Vector3 vector3)
+    [RequireComponent(typeof(PlayerController))]
+    public class Player : MonoBehaviour, IPlayer
     {
-        throw new System.NotImplementedException();
-    }
-
-    public void Deactivate()
-    {
-        gameObject.SetActive(false);
-        gameObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-    }
-
-    public void OnDie()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag.Equals("Zombie"))
+        public void ActivateAndSetPosition(Vector3 vector3)
         {
-            Deactivate();
+            throw new System.NotImplementedException();
+        }
+
+        public void Deactivate()
+        {
+            gameObject.SetActive(false);
+            gameObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        }
+
+        public void OnDie()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.gameObject.tag.Equals("Zombie"))
+            {
+                Deactivate();
+            }
         }
     }
 }
