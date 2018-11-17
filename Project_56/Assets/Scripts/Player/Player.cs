@@ -29,6 +29,7 @@ namespace Project56
             if (collision.gameObject.tag.Equals("Zombie"))
             {
                 Deactivate();
+                GameStateManager.Instance.UpdateState(GameState.Death);
             }
         }
     }

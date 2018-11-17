@@ -119,5 +119,28 @@ namespace Project56
                 return null;
             }
         }
+
+        private void OnEnable()
+        {
+            MyEventManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
+        }
+
+        private void OnGameStateChanged()
+        {
+            if (GameStateManager.Instance.CurrentState == GameState.Death
+                || GameStateManager.Instance.CurrentState == GameState.MainMenu)
+            {
+                foreach (GameObject platform in Platforms)
+                    platform.SetActive(false);
+
+                foreach (GameObject zombie in Zombies)
+                    zombie.SetActive(false);
+            }
+        }
+
+        private void OnDisable()
+        {
+            MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+        }
     }
 }

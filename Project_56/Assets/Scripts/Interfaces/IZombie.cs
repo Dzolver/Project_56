@@ -8,7 +8,7 @@ public interface IZombie
 
     void ActivateAndSetPosition(Vector3 position);
 
-    void GetMoveSpeed();
+    float GetMoveSpeed();
 
     void Deactivate();
 }

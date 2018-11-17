@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Project56
 {
-    public class HUD : MonoBehaviour
+    public class HUD : Menu
     {
         public void OnJumpClicked()
         {
@@ -12,14 +13,31 @@ namespace Project56
             MyEventManager.Instance.OnJumpClicked.Dispatch();
         }
 
-        // Use this for initialization
-        private void Start()
+        private void OnEnable()
         {
+            MyEventManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
         }
 
-        // Update is called once per frame
-        private void Update()
+        private void OnDisable()
         {
+            MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+        }
+
+        private void OnGameStateChanged()
+        {
+            if (GameStateManager.Instance.CurrentState == GameState.Game)
+            {
+                ShowMenu();
+                Time.timeScale = 1;
+            }
+            else
+                HideMenu();
+        }
+
+        public void Pause()
+        {
+            Time.timeScale = 0;
+            GameStateManager.Instance.UpdateState(GameState.Paused);
         }
     }
 }

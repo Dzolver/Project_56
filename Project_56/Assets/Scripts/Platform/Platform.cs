@@ -14,6 +14,7 @@ namespace Project56
 
         public void Deactivate()
         {
+            Debug.Log("Deactivating - " + name);
             gameObject.SetActive(false);
         }
 

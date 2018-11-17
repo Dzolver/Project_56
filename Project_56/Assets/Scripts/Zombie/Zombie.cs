@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,13 +19,16 @@ namespace Project56
 
         public void Deactivate()
         {
-            gameObject.SetActive(false);
-            gameObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+            if (gameObject != null)
+            {
+                gameObject.SetActive(false);
+                gameObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+            }
         }
 
-        public void GetMoveSpeed()
+        public float GetMoveSpeed()
         {
-            throw new System.NotImplementedException();
+            return m_MoveSpeed;
         }
 
         public void Move()

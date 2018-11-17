@@ -6,7 +6,8 @@ namespace Project56
 {
     public class CameraController : MonoBehaviour
     {
-        public PlayerController theRunner;
+        //public PlayerController theRunner;
+        public GameObject theRunner;
 
         private Vector3 lastRunnerPosition;
         private float distanceToMove;
@@ -15,7 +16,7 @@ namespace Project56
         private void Start()
         {
             //Finding reference to the player
-            theRunner = FindObjectOfType<PlayerController>();
+            //theRunner = FindObjectOfType<PlayerController>();
             //Initialize the last player position for the first frame
             lastRunnerPosition = theRunner.transform.position;
         }
