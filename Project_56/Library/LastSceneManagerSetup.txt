@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/Project_56.unity
-  isLoaded: 1
-  isActive: 1

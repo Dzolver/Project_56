@@ -116,17 +116,17 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
-    <Reference Include="Google.JarResolver_v1.2.95.0">
-      <HintPath>Assets/PlayServicesResolver/Editor/Google.JarResolver_v1.2.95.0.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.IOSResolver_v1.2.95.0">
-      <HintPath>Assets/PlayServicesResolver/Editor/Google.IOSResolver_v1.2.95.0.dll</HintPath>
+    <Reference Include="Google.JarResolver_v1.2.61.0">
+      <HintPath>Assets/PlayServicesResolver/Editor/Google.JarResolver_v1.2.61.0.dll</HintPath>
     </Reference>
     <Reference Include="Google.VersionHandler">
       <HintPath>Assets/PlayServicesResolver/Editor/Google.VersionHandler.dll</HintPath>
     </Reference>
-    <Reference Include="Google.VersionHandlerImpl_v1.2.95.0">
-      <HintPath>Assets/PlayServicesResolver/Editor/Google.VersionHandlerImpl_v1.2.95.0.dll</HintPath>
+    <Reference Include="Google.IOSResolver_v1.2.61.0">
+      <HintPath>Assets/PlayServicesResolver/Editor/Google.IOSResolver_v1.2.61.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.VersionHandlerImpl_v1.2.61.0">
+      <HintPath>Assets/PlayServicesResolver/Editor/Google.VersionHandlerImpl_v1.2.61.0.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -148,18 +148,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\GooglePlayGames\Editor\GooglePlayGamesPluginDependencies.xml" />
-    <None Include="Assets\GooglePlayGames\Editor\GooglePlayGamesPlugin_v0.9.53.txt" />
+    <None Include="Assets\GooglePlayGames\Editor\GooglePlayGamesPlugin_v0.9.50.txt" />
     <None Include="Assets\GooglePlayGames\Editor\m2repository\com\google\games\gpgs-plugin-support\maven-metadata.xml" />
     <None Include="Assets\GooglePlayGames\Editor\template-AndroidManifest.txt" />
     <None Include="Assets\GooglePlayGames\Editor\template-Constants.txt" />
     <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />
     <None Include="Assets\GooglePlayGames\Plugins\Android\GooglePlayGamesManifest.plugin\AndroidManifest.xml" />
-    <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver_v1.2.95.0.txt" />
-    <None Include="Assets\Plugins\Android\com.google.games.gpgs-plugin-support-0.9.53\AndroidManifest.xml" />
-    <None Include="Assets\Plugins\Android\com.google.games.gpgs-plugin-support-0.9.53\R.txt" />
-    <None Include="Assets\Plugins\Android\com.google.games.gpgs-plugin-support-0.9.53\res\values-v11\values-v11.xml" />
-    <None Include="Assets\Plugins\Android\com.google.games.gpgs-plugin-support-0.9.53\res\values-v14\values-v14.xml" />
-    <None Include="Assets\Plugins\Android\com.google.games.gpgs-plugin-support-0.9.53\res\values\values.xml" />
+    <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver_v1.2.61.0.txt" />
     <None Include="Assets\Sample_Resources\License.txt" />
     <None Include="Assets\Sample_Resources\Spritesheets\spritesheet_complete.xml" />
     <None Include="Assets\Sample_Resources\Spritesheets\spritesheet_enemies.xml" />
