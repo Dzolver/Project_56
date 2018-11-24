@@ -8,10 +8,16 @@ namespace Project56
     {
         //public PlayerController theRunner;
         public GameObject theRunner;
+        public float speed = 1;//smoothing speed;
+        public float edge = 12; //setting how much of an area camera can move around
 
         private Vector3 lastRunnerPosition;
         private float distanceToMove;
-
+        public float direction = 1; //-1 = left direction, 1= right direction
+        private float edgeLimit = 23;
+        private float speedIncreaseRate;//camera also needs to move faster as player's speed gradually increases
+        private float boundaryView = 7.2f;
+        private Vector3 targetPosition;
         // Use this for initialization
         private void Start()
         {
@@ -19,17 +25,39 @@ namespace Project56
             //theRunner = FindObjectOfType<PlayerController>();
             //Initialize the last player position for the first frame
             lastRunnerPosition = theRunner.transform.position;
+            speedIncreaseRate = theRunner.GetComponent<PlayerController>().speedIncreaseRate;//setting same increase rate as the player
         }
 
         // Update is called once per frame
         private void Update()
         {
+            edge += speedIncreaseRate * Time.deltaTime;
+            edge = Mathf.Clamp(edge, -edgeLimit, edgeLimit);//making sure edge is clamped
+        }
+
+        // Update is called once per frame
+        private void FixedUpdate() {
+            //Calculate the distance to move the camera
+            distanceToMove = theRunner.transform.position.x+(direction*edge) - lastRunnerPosition.x;
+            //making sure player doesn't get out of view
+            float xPos = Mathf.Clamp(transform.position.x, theRunner.transform.position.x - boundaryView, theRunner.transform.position.x + boundaryView);
+            //targetposition to move
+            targetPosition = new Vector3(theRunner.transform.position.x + distanceToMove, transform.position.y, transform.position.z);
+            //camera's smooth movement
+            transform.position = Vector3.Lerp(new Vector3(xPos,transform.position.y,transform.position.z), targetPosition, speed * Time.deltaTime);
+            //updating the last player position every frame
+            lastRunnerPosition = theRunner.transform.position;
+
+        }
+
+
+        /*private void OldScript() {
             //Calculate the distance to move the camera
             distanceToMove = theRunner.transform.position.x - lastRunnerPosition.x;
 
             transform.position = new Vector3(transform.position.x + distanceToMove, transform.position.y, transform.position.z);
             //updating the last player position every frame
             lastRunnerPosition = theRunner.transform.position;
-        }
+        }*/
     }
 }

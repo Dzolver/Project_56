@@ -10,9 +10,11 @@ namespace Project56
     {
         public bool grounded;
         public LayerMask whatIsGround;
-        public float moveSpeed;
-        public float jumpForce;
-
+        public float moveSpeed = 5;
+        public float jumpForce = 17;
+        public float fallGravity = 15;
+        public float maxSpeed = 15;
+        public float speedIncreaseRate = 0.1f;
         private Collider2D RunnerCollider;
         private Rigidbody2D RunnerRigidBody;
         private Animator RunnerAnimator;
@@ -20,17 +22,21 @@ namespace Project56
         private Vector2 m_SecondPressPos;
         private Vector2 m_CurrentSwipe;
         private int m_MoveDirection;
+        private CameraController cameraController;
 
-        public float SwipeDetectionSensitivity;
+        private float gravity;
+        public float SwipeDetectionSensitivity = 1;
 
         private void OnEnable()
         {
             MyEventManager.Instance.OnJumpClicked.AddListener(OnJumpClicked);
+            MyEventManager.Instance.OnFallClicked.AddListener(OnFallClicked);
         }
 
         private void OnDisable()
         {
             MyEventManager.Instance.OnJumpClicked.RemoveListener(OnJumpClicked);
+            MyEventManager.Instance.OnFallClicked.RemoveListener(OnFallClicked);
         }
 
         // Use this for initialization
@@ -40,11 +46,14 @@ namespace Project56
             RunnerCollider = GetComponent<Collider2D>();
             RunnerRigidBody = GetComponent<Rigidbody2D>();
             RunnerAnimator = GetComponent<Animator>();
+            cameraController = Camera.main.GetComponent<CameraController>();
+            gravity = RunnerRigidBody.gravityScale;
         }
 
         // Update is called once per frame
         private void Update()
         {
+            moveSpeed += speedIncreaseRate * Time.deltaTime;
             MouseSwipe();
             TouchSwipe();
             //returns true or false whether the collider is touching another collider containing the layer called 'Ground'
@@ -59,12 +68,22 @@ namespace Project56
 
             RunnerAnimator.SetFloat("Speed", RunnerRigidBody.velocity.x);
             RunnerAnimator.SetBool("Grounded", grounded);
+            
         }
 
         private void Jump()
         {
-            if (grounded)
+            if (grounded) {
+                if (RunnerRigidBody.gravityScale > gravity)
+                    RunnerRigidBody.gravityScale = gravity;//resetting gravity
                 RunnerRigidBody.velocity = new Vector2(RunnerRigidBody.velocity.x, jumpForce);
+            }
+                
+        }
+
+        private void Fall() {
+            if (!grounded)
+                RunnerRigidBody.gravityScale = fallGravity;
         }
 
         private void MouseSwipe()
@@ -116,11 +135,13 @@ namespace Project56
                 RunnerRigidBody.velocity = Vector2.zero;
                 moveSpeed = -Mathf.Abs(moveSpeed);
                 transform.localRotation = new Quaternion(0, 180, 0, transform.rotation.w);
+                cameraController.direction = -1;
             }
             else if (m_CurrentSwipe.x > 0/* && (currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)*/)
             {
                 moveSpeed = Mathf.Abs(moveSpeed);
                 transform.localRotation = Quaternion.identity;
+                cameraController.direction = 1;
             }
         }
 
@@ -128,5 +149,11 @@ namespace Project56
         {
             Jump();
         }
+
+        private void OnFallClicked() {
+            Fall();
+        }
+
+
     }
 }
