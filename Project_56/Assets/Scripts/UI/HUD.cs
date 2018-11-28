@@ -9,7 +9,6 @@ namespace Project56
     {
         public void OnJumpClicked()
         {
-            Debug.Log("Jumping");
             MyEventManager.Instance.OnJumpClicked.Dispatch();
         }
         public void OnFallClicked() {

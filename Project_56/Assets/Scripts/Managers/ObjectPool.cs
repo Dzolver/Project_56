@@ -9,9 +9,12 @@ namespace Project56
     {
         public GameObject Zombie;
         public GameObject Platform;
+        public GameObject Jump_Block;
+        public GameObject Slide_Block;
 
         public int PlatformCount = 3;
         public int ZombieCount = 5;
+        public int BlockCount = 4;
 
         public Transform PooledObjectsHolder;
 
@@ -20,6 +23,12 @@ namespace Project56
 
         [HideInInspector]
         public List<GameObject> Platforms = new List<GameObject>();
+
+        [HideInInspector]
+        public List<GameObject> SlideBlocks = new List<GameObject>();
+
+        [HideInInspector]
+        public List<GameObject> JumpBlocks = new List<GameObject>();
 
         public bool shouldExpand = false;
         private WaitForSeconds wait = new WaitForSeconds(0.001f);
@@ -37,6 +46,10 @@ namespace Project56
                 Total += ZombieCount;
             if (Platform != null)
                 Total += PlatformCount;
+            if (Jump_Block != null)
+                Total += BlockCount;
+            if (SlideBlocks != null)
+                Total += BlockCount;
             return Total;
         }
 
@@ -61,6 +74,28 @@ namespace Project56
                     gameObject.name = "Platform -" + i;
                     gameObject.SetActive(false);
                     Platforms.Add(gameObject);
+                    yield return wait;
+                }
+            }
+            if (Slide_Block != null)
+            {
+                for (int i = 0; i < BlockCount; i++)
+                {
+                    GameObject gameObject = Instantiate(Slide_Block, PooledObjectsHolder);
+                    gameObject.name = "Slide Block -" + i;
+                    gameObject.SetActive(false);
+                    SlideBlocks.Add(gameObject);
+                    yield return wait;
+                }
+            }
+            if (Jump_Block != null)
+            {
+                for (int i = 0; i < BlockCount; i++)
+                {
+                    GameObject gameObject = Instantiate(Jump_Block, PooledObjectsHolder);
+                    gameObject.name = "Jump Block -" + i;
+                    gameObject.SetActive(false);
+                    JumpBlocks.Add(gameObject);
                     yield return wait;
                 }
             }
@@ -115,7 +150,52 @@ namespace Project56
             else
             {
                 Debug.Log("Getting Null");
+                return null;
+            }
+        }
 
+        public GameObject GetSlideBlock()
+        {
+            //Perform normal return of the selected cube from selected queue
+            foreach (GameObject block in SlideBlocks)
+            {
+                if (!block.activeInHierarchy)
+                {
+                    return block;
+                }
+            }
+            if (shouldExpand)
+            {
+                GameObject gameObject = Instantiate(Slide_Block);
+                gameObject.SetActive(false);
+                SlideBlocks.Add(gameObject);
+                return gameObject;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public GameObject GetJumpBlock()
+        {
+            //Perform normal return of the selected cube from selected queue
+            foreach (GameObject block in JumpBlocks)
+            {
+                if (!block.activeInHierarchy)
+                {
+                    return block;
+                }
+            }
+            if (shouldExpand)
+            {
+                GameObject gameObject = Instantiate(Jump_Block);
+                gameObject.SetActive(false);
+                JumpBlocks.Add(gameObject);
+                return gameObject;
+            }
+            else
+            {
                 return null;
             }
         }
@@ -135,6 +215,12 @@ namespace Project56
 
                 foreach (GameObject zombie in Zombies)
                     zombie.SetActive(false);
+
+                foreach (GameObject block in JumpBlocks)
+                    block.SetActive(false);
+
+                foreach (GameObject block in SlideBlocks)
+                    block.SetActive(false);
             }
         }
 

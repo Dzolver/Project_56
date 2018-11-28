@@ -53,7 +53,15 @@ namespace Project56
         // Update is called once per frame
         private void Update()
         {
-            moveSpeed += speedIncreaseRate * Time.deltaTime;
+            if(moveSpeed >=0)
+            {
+                moveSpeed += speedIncreaseRate * Time.deltaTime;
+            }
+            else
+            {
+                moveSpeed -= speedIncreaseRate * Time.deltaTime;
+            }
+                           
             MouseSwipe();
             TouchSwipe();
             //returns true or false whether the collider is touching another collider containing the layer called 'Ground'

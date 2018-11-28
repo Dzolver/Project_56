@@ -36,13 +36,11 @@ namespace Project56
             transform.Translate(Vector3.left * Time.deltaTime * m_MoveSpeed);
         }
 
-        // Use this for initialization
         private void Start()
         {
             //m_Rigidbody = GetComponent<Rigidbody2D>();
         }
 
-        // Update is called once per frame
         private void Update()
         {
             Move();
@@ -59,8 +57,6 @@ namespace Project56
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            Debug.Log("Trigger Exit  " + collision.gameObject.name);
-
             if (collision.gameObject.tag.Equals("MainCamera"))
             {
                 Deactivate();

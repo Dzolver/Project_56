@@ -31,6 +31,11 @@ namespace Project56
                 Deactivate();
                 GameStateManager.Instance.UpdateState(GameState.Death);
             }
+            if (collision.gameObject.tag.Equals("Block"))
+            {
+                //Deactivate();
+                //GameStateManager.Instance.UpdateState(GameState.Death);
+            }
         }
     }
 }
