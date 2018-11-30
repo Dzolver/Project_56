@@ -14,18 +14,7 @@ namespace Project56
 
         public void Deactivate()
         {
-            Debug.Log("Deactivating - " + name);
             gameObject.SetActive(false);
-        }
-
-        // Use this for initialization
-        private void Start()
-        {
-        }
-
-        // Update is called once per frame
-        private void Update()
-        {
         }
     }
 }

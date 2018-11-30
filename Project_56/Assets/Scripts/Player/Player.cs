@@ -10,7 +10,7 @@ namespace Project56
     {
         public void ActivateAndSetPosition(Vector3 vector3)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Deactivate()
@@ -21,7 +21,7 @@ namespace Project56
 
         public void OnDie()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

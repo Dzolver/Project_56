@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockBase : MonoBehaviour
+public class BlockBase : MonoBehaviour,IBlock
 {
     public void ActivateAndSetPosition(Vector2 position)
     {
@@ -13,7 +13,6 @@ public class BlockBase : MonoBehaviour
 
     public void Deactivate()
     {
-        Debug.Log("Deactivating - " + name);
         gameObject.SetActive(false);
     }
 

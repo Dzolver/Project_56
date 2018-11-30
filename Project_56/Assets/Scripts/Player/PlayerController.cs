@@ -39,7 +39,6 @@ namespace Project56
             MyEventManager.Instance.OnFallClicked.RemoveListener(OnFallClicked);
         }
 
-        // Use this for initialization
         private void Start()
         {
             //initialize the component variables by searching for all needed components using GetComponent
@@ -50,10 +49,9 @@ namespace Project56
             gravity = RunnerRigidBody.gravityScale;
         }
 
-        // Update is called once per frame
         private void Update()
         {
-            if(moveSpeed >=0)
+            if (moveSpeed >= 0)
             {
                 moveSpeed += speedIncreaseRate * Time.deltaTime;
             }
@@ -61,7 +59,7 @@ namespace Project56
             {
                 moveSpeed -= speedIncreaseRate * Time.deltaTime;
             }
-                           
+
             MouseSwipe();
             TouchSwipe();
             //returns true or false whether the collider is touching another collider containing the layer called 'Ground'
@@ -76,20 +74,22 @@ namespace Project56
 
             RunnerAnimator.SetFloat("Speed", RunnerRigidBody.velocity.x);
             RunnerAnimator.SetBool("Grounded", grounded);
-            
+            Debug.Log("Position = " + transform.position + ", Velocity = " + GetComponent<Rigidbody2D>().velocity);
         }
 
         private void Jump()
         {
-            if (grounded) {
+            if (grounded)
+            {
                 if (RunnerRigidBody.gravityScale > gravity)
                     RunnerRigidBody.gravityScale = gravity;//resetting gravity
                 RunnerRigidBody.velocity = new Vector2(RunnerRigidBody.velocity.x, jumpForce);
             }
-                
+
         }
 
-        private void Fall() {
+        private void Fall()
+        {
             if (!grounded)
                 RunnerRigidBody.gravityScale = fallGravity;
         }
@@ -103,7 +103,7 @@ namespace Project56
             if (Input.GetMouseButton(0) || Input.GetMouseButtonUp(0))
             {
                 m_SecondPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-                MovePlayer();
+                SwipePlayer();
             }
         }
 
@@ -119,13 +119,13 @@ namespace Project56
                 if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Ended)
                 {
                     m_SecondPressPos = touch.position;
-                    MovePlayer();
+                    SwipePlayer();
                     m_FirstPressPos = touch.position;
                 }
             }
         }
 
-        public void MovePlayer()
+        public void SwipePlayer()
         {
             //create vector from the two points
             m_CurrentSwipe = new Vector2(m_SecondPressPos.x - m_FirstPressPos.x, m_SecondPressPos.y - m_FirstPressPos.y);
@@ -158,7 +158,8 @@ namespace Project56
             Jump();
         }
 
-        private void OnFallClicked() {
+        private void OnFallClicked()
+        {
             Fall();
         }
 

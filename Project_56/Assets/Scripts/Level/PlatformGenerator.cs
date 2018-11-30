@@ -83,7 +83,6 @@ public class PlatformGenerator : MonoBehaviour
         LeftPlatform = CurrentPlatform;
         CurrentPlatform = RightPlatform;
         RightPlatform = platform;
-        InstantiateZombie(RightPlatform.transform.position);
     }
 
     private void ActivateLeftPlatform()
@@ -94,12 +93,5 @@ public class PlatformGenerator : MonoBehaviour
         RightPlatform = CurrentPlatform;
         CurrentPlatform = LeftPlatform;
         LeftPlatform = platform;
-        InstantiateZombie(LeftPlatform.transform.position);
-    }
-
-    private void InstantiateZombie(Vector3 position)
-    {
-        IZombie zombie = ObjectPool.Instance.GetZombie().GetComponent<IZombie>();
-        zombie.ActivateAndSetPosition(position);
     }
 }

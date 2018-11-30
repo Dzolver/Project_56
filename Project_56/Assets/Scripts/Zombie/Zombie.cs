@@ -14,7 +14,7 @@ namespace Project56
         public void ActivateAndSetPosition(Vector3 position)
         {
             gameObject.SetActive(true);
-            transform.SetPositionAndRotation(new Vector3(position.x, position.y - 0.5f, position.z), Quaternion.identity);
+            transform.SetPositionAndRotation(position, Quaternion.identity);
         }
 
         public void Deactivate()
