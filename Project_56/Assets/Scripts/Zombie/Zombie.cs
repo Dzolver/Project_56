@@ -43,12 +43,11 @@ namespace Project56
 
         private void Update()
         {
-            Move();
+            //Move();
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            Debug.Log("Collision  " + collision.gameObject.name);
             if (collision.gameObject.tag.Equals("Player"))
             {
                 Deactivate();

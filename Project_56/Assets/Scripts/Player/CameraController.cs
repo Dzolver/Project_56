@@ -6,29 +6,25 @@ namespace Project56
 {
     public class CameraController : MonoBehaviour
     {
-        //public PlayerController theRunner;
-        public GameObject theRunner;
         public float speed = 1;//smoothing speed;
         public float edge = 12; //setting how much of an area camera can move around
 
         private Vector3 lastRunnerPosition;
         private float distanceToMove;
-        public float direction = 1; //-1 = left direction, 1= right direction
         private float edgeLimit = 23;
         private float speedIncreaseRate;//camera also needs to move faster as player's speed gradually increases
         private float boundaryView = 7.2f;
         private Vector3 targetPosition;
-        // Use this for initialization
+    
         private void Start()
         {
             //Finding reference to the player
             //theRunner = FindObjectOfType<PlayerController>();
             //Initialize the last player position for the first frame
-            lastRunnerPosition = theRunner.transform.position;
-            speedIncreaseRate = theRunner.GetComponent<PlayerController>().speedIncreaseRate;//setting same increase rate as the player
+            lastRunnerPosition = GameData.Instance.theRunnerTransform.position;
+            speedIncreaseRate = GameData.Instance.theRunner.GetComponent<PlayerController>().speedIncreaseRate;//setting same increase rate as the player
         }
 
-        // Update is called once per frame
         private void Update()
         {
             edge += speedIncreaseRate * Time.deltaTime;
@@ -36,17 +32,18 @@ namespace Project56
         }
 
         // Update is called once per frame
-        private void FixedUpdate() {
+        private void FixedUpdate()
+        {
             //Calculate the distance to move the camera
-            distanceToMove = theRunner.transform.position.x+(direction*edge) - lastRunnerPosition.x;
+            distanceToMove = GameData.Instance.theRunnerTransform.position.x + (GameData.Instance.direction * edge) - lastRunnerPosition.x;
             //making sure player doesn't get out of view
-            float xPos = Mathf.Clamp(transform.position.x, theRunner.transform.position.x - boundaryView, theRunner.transform.position.x + boundaryView);
+            float xPos = Mathf.Clamp(transform.position.x, GameData.Instance.theRunnerTransform.position.x - boundaryView, GameData.Instance.theRunnerTransform.position.x + boundaryView);
             //targetposition to move
-            targetPosition = new Vector3(theRunner.transform.position.x + distanceToMove, transform.position.y, transform.position.z);
+            targetPosition = new Vector3(GameData.Instance.theRunnerTransform.position.x + distanceToMove, transform.position.y, transform.position.z);
             //camera's smooth movement
-            transform.position = Vector3.Lerp(new Vector3(xPos,transform.position.y,transform.position.z), targetPosition, speed * Time.deltaTime);
+            transform.position = Vector3.Lerp(new Vector3(xPos, transform.position.y, transform.position.z), targetPosition, speed * Time.deltaTime);
             //updating the last player position every frame
-            lastRunnerPosition = theRunner.transform.position;
+            lastRunnerPosition = GameData.Instance.theRunnerTransform.position;
 
         }
 

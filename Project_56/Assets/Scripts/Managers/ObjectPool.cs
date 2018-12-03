@@ -11,10 +11,12 @@ namespace Project56
         public GameObject Platform;
         public GameObject Jump_Block;
         public GameObject Slide_Block;
+        public GameObject Coin;
 
         public int PlatformCount = 3;
         public int ZombieCount = 5;
         public int BlockCount = 4;
+        public int CoinCount = 10;
 
         public Transform PooledObjectsHolder;
 
@@ -29,6 +31,9 @@ namespace Project56
 
         [HideInInspector]
         public List<GameObject> JumpBlocks = new List<GameObject>();
+
+        [HideInInspector]
+        public List<GameObject> Coins = new List<GameObject>();
 
         public bool shouldExpand = false;
         private WaitForSeconds wait = new WaitForSeconds(0.001f);
@@ -50,6 +55,8 @@ namespace Project56
                 Total += BlockCount;
             if (SlideBlocks != null)
                 Total += BlockCount;
+            if (Coins != null)
+                Total += CoinCount;
             return Total;
         }
 
@@ -99,6 +106,17 @@ namespace Project56
                     yield return wait;
                 }
             }
+            if (Coin != null)
+            {
+                for (int i = 0; i < CoinCount; i++)
+                {
+                    GameObject gameObject = Instantiate(Coin, PooledObjectsHolder);
+                    gameObject.name = "Coin -" + i;
+                    gameObject.SetActive(false);
+                    Coins.Add(gameObject);
+                    yield return wait;
+                }
+            }
         }
 
         public GameObject GetZombie()
@@ -136,9 +154,7 @@ namespace Project56
                     return Platform;
                 }
             }
-            //If there are no deactivated objects, instantiate a new one and return that
-            //Increase count in the start if this case arrives while testing
-            if (shouldExpand)
+           if (shouldExpand)
             {
                 Debug.Log("No  Platform");
 
@@ -179,7 +195,6 @@ namespace Project56
 
         public GameObject GetJumpBlock()
         {
-            //Perform normal return of the selected cube from selected queue
             foreach (GameObject block in JumpBlocks)
             {
                 if (!block.activeInHierarchy)
@@ -192,6 +207,29 @@ namespace Project56
                 GameObject gameObject = Instantiate(Jump_Block);
                 gameObject.SetActive(false);
                 JumpBlocks.Add(gameObject);
+                return gameObject;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public GameObject GetCoin()
+        {
+ 
+            foreach (GameObject coin in Coins)
+            {
+                if (!coin.activeInHierarchy)
+                {
+                    return coin;
+                }
+            }
+            if (shouldExpand)
+            {
+                GameObject gameObject = Instantiate(Coin);
+                gameObject.SetActive(false);
+                Coins.Add(gameObject);
                 return gameObject;
             }
             else
@@ -221,6 +259,9 @@ namespace Project56
 
                 foreach (GameObject block in SlideBlocks)
                     block.SetActive(false);
+
+                foreach (GameObject coin in Coins)
+                    coin.SetActive(false);
             }
         }
 

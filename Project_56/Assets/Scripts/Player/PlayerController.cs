@@ -22,7 +22,7 @@ namespace Project56
         private Vector2 m_SecondPressPos;
         private Vector2 m_CurrentSwipe;
         private int m_MoveDirection;
-        private CameraController cameraController;
+        //   private CameraController cameraController;
 
         private float gravity;
         public float SwipeDetectionSensitivity = 1;
@@ -45,7 +45,7 @@ namespace Project56
             RunnerCollider = GetComponent<Collider2D>();
             RunnerRigidBody = GetComponent<Rigidbody2D>();
             RunnerAnimator = GetComponent<Animator>();
-            cameraController = Camera.main.GetComponent<CameraController>();
+            //cameraController = Camera.main.GetComponent<CameraController>();
             gravity = RunnerRigidBody.gravityScale;
         }
 
@@ -74,7 +74,6 @@ namespace Project56
 
             RunnerAnimator.SetFloat("Speed", RunnerRigidBody.velocity.x);
             RunnerAnimator.SetBool("Grounded", grounded);
-            Debug.Log("Position = " + transform.position + ", Velocity = " + GetComponent<Rigidbody2D>().velocity);
         }
 
         private void Jump()
@@ -143,13 +142,15 @@ namespace Project56
                 RunnerRigidBody.velocity = Vector2.zero;
                 moveSpeed = -Mathf.Abs(moveSpeed);
                 transform.localRotation = new Quaternion(0, 180, 0, transform.rotation.w);
-                cameraController.direction = -1;
+                GameData.Instance.direction = -1;
+                Debug.Log("Direction changed");
             }
             else if (m_CurrentSwipe.x > 0/* && (currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)*/)
             {
                 moveSpeed = Mathf.Abs(moveSpeed);
                 transform.localRotation = Quaternion.identity;
-                cameraController.direction = 1;
+                GameData.Instance.direction = 1;
+                Debug.Log("Direction changed");
             }
         }
 
