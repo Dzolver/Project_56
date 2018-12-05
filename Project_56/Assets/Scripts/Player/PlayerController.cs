@@ -31,12 +31,22 @@ namespace Project56
         {
             MyEventManager.Instance.OnJumpClicked.AddListener(OnJumpClicked);
             MyEventManager.Instance.OnFallClicked.AddListener(OnFallClicked);
+            MyEventManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
         }
 
         private void OnDisable()
         {
             MyEventManager.Instance.OnJumpClicked.RemoveListener(OnJumpClicked);
             MyEventManager.Instance.OnFallClicked.RemoveListener(OnFallClicked);
+            MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+        }
+
+        private void OnGameStateChanged()
+        {
+            if (GameStateManager.Instance.CurrentState == GameState.Game)
+            {
+                GameData.Instance.direction = GameData.Direction.Right;
+            }
         }
 
         private void Start()
@@ -84,7 +94,6 @@ namespace Project56
                     RunnerRigidBody.gravityScale = gravity;//resetting gravity
                 RunnerRigidBody.velocity = new Vector2(RunnerRigidBody.velocity.x, jumpForce);
             }
-
         }
 
         private void Fall()
@@ -142,14 +151,14 @@ namespace Project56
                 RunnerRigidBody.velocity = Vector2.zero;
                 moveSpeed = -Mathf.Abs(moveSpeed);
                 transform.localRotation = new Quaternion(0, 180, 0, transform.rotation.w);
-                GameData.Instance.direction = -1;
+                GameData.Instance.direction = GameData.Direction.Left;
                 Debug.Log("Direction changed");
             }
             else if (m_CurrentSwipe.x > 0/* && (currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)*/)
             {
                 moveSpeed = Mathf.Abs(moveSpeed);
                 transform.localRotation = Quaternion.identity;
-                GameData.Instance.direction = 1;
+                GameData.Instance.direction = GameData.Direction.Right;
                 Debug.Log("Direction changed");
             }
         }
@@ -163,7 +172,5 @@ namespace Project56
         {
             Fall();
         }
-
-
     }
 }

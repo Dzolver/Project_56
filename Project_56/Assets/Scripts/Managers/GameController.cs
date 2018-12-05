@@ -29,7 +29,6 @@ namespace Project56
                 GameData.Instance.theRunner.SetActive(false);
                 StopCoroutine(GenerateCoinWave());
             }
-
         }
 
         private IEnumerator GenerateCoinWave()
@@ -39,12 +38,12 @@ namespace Project56
                 yield return new WaitForSeconds(9f);
                 int coins = UnityEngine.Random.Range(5, 11);
                 Vector2 pos = new Vector2(GameData.Instance.GetNextObjectPosX(), .05f);
-                GameData.Instance.CurrentObjectPosX = pos.x + (GameData.Instance.direction * coins);
+                GameData.Instance.CurrentObjectPosX = pos.x + ((int)GameData.Instance.direction * coins);
                 Debug.Log("Current x updated due to coins : " + GameData.Instance.CurrentObjectPosX);
                 for (int i = 0; i < coins; i++)
                 {
                     GameObject coin = ObjectPool.Instance.GetCoin();
-                    coin.GetComponent<Coin>().ActivateAndSetPosition(new Vector2(pos.x + (GameData.Instance.direction * i), pos.y));
+                    coin.GetComponent<Coin>().ActivateAndSetPosition(new Vector2(pos.x + ((int)GameData.Instance.direction * i), pos.y));
                 }
             }
         }

@@ -15,7 +15,7 @@ namespace Project56
         private float speedIncreaseRate;//camera also needs to move faster as player's speed gradually increases
         private float boundaryView = 7.2f;
         private Vector3 targetPosition;
-    
+
         private void Start()
         {
             //Finding reference to the player
@@ -35,7 +35,7 @@ namespace Project56
         private void FixedUpdate()
         {
             //Calculate the distance to move the camera
-            distanceToMove = GameData.Instance.theRunnerTransform.position.x + (GameData.Instance.direction * edge) - lastRunnerPosition.x;
+            distanceToMove = GameData.Instance.theRunnerTransform.position.x + ((int)GameData.Instance.direction * edge) - lastRunnerPosition.x;
             //making sure player doesn't get out of view
             float xPos = Mathf.Clamp(transform.position.x, GameData.Instance.theRunnerTransform.position.x - boundaryView, GameData.Instance.theRunnerTransform.position.x + boundaryView);
             //targetposition to move
@@ -44,9 +44,7 @@ namespace Project56
             transform.position = Vector3.Lerp(new Vector3(xPos, transform.position.y, transform.position.z), targetPosition, speed * Time.deltaTime);
             //updating the last player position every frame
             lastRunnerPosition = GameData.Instance.theRunnerTransform.position;
-
         }
-
 
         /*private void OldScript() {
             //Calculate the distance to move the camera

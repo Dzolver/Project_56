@@ -21,7 +21,6 @@ namespace Project56
 
         public void OnDie()
         {
-            throw new NotImplementedException();
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
