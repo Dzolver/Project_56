@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 427bcf8ded85cf54995e2d272d574496
-timeCreated: 1544103345
+timeCreated: 1544108434
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -143,7 +143,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 135
-        y: 767
+        y: 766
         width: 117
         height: 142
       alignment: 7
@@ -168,8 +168,8 @@ TextureImporter:
       name: spritesheet_players_5
       rect:
         serializedVersion: 2
-        x: 260
-        y: 1021
+        x: 266
+        y: 1020
         width: 117
         height: 145
       alignment: 7
