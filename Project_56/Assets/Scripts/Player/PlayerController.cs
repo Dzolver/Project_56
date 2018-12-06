@@ -9,15 +9,19 @@ namespace Project56
     public class PlayerController : MonoBehaviour
     {
         public bool grounded;
+         private bool sliding;
         public LayerMask whatIsGround;
         public float moveSpeed = 5;
         public float jumpForce = 17;
         public float fallGravity = 15;
         public float maxSpeed = 15;
         public float speedIncreaseRate = 0.1f;
+
+        public float slidingInterval = 0.5f;
         private Collider2D RunnerCollider;
         private Rigidbody2D RunnerRigidBody;
         private Animator RunnerAnimator;
+        private Animator RunnerWeaponAnimator;
         private Vector2 m_FirstPressPos;
         private Vector2 m_SecondPressPos;
         private Vector2 m_CurrentSwipe;
@@ -27,17 +31,25 @@ namespace Project56
         private float gravity;
         public float SwipeDetectionSensitivity = 1;
 
+        //Attack variable
+        public float swingCoolDown = 1; //player can only once per second
+        private float lastSwing;
+        private Player player; //to know if playerAttacked
+
+       
         private void OnEnable()
         {
             MyEventManager.Instance.OnJumpClicked.AddListener(OnJumpClicked);
-            MyEventManager.Instance.OnFallClicked.AddListener(OnFallClicked);
+            MyEventManager.Instance.OnFallOrSlideClicked.AddListener(OnFallOrSlideClicked);
+            MyEventManager.Instance.OnAttackClicked.AddListener(OnAttackClicked);
             MyEventManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
         }
 
         private void OnDisable()
         {
             MyEventManager.Instance.OnJumpClicked.RemoveListener(OnJumpClicked);
-            MyEventManager.Instance.OnFallClicked.RemoveListener(OnFallClicked);
+            MyEventManager.Instance.OnFallOrSlideClicked.RemoveListener(OnFallOrSlideClicked);
+           //MyEventManager.Instance.OnAttackClicked.RemoveListener(OnAttackClicked);
             MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
         }
 
@@ -55,6 +67,8 @@ namespace Project56
             RunnerCollider = GetComponent<Collider2D>();
             RunnerRigidBody = GetComponent<Rigidbody2D>();
             RunnerAnimator = GetComponent<Animator>();
+            RunnerWeaponAnimator = transform.GetChild(0).GetComponent<Animator>();
+            player = GetComponent<Player>();
             //cameraController = Camera.main.GetComponent<CameraController>();
             gravity = RunnerRigidBody.gravityScale;
         }
@@ -81,25 +95,51 @@ namespace Project56
             {
                 Jump();
             }
-
+            if(sliding)
+                return;
             RunnerAnimator.SetFloat("Speed", RunnerRigidBody.velocity.x);
             RunnerAnimator.SetBool("Grounded", grounded);
         }
 
         private void Jump()
         {
-            if (grounded)
+            if (grounded|| sliding)
             {
+                if(sliding){
+                    sliding = false;
+                    RunnerAnimator.SetBool("Sliding",sliding);
+                }
                 if (RunnerRigidBody.gravityScale > gravity)
                     RunnerRigidBody.gravityScale = gravity;//resetting gravity
                 RunnerRigidBody.velocity = new Vector2(RunnerRigidBody.velocity.x, jumpForce);
             }
         }
 
-        private void Fall()
+        private void FallOrSlide()
         {
-            if (!grounded)
+            if (!grounded){
                 RunnerRigidBody.gravityScale = fallGravity;
+
+            }
+            if (grounded){
+                RunnerRigidBody.gravityScale = gravity;
+                sliding = true;
+                RunnerAnimator.SetBool("Sliding",sliding);
+                Invoke("SetSlidingOff",slidingInterval);
+            }
+               
+        }
+
+        private void Attack()
+        {
+            if(Time.time - lastSwing >= swingCoolDown){
+                RunnerWeaponAnimator.SetTrigger("Attack");
+                lastSwing = Time.time;
+                player.attacked = true;
+                Invoke("SetAttackOff",RunnerWeaponAnimator.GetCurrentAnimatorStateInfo(0).length);
+                
+            }
+           
         }
 
         private void MouseSwipe()
@@ -168,9 +208,29 @@ namespace Project56
             Jump();
         }
 
-        private void OnFallClicked()
+        private void OnFallOrSlideClicked()
         {
-            Fall();
+            FallOrSlide();
         }
+
+         public void OnAttackClicked()
+        {
+            Attack();
+        }
+
+        private void SetAttackOff()
+        {
+            player.attacked = false;
+        }
+
+        private void SetSlidingOff()
+        {
+            if(sliding){
+                sliding = false;
+                RunnerAnimator.SetBool("Sliding",sliding);
+            }
+            
+        }
+
     }
 }

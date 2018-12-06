@@ -7,14 +7,20 @@ namespace Project56
 {
     public class HUD : Menu
     {
+        public PlayerController playerCtrl;
         public void OnJumpClicked()
         {
             MyEventManager.Instance.OnJumpClicked.Dispatch();
         }
-        public void OnFallClicked() {
+        public void OnFallOrSlideClicked() {
             Debug.Log("Falling");
-            MyEventManager.Instance.OnFallClicked.Dispatch();
+            MyEventManager.Instance.OnFallOrSlideClicked.Dispatch();
         }
+
+        public void OnAttackClicked() {
+            MyEventManager.Instance.OnAttackClicked.Dispatch();
+        }
+
 
         private void OnEnable()
         {

@@ -8,6 +8,8 @@ namespace Project56
     [RequireComponent(typeof(PlayerController))]
     public class Player : MonoBehaviour, IPlayer
     {
+        public bool attacked;
+
         public void ActivateAndSetPosition(Vector3 vector3)
         {
             throw new NotImplementedException();
@@ -27,8 +29,11 @@ namespace Project56
         {
             if (collision.gameObject.tag.Equals("Zombie"))
             {
-                Deactivate();
-                GameStateManager.Instance.UpdateState(GameState.Death);
+                if(!attacked){
+                    Deactivate();
+                    GameStateManager.Instance.UpdateState(GameState.Death);
+                }
+
             }
             if (collision.gameObject.tag.Equals("Block"))
             {
@@ -36,5 +41,6 @@ namespace Project56
                 //GameStateManager.Instance.UpdateState(GameState.Death);
             }
         }
+
     }
 }

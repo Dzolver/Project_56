@@ -11,7 +11,7 @@ namespace Project56
 
         private Vector3 lastRunnerPosition;
         private float distanceToMove;
-        private float edgeLimit = 23;
+        private float edgeLimit = 30;
         private float speedIncreaseRate;//camera also needs to move faster as player's speed gradually increases
         private float boundaryView = 7.2f;
         private Vector3 targetPosition;

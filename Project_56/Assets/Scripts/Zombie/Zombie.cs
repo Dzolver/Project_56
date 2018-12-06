@@ -10,10 +10,11 @@ namespace Project56
     {
         //private Rigidbody2D m_Rigidbody;
         private float m_MoveSpeed = 2.0f;
-
+        public bool isDead;
         public void ActivateAndSetPosition(Vector3 position)
         {
             gameObject.SetActive(true);
+            isDead = false;
             transform.SetPositionAndRotation(position, Quaternion.identity);
         }
 
@@ -48,10 +49,18 @@ namespace Project56
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.tag.Equals("Player"))
+            if (collision.gameObject.tag.Equals("Weapon"))
+            {
+                Debug.Log("Hit");
+                isDead = true;
+                Deactivate();
+            }
+
+            else if (collision.gameObject.tag.Equals("Player"))
             {
                 Deactivate();
             }
+            
         }
 
         private void OnTriggerExit2D(Collider2D collision)
