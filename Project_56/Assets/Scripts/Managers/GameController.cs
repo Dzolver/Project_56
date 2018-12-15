@@ -39,7 +39,6 @@ namespace Project56
                 int coins = UnityEngine.Random.Range(5, 11);
                 Vector2 pos = new Vector2(GameData.Instance.GetNextObjectPosX(), .05f);
                 GameData.Instance.CurrentObjectPosX = pos.x + ((int)GameData.Instance.direction * coins);
-                Debug.Log("Current x updated due to coins : " + GameData.Instance.CurrentObjectPosX);
                 for (int i = 0; i < coins; i++)
                 {
                     GameObject coin = ObjectPool.Instance.GetCoin();

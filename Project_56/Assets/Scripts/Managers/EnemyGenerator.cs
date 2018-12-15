@@ -46,7 +46,7 @@ public class EnemyGenerator : MonoBehaviour
                 else
                 {
                     block = ObjectPool.Instance.GetSlideBlock().GetComponent<IBlock>();
-                    y = .2f;
+                    y = 2.1f;
                 }
                 block.ActivateAndSetPosition(new Vector2(x, y));
             }

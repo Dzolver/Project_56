@@ -29,7 +29,8 @@ namespace Project56
         {
             if (collision.gameObject.tag.Equals("Zombie"))
             {
-                if(!attacked){
+                if (!attacked)
+                {
                     Deactivate();
                     GameStateManager.Instance.UpdateState(GameState.Death);
                 }
@@ -37,8 +38,8 @@ namespace Project56
             }
             if (collision.gameObject.tag.Equals("Block"))
             {
-                //Deactivate();
-                //GameStateManager.Instance.UpdateState(GameState.Death);
+                Deactivate();
+                GameStateManager.Instance.UpdateState(GameState.Death);
             }
         }
 

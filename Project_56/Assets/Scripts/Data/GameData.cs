@@ -38,16 +38,11 @@ public class GameData : SingletonMonoBehaviour<GameData>
     public float GetNextObjectPosX()
     {
         PreviousObjectPosX = CurrentObjectPosX;
-        Debug.Log("Previous : " + PreviousObjectPosX);
         float distance = Random.Range(18f, 25f);
-        Debug.Log("Random: " + distance);
-        Debug.Log("Runner: " + theRunnerTransform.position.x);
         CurrentObjectPosX = theRunnerTransform.position.x + ((int)direction * distance);
-        Debug.Log("CurrentObjectPos: " + CurrentObjectPosX);
         if (Mathf.Abs(PreviousObjectPosX - CurrentObjectPosX) < 7f)
         {
             CurrentObjectPosX += (int)direction * 7f;
-            Debug.Log("Current close to previous. New current = " + CurrentObjectPosX);
         }
         return CurrentObjectPosX;
     }

@@ -192,14 +192,13 @@ namespace Project56
                 moveSpeed = -Mathf.Abs(moveSpeed);
                 transform.localRotation = new Quaternion(0, 180, 0, transform.rotation.w);
                 GameData.Instance.direction = GameData.Direction.Left;
-                Debug.Log("Direction changed");
+
             }
             else if (m_CurrentSwipe.x > 0/* && (currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)*/)
             {
                 moveSpeed = Mathf.Abs(moveSpeed);
                 transform.localRotation = Quaternion.identity;
                 GameData.Instance.direction = GameData.Direction.Right;
-                Debug.Log("Direction changed");
             }
         }
 
