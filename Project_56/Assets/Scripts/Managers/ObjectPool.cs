@@ -11,12 +11,14 @@ namespace Project56
         public GameObject Platform;
         public GameObject Jump_Block;
         public GameObject Slide_Block;
-        public GameObject Coin;
+        public GameObject CoinWave1;
+        public GameObject CoinWave2;
+        public GameObject CoinWave3;
 
         public int PlatformCount = 3;
         public int ZombieCount = 5;
         public int BlockCount = 4;
-        public int CoinCount = 10;
+        public int CoinWaveCount = 3;
 
         public Transform PooledObjectsHolder;
 
@@ -33,7 +35,11 @@ namespace Project56
         public List<GameObject> JumpBlocks = new List<GameObject>();
 
         [HideInInspector]
-        public List<GameObject> Coins = new List<GameObject>();
+        public List<GameObject> CoinWaves1 = new List<GameObject>();
+        [HideInInspector]
+        public List<GameObject> CoinWaves2 = new List<GameObject>();
+        [HideInInspector]
+        public List<GameObject> CoinWaves3 = new List<GameObject>();
 
         public bool shouldExpand = false;
         private WaitForSeconds wait = new WaitForSeconds(0.001f);
@@ -55,8 +61,12 @@ namespace Project56
                 Total += BlockCount;
             if (SlideBlocks != null)
                 Total += BlockCount;
-            if (Coins != null)
-                Total += CoinCount;
+            if (CoinWaves1 != null)
+                Total += CoinWaveCount;
+            if (CoinWaves2 != null)
+                Total += CoinWaveCount;
+            if (CoinWaves3 != null)
+                Total += CoinWaveCount;
             return Total;
         }
 
@@ -106,14 +116,36 @@ namespace Project56
                     yield return wait;
                 }
             }
-            if (Coin != null)
+            if (CoinWave1 != null)
             {
-                for (int i = 0; i < CoinCount; i++)
+                for (int i = 0; i < CoinWaveCount; i++)
                 {
-                    GameObject gameObject = Instantiate(Coin, PooledObjectsHolder);
-                    gameObject.name = "Coin -" + i;
+                    GameObject gameObject = Instantiate(CoinWave1, PooledObjectsHolder);
+                    gameObject.name = "CoinWave 1-" + i;
                     gameObject.SetActive(false);
-                    Coins.Add(gameObject);
+                    CoinWaves1.Add(gameObject);
+                    yield return wait;
+                }
+            }
+            if (CoinWave2 != null)
+            {
+                for (int i = 0; i < CoinWaveCount; i++)
+                {
+                    GameObject gameObject = Instantiate(CoinWave2, PooledObjectsHolder);
+                    gameObject.name = "CoinWave 2-" + i;
+                    gameObject.SetActive(false);
+                    CoinWaves2.Add(gameObject);
+                    yield return wait;
+                }
+            }
+            if (CoinWave3 != null)
+            {
+                for (int i = 0; i < CoinWaveCount; i++)
+                {
+                    GameObject gameObject = Instantiate(CoinWave3, PooledObjectsHolder);
+                    gameObject.name = "CoinWave 3-" + i;
+                    gameObject.SetActive(false);
+                    CoinWaves3.Add(gameObject);
                     yield return wait;
                 }
             }
@@ -154,7 +186,7 @@ namespace Project56
                     return Platform;
                 }
             }
-           if (shouldExpand)
+            if (shouldExpand)
             {
                 Debug.Log("No  Platform");
 
@@ -215,21 +247,42 @@ namespace Project56
             }
         }
 
-        public GameObject GetCoin()
+        public GameObject GetCoinWave(int num)
         {
- 
-            foreach (GameObject coin in Coins)
+            List<GameObject> CoinWaves;
+            GameObject CoinWave;
+
+            switch (num)
             {
-                if (!coin.activeInHierarchy)
+                case 1:
+                    CoinWaves = CoinWaves1;
+                    CoinWave = CoinWave1;
+                    break;
+                case 2:
+                    CoinWaves = CoinWaves2;
+                    CoinWave = CoinWave2;
+                    break;
+                case 3:
+                    CoinWaves = CoinWaves3;
+                    CoinWave = CoinWave3;
+                    break;
+                default:
+                    CoinWaves = CoinWaves1;
+                    CoinWave = CoinWave1;
+                    break;
+            }
+            foreach (GameObject cw in CoinWaves)
+            {
+                if (!cw.activeInHierarchy)
                 {
-                    return coin;
+                    return cw;
                 }
             }
             if (shouldExpand)
             {
-                GameObject gameObject = Instantiate(Coin);
+                GameObject gameObject = Instantiate(CoinWave);
                 gameObject.SetActive(false);
-                Coins.Add(gameObject);
+                CoinWaves.Add(gameObject);
                 return gameObject;
             }
             else
@@ -259,9 +312,6 @@ namespace Project56
 
                 foreach (GameObject block in SlideBlocks)
                     block.SetActive(false);
-
-                foreach (GameObject coin in Coins)
-                    coin.SetActive(false);
             }
         }
 

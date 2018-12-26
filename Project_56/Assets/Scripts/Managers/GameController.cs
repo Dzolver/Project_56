@@ -33,17 +33,15 @@ namespace Project56
 
         private IEnumerator GenerateCoinWave()
         {
+            GameObject coinwave;
             while (GameStateManager.Instance.CurrentState == GameState.Game)
             {
                 yield return new WaitForSeconds(9f);
-                int coins = UnityEngine.Random.Range(5, 11);
-                Vector2 pos = new Vector2(GameData.Instance.GetNextObjectPosX(), .05f);
-                GameData.Instance.CurrentObjectPosX = pos.x + ((int)GameData.Instance.direction * coins);
-                for (int i = 0; i < coins; i++)
-                {
-                    GameObject coin = ObjectPool.Instance.GetCoin();
-                    coin.GetComponent<Coin>().ActivateAndSetPosition(new Vector2(pos.x + ((int)GameData.Instance.direction * i), pos.y));
-                }
+                int wave = UnityEngine.Random.Range(1, 4);
+                coinwave = ObjectPool.Instance.GetCoinWave(wave);
+                Vector2 pos = new Vector2(GameData.Instance.GetNextObjectPosX(), 2f);
+                GameData.Instance.CurrentObjectPosX = pos.x + ((int)GameData.Instance.direction * coinwave.GetComponent<CoinWave>().length);
+                coinwave.GetComponent<CoinWave>().ActivateAndSetPosition(pos);
             }
         }
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour {
 
+   
 	void Start () {
 		
 	}
@@ -21,13 +22,4 @@ public class Coin : MonoBehaviour {
             gameObject.SetActive(false);
         }
     }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag.Equals("MainCamera"))
-        {
-            gameObject.SetActive(false);
-        }
-    }
-
 }
