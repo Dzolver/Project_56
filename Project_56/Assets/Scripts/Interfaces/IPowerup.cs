@@ -9,12 +9,18 @@ namespace Project56
         PowerupType GetPowerupType();
 
         void OnPowerupCollected();
+        void ActivatePowerup();
+        void DeactivatePowerup();
+        int GetPowerupDuration();
     }
 
     public enum PowerupType
     {
         None,
-        Type1,
+        Invincibility,
         Type2
     }
+
+    
+  
 }

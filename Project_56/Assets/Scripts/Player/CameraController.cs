@@ -54,5 +54,7 @@ namespace Project56
             //updating the last player position every frame
             lastRunnerPosition = theRunner.transform.position;
         }*/
+
+      
     }
 }
