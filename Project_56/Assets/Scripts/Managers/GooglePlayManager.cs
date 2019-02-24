@@ -11,6 +11,7 @@ namespace Project56
     public class GooglePlayManager : SingletonMonoBehaviour<GooglePlayManager>
     {
         public Text StatusText;
+        private String DefaultLeaderboard = "CgkI_YSshJYFEAIQBg";
 
         private void Start()
         {
@@ -38,12 +39,37 @@ namespace Project56
             Social.localUser.Authenticate(OnAuthenticationComplete);
         }
 
+        private void OnEnable()
+        {
+            //MyEventManager.Instance.OnGameStateChanged.AddListener();
+
+        }
+
+        private void OnDisable()
+        {
+            //MyEventManager.Instance.OnGameStateChanged.RemoveListener();
+        }
+
         private void OnAuthenticationComplete(bool result)
         {
             if (result)
                 StatusText.text = "Succesful Integration";
             else
                 StatusText.text = "Failed";
+        }
+
+        public void UpdateScore(int Score)
+        {
+            Social.ReportScore(Score,DefaultLeaderboard,OnScoreUpdated);
+        }
+
+        private void OnScoreUpdated(bool result)
+        {
+            if (result)
+                Debug.Log("Score Updated Succesfully");
+            else
+                Debug.Log("Score Updating Failed");
+
         }
     }
 }

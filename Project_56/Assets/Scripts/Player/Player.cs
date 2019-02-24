@@ -40,22 +40,22 @@ namespace Project56
         {
             if (!IsInvincible)
             {
-                //if (collision.gameObject.tag.Equals("Zombie"))
-                //{
-                //    if (!attacked)
-                //    {
+                if (collision.gameObject.tag.Equals("Zombie"))
+                {
+                    if (!attacked)
+                    {
 
-                //        Deactivate();
-                //        GameStateManager.Instance.UpdateState(GameState.Death);
-                //    }
-                //}
+                        Deactivate();
+                        GameStateManager.Instance.UpdateState(GameState.Death);
+                    }
+                }
 
-                //if (collision.gameObject.tag.Equals("Block"))
-                //{
-              
-                //    Deactivate();
-                //    GameStateManager.Instance.UpdateState(GameState.Death);
-                //}
+                if (collision.gameObject.tag.Equals("Block"))
+                {
+
+                    Deactivate();
+                    GameStateManager.Instance.UpdateState(GameState.Death);
+                }
             }
         }
 
@@ -64,7 +64,6 @@ namespace Project56
             if (collision.CompareTag("Powerup"))
             {
                 IPowerup powerup = collision.GetComponent<IPowerup>();
-                Debug.Log("Powerup Trigger = " + powerup.GetPowerupType());
                 powerup.OnPowerupCollected();
                 OnPowerupCollected(powerup);
             }

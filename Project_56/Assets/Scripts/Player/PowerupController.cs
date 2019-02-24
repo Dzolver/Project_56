@@ -37,7 +37,7 @@ namespace Project56
             yield return new WaitForSeconds(InvinicbilityWait);
          
             IPowerup powerup;
-            powerup = Instantiate(InvincibilityGO, Vector3.zero, Quaternion.identity).GetComponent<IPowerup>();
+            powerup = Instantiate(InvincibilityGO, Vector3.right * 30f, Quaternion.identity).GetComponent<IPowerup>();
             
 
             //Activation logic
