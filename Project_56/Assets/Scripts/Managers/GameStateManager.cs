@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Project56
@@ -9,7 +8,21 @@ namespace Project56
         [SerializeField]
         private GameState m_CurrentState;
 
-        public void UpdateState(GameState gameState)
+        private void OnEnable()
+        {
+            MyEventManager.Instance.UpdateState.AddListener(UpdateState);
+        }
+
+        private void OnDisable()
+        {
+            if (MyEventManager.Instance != null)
+            {
+                MyEventManager.Instance.UpdateState.RemoveListener(UpdateState);
+            }
+
+        }
+
+        private void UpdateState(GameState gameState)
         {
             StartCoroutine(UpdState(gameState));
         }
@@ -32,6 +45,7 @@ namespace Project56
 
     public enum GameState
     {
+        Splash,
         MainMenu,
         Game,
         Death,

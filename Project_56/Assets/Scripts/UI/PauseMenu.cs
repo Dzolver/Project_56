@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Project56
+﻿namespace Project56
 {
     public class PauseMenu : Menu
     {
@@ -26,13 +21,13 @@ namespace Project56
         public void Resume()
         {
             HideMenu();
-            GameStateManager.Instance.UpdateState(GameState.Game);
+            MyEventManager.Instance.UpdateState.Dispatch(GameState.Game);
         }
 
         public void ReturnToMain()
         {
             HideMenu();
-            GameStateManager.Instance.UpdateState(GameState.MainMenu);
+            MyEventManager.Instance.UpdateState.Dispatch(GameState.MainMenu);
         }
     }
 }

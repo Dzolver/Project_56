@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Project56
 {
@@ -12,12 +9,14 @@ namespace Project56
         {
             MyEventManager.Instance.OnJumpClicked.Dispatch();
         }
-        public void OnFallOrSlideClicked() {
+        public void OnFallOrSlideClicked()
+        {
             Debug.Log("Falling");
             MyEventManager.Instance.OnFallOrSlideClicked.Dispatch();
         }
 
-        public void OnAttackClicked() {
+        public void OnAttackClicked()
+        {
             MyEventManager.Instance.OnAttackClicked.Dispatch();
         }
 
@@ -46,7 +45,7 @@ namespace Project56
         public void Pause()
         {
             Time.timeScale = 0;
-            GameStateManager.Instance.UpdateState(GameState.Paused);
+            MyEventManager.Instance.UpdateState.Dispatch(GameState.Paused);
         }
     }
 }

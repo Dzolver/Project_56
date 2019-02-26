@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Project56
@@ -22,7 +21,7 @@ namespace Project56
 
         private void OnDisable()
         {
-            
+
         }
 
         public void Deactivate()
@@ -46,7 +45,8 @@ namespace Project56
                     {
 
                         Deactivate();
-                        GameStateManager.Instance.UpdateState(GameState.Death);
+                        MyEventManager.Instance.UpdateState.Dispatch(GameState.Death);
+
                     }
                 }
 
@@ -54,7 +54,7 @@ namespace Project56
                 {
 
                     Deactivate();
-                    GameStateManager.Instance.UpdateState(GameState.Death);
+                    MyEventManager.Instance.UpdateState.Dispatch(GameState.Death);
                 }
             }
         }

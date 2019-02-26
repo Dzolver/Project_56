@@ -1,8 +1,6 @@
 ﻿using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +9,7 @@ namespace Project56
     public class GooglePlayManager : SingletonMonoBehaviour<GooglePlayManager>
     {
         public Text StatusText;
+        public GameObject Canvas;
         private String DefaultLeaderboard = "CgkI_YSshJYFEAIQBg";
 
         private void Start()
@@ -41,13 +40,21 @@ namespace Project56
 
         private void OnEnable()
         {
-            //MyEventManager.Instance.OnGameStateChanged.AddListener();
+            MyEventManager.Instance.UpdateState.AddListener(UpdateState);
 
         }
 
         private void OnDisable()
         {
-            //MyEventManager.Instance.OnGameStateChanged.RemoveListener();
+            MyEventManager.Instance.UpdateState.RemoveListener(UpdateState);
+        }
+
+        private void UpdateState(GameState newGameState)
+        {
+            if (newGameState == GameState.Game)
+            {
+                Canvas.SetActive(false);
+            }
         }
 
         private void OnAuthenticationComplete(bool result)
@@ -60,7 +67,7 @@ namespace Project56
 
         public void UpdateScore(int Score)
         {
-            Social.ReportScore(Score,DefaultLeaderboard,OnScoreUpdated);
+            Social.ReportScore(Score, DefaultLeaderboard, OnScoreUpdated);
         }
 
         private void OnScoreUpdated(bool result)

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Project56
+﻿namespace Project56
 {
     public class MainMenu : Menu
     {
@@ -25,7 +20,7 @@ namespace Project56
 
         public void Play()
         {
-            GameStateManager.Instance.UpdateState(GameState.Game);
+            MyEventManager.Instance.UpdateState.Dispatch(GameState.Game);
             HideMenu();
         }
 

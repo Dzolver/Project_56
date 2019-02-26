@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Project56
+﻿namespace Project56
 {
     public class DeathMenu : Menu
     {
@@ -25,14 +20,16 @@ namespace Project56
 
         public void PlayAgain()
         {
-            GameStateManager.Instance.UpdateState(GameState.Game);
+            MyEventManager.Instance.UpdateState.Dispatch(GameState.Game);
+
             HideMenu();
         }
 
         public void ReturnToMain()
         {
             HideMenu();
-            GameStateManager.Instance.UpdateState(GameState.MainMenu);
+            MyEventManager.Instance.UpdateState.Dispatch(GameState.MainMenu);
+            //GameStateManager.Instance.UpdateState(GameState.MainMenu);
         }
     }
 }
