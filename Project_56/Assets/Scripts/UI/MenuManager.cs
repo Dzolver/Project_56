@@ -5,6 +5,7 @@ namespace Project56
 {
     public class MenuManager : SingletonMonoBehaviour<MenuManager>
     {
+        
         public Menu CurrentMenu = null;
         public Menu PreviousMenu = null;
 
@@ -17,19 +18,7 @@ namespace Project56
             else
                 Debug.Log("Please Assign an initial menu first");
         }
-
-        private void Update()
-        {
-            //if (Input.GetKeyDown(KeyCode.Escape))
-            //{
-            //    Debug.Log("Pressed Escape");
-            //    if (GameStateManager.Instance.CurrentState == GameState.Game)
-            //        PauseGame();
-            //    else if (GameStateManager.Instance.CurrentState == GameState.Paused)
-            //        ResumeGame();
-            //}
-        }
-
+    
         public void ShowMenuAndHideCurrent(Menu menuToShow)
         {
             if (CurrentMenu.IsModal)
@@ -50,6 +39,18 @@ namespace Project56
         private void HideMenu(Menu menuToHide)
         {
             menuToHide.HideMenu();
+        }
+
+        private void Update()
+        {
+            //if (Input.GetKeyDown(KeyCode.Escape))
+            //{
+            //    Debug.Log("Pressed Escape");
+            //    if (GameStateManager.Instance.CurrentState == GameState.Game)
+            //        PauseGame();
+            //    else if (GameStateManager.Instance.CurrentState == GameState.Paused)
+            //        ResumeGame();
+            //}
         }
 
         //private void PauseGame()

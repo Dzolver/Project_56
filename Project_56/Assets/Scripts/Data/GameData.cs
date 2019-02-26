@@ -1,5 +1,6 @@
 ﻿using Project56;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameData : SingletonMonoBehaviour<GameData>
 {
@@ -37,6 +38,10 @@ public class GameData : SingletonMonoBehaviour<GameData>
         if (GameStateManager.Instance.CurrentState == GameState.Game)
         {
             CurrentObjectPosX = theRunnerTransform.position.x;
+        }
+        if (GameStateManager.Instance.CurrentState == GameState.Death)
+        {
+            SceneManager.LoadScene(1);
         }
     }
 

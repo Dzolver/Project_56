@@ -43,20 +43,21 @@ namespace Project56
                 {
                     if (!attacked)
                     {
-
-                        Deactivate();
-                        MyEventManager.Instance.UpdateState.Dispatch(GameState.Death);
-
+                        GameOver();
                     }
                 }
 
                 if (collision.gameObject.tag.Equals("Block"))
                 {
-
-                    Deactivate();
-                    MyEventManager.Instance.UpdateState.Dispatch(GameState.Death);
+                    GameOver();
                 }
             }
+        }
+
+        private void GameOver()
+        {
+            Deactivate();
+            MyEventManager.Instance.UpdateState.Dispatch(GameState.Death);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
