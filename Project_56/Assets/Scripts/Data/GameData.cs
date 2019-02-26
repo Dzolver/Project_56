@@ -17,6 +17,11 @@ public class GameData : SingletonMonoBehaviour<GameData>
     public float CurrentObjectPosX;
     private float PreviousObjectPosX;
 
+    private void Start()
+    {
+        MyEventManager.Instance.UpdateState.Dispatch(GameState.Game);
+    }
+
     private void OnEnable()
     {
         MyEventManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);

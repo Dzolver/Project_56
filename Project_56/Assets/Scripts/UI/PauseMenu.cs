@@ -1,4 +1,6 @@
-﻿namespace Project56
+﻿using UnityEngine.SceneManagement;
+
+namespace Project56
 {
     public class PauseMenu : Menu
     {
@@ -28,6 +30,8 @@
         {
             HideMenu();
             MyEventManager.Instance.UpdateState.Dispatch(GameState.MainMenu);
+            SceneManager.LoadScene(1);
+          
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Project56
+﻿using UnityEngine.SceneManagement;
+
+namespace Project56
 {
     public class MainMenu : Menu
     {
@@ -9,7 +11,8 @@
 
         private void OnDisable()
         {
-            MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+            if (MyEventManager.Instance != null)
+                MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
         }
 
         private void OnGameStateChanged()
@@ -20,8 +23,8 @@
 
         public void Play()
         {
-            MyEventManager.Instance.UpdateState.Dispatch(GameState.Game);
             HideMenu();
+            SceneManager.LoadScene(2);
         }
 
         public void Leaderboard()
