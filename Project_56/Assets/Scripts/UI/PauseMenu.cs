@@ -11,7 +11,10 @@ namespace Project56
 
         private void OnDisable()
         {
-            MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+            if (MyEventManager.Instance != null)
+            {
+                MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+            }
         }
 
         private void OnGameStateChanged()
@@ -31,7 +34,7 @@ namespace Project56
             HideMenu();
             MyEventManager.Instance.UpdateState.Dispatch(GameState.MainMenu);
             SceneManager.LoadScene(1);
-          
+
         }
     }
 }

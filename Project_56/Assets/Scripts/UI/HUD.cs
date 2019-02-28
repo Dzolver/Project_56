@@ -13,7 +13,10 @@ namespace Project56
 
         private void OnDisable()
         {
-            MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+            if (MyEventManager.Instance != null)
+            {
+                MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+            }
         }
 
         public void OnJumpClicked()
@@ -38,7 +41,7 @@ namespace Project56
             {
                 ShowMenu();
                 Time.timeScale = 1;
-            }        
+            }
         }
 
         public void Pause()

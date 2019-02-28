@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Project56
 {
@@ -9,7 +8,7 @@ namespace Project56
     public class PlayerController : MonoBehaviour
     {
         public bool grounded;
-         private bool sliding;
+        private bool sliding;
         public LayerMask whatIsGround;
         public float moveSpeed = 5;
         public float jumpForce = 17;
@@ -36,7 +35,7 @@ namespace Project56
         private float lastSwing;
         private Player player; //to know if playerAttacked
 
-       
+
         private void OnEnable()
         {
             MyEventManager.Instance.OnJumpClicked.AddListener(OnJumpClicked);
@@ -47,10 +46,13 @@ namespace Project56
 
         private void OnDisable()
         {
-            MyEventManager.Instance.OnJumpClicked.RemoveListener(OnJumpClicked);
-            MyEventManager.Instance.OnFallOrSlideClicked.RemoveListener(OnFallOrSlideClicked);
-           //MyEventManager.Instance.OnAttackClicked.RemoveListener(OnAttackClicked);
-            MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+            if (MyEventManager.Instance != null)
+            {
+                MyEventManager.Instance.OnJumpClicked.RemoveListener(OnJumpClicked);
+                MyEventManager.Instance.OnFallOrSlideClicked.RemoveListener(OnFallOrSlideClicked);
+                //MyEventManager.Instance.OnAttackClicked.RemoveListener(OnAttackClicked);
+                MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+            }
         }
 
         private void OnGameStateChanged()
@@ -95,7 +97,7 @@ namespace Project56
             {
                 Jump();
             }
-            if(sliding)
+            if (sliding)
                 return;
             RunnerAnimator.SetFloat("Speed", RunnerRigidBody.velocity.x);
             RunnerAnimator.SetBool("Grounded", grounded);
@@ -103,11 +105,12 @@ namespace Project56
 
         private void Jump()
         {
-            if (grounded|| sliding)
+            if (grounded || sliding)
             {
-                if(sliding){
+                if (sliding)
+                {
                     sliding = false;
-                    RunnerAnimator.SetBool("Sliding",sliding);
+                    RunnerAnimator.SetBool("Sliding", sliding);
                 }
                 if (RunnerRigidBody.gravityScale > gravity)
                     RunnerRigidBody.gravityScale = gravity;//resetting gravity
@@ -117,29 +120,32 @@ namespace Project56
 
         private void FallOrSlide()
         {
-            if (!grounded){
+            if (!grounded)
+            {
                 RunnerRigidBody.gravityScale = fallGravity;
 
             }
-            if (grounded){
+            if (grounded)
+            {
                 RunnerRigidBody.gravityScale = gravity;
                 sliding = true;
-                RunnerAnimator.SetBool("Sliding",sliding);
-                Invoke("SetSlidingOff",slidingInterval);
+                RunnerAnimator.SetBool("Sliding", sliding);
+                Invoke("SetSlidingOff", slidingInterval);
             }
-               
+
         }
 
         private void Attack()
         {
-            if(Time.time - lastSwing >= swingCoolDown){
+            if (Time.time - lastSwing >= swingCoolDown)
+            {
                 RunnerWeaponAnimator.SetTrigger("Attack");
                 lastSwing = Time.time;
                 player.attacked = true;
-                Invoke("SetAttackOff",RunnerWeaponAnimator.GetCurrentAnimatorStateInfo(0).length);
-                
+                Invoke("SetAttackOff", RunnerWeaponAnimator.GetCurrentAnimatorStateInfo(0).length);
+
             }
-           
+
         }
 
         private void MouseSwipe()
@@ -212,7 +218,7 @@ namespace Project56
             FallOrSlide();
         }
 
-         public void OnAttackClicked()
+        public void OnAttackClicked()
         {
             Attack();
         }
@@ -224,11 +230,12 @@ namespace Project56
 
         private void SetSlidingOff()
         {
-            if(sliding){
+            if (sliding)
+            {
                 sliding = false;
-                RunnerAnimator.SetBool("Sliding",sliding);
+                RunnerAnimator.SetBool("Sliding", sliding);
             }
-            
+
         }
 
     }

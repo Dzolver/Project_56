@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Project56
@@ -14,7 +12,10 @@ namespace Project56
 
         private void OnDisable()
         {
-            MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+            if (MyEventManager.Instance != null)
+            {
+                MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+            }
         }
 
         private void OnGameStateChanged()

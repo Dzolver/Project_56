@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Project56
@@ -21,7 +20,10 @@ namespace Project56
 
         private void OnDisable()
         {
-            MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+            if (MyEventManager.Instance != null)
+            {
+                MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+            }
         }
 
         private void OnGameStateChanged()
@@ -35,10 +37,10 @@ namespace Project56
         private IEnumerator SpawnPowerups()
         {
             yield return new WaitForSeconds(InvinicbilityWait);
-         
+
             IPowerup powerup;
             powerup = Instantiate(InvincibilityGO, Vector3.right * 30f, Quaternion.identity).GetComponent<IPowerup>();
-            
+
 
             //Activation logic
             powerup.ActivatePowerup();

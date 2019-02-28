@@ -12,7 +12,9 @@ namespace Project56
         private void OnDisable()
         {
             if (MyEventManager.Instance != null)
+            {
                 MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+            }
         }
 
         private void OnGameStateChanged()

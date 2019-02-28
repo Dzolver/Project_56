@@ -1,7 +1,4 @@
 ﻿using Project56;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlatformGenerator : MonoBehaviour
@@ -18,7 +15,10 @@ public class PlatformGenerator : MonoBehaviour
 
     private void OnDisable()
     {
-        MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+        if (MyEventManager.Instance != null)
+        {
+            MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+        }
     }
 
     private void OnGameStateChanged()

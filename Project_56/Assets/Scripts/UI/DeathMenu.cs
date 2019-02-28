@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Project56
 {
@@ -13,7 +12,9 @@ namespace Project56
         private void OnDisable()
         {
             if (MyEventManager.Instance != null)
+            {
                 MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+            }
         }
 
         private void OnGameStateChanged()

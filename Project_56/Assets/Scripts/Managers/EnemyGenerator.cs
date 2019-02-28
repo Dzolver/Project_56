@@ -12,7 +12,10 @@ public class EnemyGenerator : MonoBehaviour
 
     private void OnDisable()
     {
-        MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+        if (MyEventManager.Instance != null)
+        {
+            MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+        }
     }
 
     private void OnGameStateChanged()
