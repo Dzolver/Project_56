@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Project56
 {
@@ -57,7 +58,7 @@ namespace Project56
         private void GameOver()
         {
             Deactivate();
-            MyEventManager.Instance.UpdateState.Dispatch(GameState.Death);
+            SceneManager.LoadScene(3);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

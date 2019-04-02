@@ -25,7 +25,7 @@ namespace Project56
         public void ShowMenu()
         {
             GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
-            GetComponent<RectTransform>().sizeDelta = new Vector2(0, 0);
+            //GetComponent<RectTransform>().sizeDelta = new Vector2(0, 0);
             m_CanvasGroup.alpha = 1;
             m_CanvasGroup.interactable = m_CanvasGroup.blocksRaycasts = true;
         }

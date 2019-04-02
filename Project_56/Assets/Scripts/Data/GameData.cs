@@ -17,12 +17,11 @@ public class GameData : SingletonMonoBehaviour<GameData>
 
     private void Start()
     {
-        MyEventManager.Instance.UpdateState.Dispatch(GameState.Game);
+        CurrentObjectPosX = theRunnerTransform.position.x;
     }
 
     private void OnEnable()
     {
-        MyEventManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
         MyEventManager.Instance.ChangeMoveDirection.AddListener(ChangeMoveDirection);
 
     }
@@ -31,7 +30,6 @@ public class GameData : SingletonMonoBehaviour<GameData>
     {
         if (MyEventManager.Instance != null)
         {
-            MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
             MyEventManager.Instance.ChangeMoveDirection.RemoveListener(ChangeMoveDirection);
 
         }
@@ -40,18 +38,6 @@ public class GameData : SingletonMonoBehaviour<GameData>
     private void ChangeMoveDirection(Direction direction)
     {
         this.direction = direction;
-    }
-
-    private void OnGameStateChanged()
-    {
-        if (GameStateManager.Instance.CurrentState == GameState.Game)
-        {
-            CurrentObjectPosX = theRunnerTransform.position.x;
-        }
-        if (GameStateManager.Instance.CurrentState == GameState.Death)
-        {
-            SceneManager.LoadScene(1);
-        }
     }
 
     public float GetNextObjectPosX()

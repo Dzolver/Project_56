@@ -5,18 +5,12 @@ namespace Project56
     public class HUD : Menu
     {
         public PlayerController playerCtrl;
+        public Menu PauseMenu;
 
-        private void OnEnable()
+        private void Start()
         {
-            MyEventManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
-        }
-
-        private void OnDisable()
-        {
-            if (MyEventManager.Instance != null)
-            {
-                MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
-            }
+            ShowMenu();
+            Time.timeScale = 1;
         }
 
         public void OnJumpClicked()
@@ -35,20 +29,11 @@ namespace Project56
             MyEventManager.Instance.OnAttackClicked.Dispatch();
         }
 
-        private void OnGameStateChanged()
-        {
-            if (GameStateManager.Instance.CurrentState == GameState.Game)
-            {
-                ShowMenu();
-                Time.timeScale = 1;
-            }
-        }
-
         public void Pause()
         {
             HideMenu();
+            PauseMenu.ShowMenu();
             Time.timeScale = 0;
-            MyEventManager.Instance.UpdateState.Dispatch(GameState.Paused);
         }
     }
 }

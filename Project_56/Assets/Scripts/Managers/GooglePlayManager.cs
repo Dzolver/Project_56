@@ -36,26 +36,8 @@ namespace Project56
             PlayGamesPlatform.Activate();
             StatusText.text = "Authenticating";
             Social.localUser.Authenticate(OnAuthenticationComplete);
-        }
 
-        private void OnEnable()
-        {
-            MyEventManager.Instance.UpdateState.AddListener(UpdateState);
-
-        }
-
-        private void OnDisable()
-        {
-            if (MyEventManager.Instance != null)
-                MyEventManager.Instance.UpdateState.RemoveListener(UpdateState);
-        }
-
-        private void UpdateState(GameState newGameState)
-        {
-            if (newGameState == GameState.Game)
-            {
-                Canvas.SetActive(false);
-            }
+            Canvas.SetActive(false);
         }
 
         private void OnAuthenticationComplete(bool result)

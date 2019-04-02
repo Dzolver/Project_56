@@ -10,7 +10,6 @@ namespace Project56
         // Use this for initialization
         private void Start()
         {
-            Debug.Log(name);
             DontDestroyOnLoad(this);
             //foreach (GameObject go in gameObjects)
             //    DontDestroyOnLoad(go);

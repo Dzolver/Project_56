@@ -5,37 +5,18 @@ using UnityEngine;
 public class EnemyGenerator : MonoBehaviour
 {
 
-    private void OnEnable()
+    private void Start()
     {
-        MyEventManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
+        StartCoroutine(GenerateEnemy());
     }
 
-    private void OnDisable()
-    {
-        if (MyEventManager.Instance != null)
-        {
-            MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
-        }
-    }
-
-    private void OnGameStateChanged()
-    {
-        if (GameStateManager.Instance.CurrentState == GameState.Game)
-        {
-            StartCoroutine(GenerateEnemy());
-        }
-        if (GameStateManager.Instance.CurrentState == GameState.Death)
-        {
-            StopCoroutine(GenerateEnemy());
-        }
-    }
 
     private IEnumerator GenerateEnemy()
     {
         int enemyType = 0;
         float x, y;
 
-        while (GameStateManager.Instance.CurrentState == GameState.Game)
+        while (true)
         {
             x = GameData.Instance.GetNextObjectPosX();
             if (enemyType == 3 || enemyType == 4)

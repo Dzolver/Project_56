@@ -10,30 +10,10 @@ namespace Project56
 
         private void Start()
         {
-
+            StartCoroutine(SpawnPowerups());
         }
 
-        private void OnEnable()
-        {
-            MyEventManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
-        }
-
-        private void OnDisable()
-        {
-            if (MyEventManager.Instance != null)
-            {
-                MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
-            }
-        }
-
-        private void OnGameStateChanged()
-        {
-            if (GameStateManager.Instance.CurrentState == GameState.Game)
-            {
-                StartCoroutine(SpawnPowerups());
-            }
-        }
-
+       
         private IEnumerator SpawnPowerups()
         {
             yield return new WaitForSeconds(InvinicbilityWait);

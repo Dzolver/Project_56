@@ -1,40 +1,23 @@
-﻿using UnityEngine.SceneManagement;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Project56
 {
     public class PauseMenu : Menu
     {
-        private void OnEnable()
-        {
-            MyEventManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
-        }
-
-        private void OnDisable()
-        {
-            if (MyEventManager.Instance != null)
-            {
-                MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
-            }
-        }
-
-        private void OnGameStateChanged()
-        {
-            if (GameStateManager.Instance.CurrentState == GameState.Paused)
-                ShowMenu();
-        }
+        public Menu HUD;
 
         public void Resume()
         {
             HideMenu();
-            MyEventManager.Instance.UpdateState.Dispatch(GameState.Game);
+            HUD.ShowMenu();
+            Time.timeScale = 1;
         }
 
         public void ReturnToMain()
         {
             HideMenu();
-            MyEventManager.Instance.UpdateState.Dispatch(GameState.MainMenu);
             SceneManager.LoadScene(1);
-
         }
     }
 }

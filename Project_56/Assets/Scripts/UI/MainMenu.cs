@@ -4,24 +4,24 @@ namespace Project56
 {
     public class MainMenu : Menu
     {
-        private void OnEnable()
-        {
-            MyEventManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
-        }
+        //private void OnEnable()
+        //{
+        //    MyEventManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
+        //}
 
-        private void OnDisable()
-        {
-            if (MyEventManager.Instance != null)
-            {
-                MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
-            }
-        }
+        //private void OnDisable()
+        //{
+        //    if (MyEventManager.Instance != null)
+        //    {
+        //        MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+        //    }
+        //}
 
-        private void OnGameStateChanged()
-        {
-            if (GameStateManager.Instance.CurrentState == GameState.MainMenu)
-                ShowMenu();
-        }
+        //private void OnGameStateChanged()
+        //{
+        //    if (GameStateManager.Instance.CurrentState == GameState.MainMenu)
+        //        ShowMenu();
+        //}
 
         public void Play()
         {

@@ -41,7 +41,6 @@ namespace Project56
             MyEventManager.Instance.OnJumpClicked.AddListener(OnJumpClicked);
             MyEventManager.Instance.OnFallOrSlideClicked.AddListener(OnFallOrSlideClicked);
             MyEventManager.Instance.OnAttackClicked.AddListener(OnAttackClicked);
-            MyEventManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
         }
 
         private void OnDisable()
@@ -51,15 +50,6 @@ namespace Project56
                 MyEventManager.Instance.OnJumpClicked.RemoveListener(OnJumpClicked);
                 MyEventManager.Instance.OnFallOrSlideClicked.RemoveListener(OnFallOrSlideClicked);
                 //MyEventManager.Instance.OnAttackClicked.RemoveListener(OnAttackClicked);
-                MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
-            }
-        }
-
-        private void OnGameStateChanged()
-        {
-            if (GameStateManager.Instance.CurrentState == GameState.Game)
-            {
-                MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Right);
             }
         }
 
@@ -73,6 +63,8 @@ namespace Project56
             player = GetComponent<Player>();
             //cameraController = Camera.main.GetComponent<CameraController>();
             gravity = RunnerRigidBody.gravityScale;
+
+            MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Right);
         }
 
         private void Update()

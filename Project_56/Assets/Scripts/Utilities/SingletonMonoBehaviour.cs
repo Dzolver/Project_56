@@ -79,7 +79,7 @@ namespace Project56
         /// </summary>
         public void OnApplicationQuit()
         {
-           applicationIsQuitting = true;
+           //applicationIsQuitting = true;
         }
     }
 }

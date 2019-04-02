@@ -200,8 +200,6 @@ namespace Project56
             }
             if (shouldExpand)
             {
-                Debug.Log("No  Platform");
-
                 GameObject gameObject = Instantiate(Platform);
                 gameObject.SetActive(false);
                 Platforms.Add(gameObject);
@@ -303,36 +301,7 @@ namespace Project56
             }
         }
 
-        private void OnEnable()
-        {
-            MyEventManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
-        }
-
-        private void OnGameStateChanged()
-        {
-            if (GameStateManager.Instance.CurrentState == GameState.Death
-                || GameStateManager.Instance.CurrentState == GameState.MainMenu)
-            {
-                foreach (GameObject platform in Platforms)
-                    platform.SetActive(false);
-
-                foreach (GameObject zombie in Zombies)
-                    zombie.SetActive(false);
-
-                foreach (GameObject block in JumpBlocks)
-                    block.SetActive(false);
-
-                foreach (GameObject block in SlideBlocks)
-                    block.SetActive(false);
-            }
-        }
-
-        private void OnDisable()
-        {
-            if (MyEventManager.Instance != null)
-            {
-                MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
-            }
-        }
+     
+        
     }
 }

@@ -5,37 +5,17 @@ namespace Project56
 {
     public class GameController : MonoBehaviour
     {
-        private void OnEnable()
-        {
-            MyEventManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
-        }
 
-        private void OnDisable()
+        private void Start()
         {
-            if (MyEventManager.Instance != null)
-            {
-                MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
-            }
-        }
-
-        private void OnGameStateChanged()
-        {
-            if (GameStateManager.Instance.CurrentState == GameState.Game)
-            {
-                GameData.Instance.theRunner.SetActive(true);
-                StartCoroutine(GenerateCoinWave());
-            }
-            if (GameStateManager.Instance.CurrentState == GameState.Death)
-            {
-                GameData.Instance.theRunner.SetActive(false);
-                StopCoroutine(GenerateCoinWave());
-            }
+            GameData.Instance.theRunner.SetActive(true);
+            StartCoroutine(GenerateCoinWave());
         }
 
         private IEnumerator GenerateCoinWave()
         {
             GameObject coinwave;
-            while (GameStateManager.Instance.CurrentState == GameState.Game)
+            while (true)
             {
                 yield return new WaitForSeconds(9f);
                 int wave = UnityEngine.Random.Range(1, 4);

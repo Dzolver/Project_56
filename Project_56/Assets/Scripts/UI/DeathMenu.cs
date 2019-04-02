@@ -1,42 +1,25 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Project56
 {
     public class DeathMenu : Menu
     {
-        private void OnEnable()
+        private void Start()
         {
-            MyEventManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
-        }
-
-        private void OnDisable()
-        {
-            if (MyEventManager.Instance != null)
-            {
-                MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
-            }
-        }
-
-        private void OnGameStateChanged()
-        {
-            if (GameStateManager.Instance.CurrentState == GameState.Death)
-            {
-                ShowMenu();
-                Time.timeScale = 0;
-            }
-
+            ShowMenu();    
         }
 
         public void PlayAgain()
         {
             HideMenu();
-            MyEventManager.Instance.UpdateState.Dispatch(GameState.Game);
+            SceneManager.LoadScene(2);
         }
 
         public void ReturnToMain()
         {
             HideMenu();
-            MyEventManager.Instance.UpdateState.Dispatch(GameState.MainMenu);
+            SceneManager.LoadScene(1);
         }
     }
 }
