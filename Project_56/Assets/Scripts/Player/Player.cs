@@ -57,8 +57,8 @@ namespace Project56
 
         private void GameOver()
         {
-            Deactivate();
-            SceneManager.LoadScene(3);
+            //Deactivate();
+            //SceneManager.LoadScene(3);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

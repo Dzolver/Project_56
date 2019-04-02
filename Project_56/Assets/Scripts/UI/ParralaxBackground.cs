@@ -6,27 +6,10 @@ namespace Project56
     public class ParralaxBackground : MonoBehaviour
     {
 
-        //public float speed = 1.0f;
-        //Renderer myRenderer;
-        //Vector2 offset = Vector2.zero;
-        //private Vector2 savedOffset;
-
-        //private void Start()
-        //{
-        //    myRenderer = GetComponent<Renderer>();
-        //    savedOffset = myRenderer.sharedMaterial.GetTextureOffset("_MainTex");
-        //}
-
-        //private void Update()
-        //{
-        //    float x = Mathf.Repeat(Time.time * speed, 1);
-        //    Vector2 offset = new Vector2(x, savedOffset.y);
-        //    Debug.Log("Offset-" + x);
-        //    myRenderer.sharedMaterial.SetTextureOffset("_MainTex", offset);
-        //}
+        
         public float scrollSpeed;
-        public float tileSizeZ;
         private Direction direction;
+        Renderer myRenderer;
 
         private Vector3 startPosition;
 
@@ -52,13 +35,21 @@ namespace Project56
 
         void Start()
         {
+            myRenderer = GetComponent<Renderer>();
+            myRenderer.material.mainTextureOffset = Vector2.zero;
             startPosition = transform.position;
         }
 
         void Update()
         {
-            float newPosition = Mathf.Repeat(Time.time * scrollSpeed, tileSizeZ);
-            transform.position = startPosition + (Vector3.left * (int)direction) * newPosition;
+            if(direction == Direction.Right)
+            {
+                transform.Translate(Vector3.left * Time.deltaTime * scrollSpeed);
+            }
+            else
+            {
+                transform.Translate(Vector3.right * Time.deltaTime * scrollSpeed);
+            }
         }
     }
 }
