@@ -45,6 +45,10 @@ namespace Project56
 
         private void Start()
         {
+        }
+
+        public void StartInstantiatingObjects()
+        {
             StartCoroutine(InstantiateObjects());
         }
 
@@ -79,6 +83,7 @@ namespace Project56
                     gameObject.name = "Zombie -" + i;
                     gameObject.SetActive(false);
                     Zombies.Add(gameObject);
+                    MyEventManager.Instance.OnObjectInstantiated.Dispatch();
                     yield return wait;
                 }
             }
@@ -90,6 +95,7 @@ namespace Project56
                     gameObject.name = "Platform -" + i;
                     gameObject.SetActive(false);
                     Platforms.Add(gameObject);
+                    MyEventManager.Instance.OnObjectInstantiated.Dispatch();
                     yield return wait;
                 }
             }
@@ -101,6 +107,8 @@ namespace Project56
                     gameObject.name = "Slide Block -" + i;
                     gameObject.SetActive(false);
                     SlideBlocks.Add(gameObject);
+                    MyEventManager.Instance.OnObjectInstantiated.Dispatch();
+
                     yield return wait;
                 }
             }
@@ -112,6 +120,8 @@ namespace Project56
                     gameObject.name = "Jump Block -" + i;
                     gameObject.SetActive(false);
                     JumpBlocks.Add(gameObject);
+                    MyEventManager.Instance.OnObjectInstantiated.Dispatch();
+
                     yield return wait;
                 }
             }
@@ -123,6 +133,7 @@ namespace Project56
                     gameObject.name = "CoinWave 1-" + i;
                     gameObject.SetActive(false);
                     CoinWaves1.Add(gameObject);
+                    MyEventManager.Instance.OnObjectInstantiated.Dispatch();
                     yield return wait;
                 }
             }
@@ -134,6 +145,7 @@ namespace Project56
                     gameObject.name = "CoinWave 2-" + i;
                     gameObject.SetActive(false);
                     CoinWaves2.Add(gameObject);
+                    MyEventManager.Instance.OnObjectInstantiated.Dispatch();
                     yield return wait;
                 }
             }
@@ -145,6 +157,7 @@ namespace Project56
                     gameObject.name = "CoinWave 3-" + i;
                     gameObject.SetActive(false);
                     CoinWaves3.Add(gameObject);
+                    MyEventManager.Instance.OnObjectInstantiated.Dispatch();
                     yield return wait;
                 }
             }

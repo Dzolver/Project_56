@@ -28,7 +28,7 @@ namespace Project56
         //   private CameraController cameraController;
 
         private float gravity;
-        public float SwipeDetectionSensitivity = 1;
+        public float SwipeDetectionSensitivity = 2;
 
         //Attack variable
         public float swingCoolDown = 1; //player can only once per second
@@ -59,7 +59,7 @@ namespace Project56
         {
             if (GameStateManager.Instance.CurrentState == GameState.Game)
             {
-                GameData.Instance.direction = GameData.Direction.Right;
+                MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Right);
             }
         }
 
@@ -197,14 +197,14 @@ namespace Project56
                 RunnerRigidBody.velocity = Vector2.zero;
                 moveSpeed = -Mathf.Abs(moveSpeed);
                 transform.localRotation = new Quaternion(0, 180, 0, transform.rotation.w);
-                GameData.Instance.direction = GameData.Direction.Left;
+                MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Left);
 
             }
             else if (m_CurrentSwipe.x > 0/* && (currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)*/)
             {
                 moveSpeed = Mathf.Abs(moveSpeed);
                 transform.localRotation = Quaternion.identity;
-                GameData.Instance.direction = GameData.Direction.Right;
+                MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Right);
             }
         }
 

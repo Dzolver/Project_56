@@ -4,10 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class GameData : SingletonMonoBehaviour<GameData>
 {
-    public enum Direction
-    {
-        Left = -1, Right = 1
-    }
+
 
     public GameObject theRunner;
 
@@ -26,6 +23,8 @@ public class GameData : SingletonMonoBehaviour<GameData>
     private void OnEnable()
     {
         MyEventManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
+        MyEventManager.Instance.ChangeMoveDirection.AddListener(ChangeMoveDirection);
+
     }
 
     private void OnDisable()
@@ -33,7 +32,14 @@ public class GameData : SingletonMonoBehaviour<GameData>
         if (MyEventManager.Instance != null)
         {
             MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
+            MyEventManager.Instance.ChangeMoveDirection.RemoveListener(ChangeMoveDirection);
+
         }
+    }
+
+    private void ChangeMoveDirection(Direction direction)
+    {
+        this.direction = direction;
     }
 
     private void OnGameStateChanged()
@@ -51,7 +57,7 @@ public class GameData : SingletonMonoBehaviour<GameData>
     public float GetNextObjectPosX()
     {
         PreviousObjectPosX = CurrentObjectPosX;
-        float distance = Random.Range(18f, 25f);
+        float distance = UnityEngine.Random.Range(18f, 25f);
         CurrentObjectPosX = theRunnerTransform.position.x + ((int)direction * distance);
         if (Mathf.Abs(PreviousObjectPosX - CurrentObjectPosX) < 7f)
         {
@@ -59,4 +65,9 @@ public class GameData : SingletonMonoBehaviour<GameData>
         }
         return CurrentObjectPosX;
     }
+}
+
+public enum Direction
+{
+    Left = -1, Right = 1
 }
