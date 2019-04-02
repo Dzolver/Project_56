@@ -11,11 +11,15 @@ namespace Project56
         //private Rigidbody2D m_Rigidbody;
         private float m_MoveSpeed = 2.0f;
         public bool isDead;
+
         public void ActivateAndSetPosition(Vector3 position)
         {
             gameObject.SetActive(true);
             isDead = false;
-            transform.SetPositionAndRotation(position, Quaternion.identity);
+            if (GameData.Instance.direction == Direction.Right)
+                transform.SetPositionAndRotation(position, Quaternion.identity);
+            else
+                transform.SetPositionAndRotation(position, Quaternion.Euler(new Vector3(0, 0, 180)));
         }
 
         public void Deactivate()
