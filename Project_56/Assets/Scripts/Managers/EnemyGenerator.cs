@@ -25,19 +25,19 @@ public class EnemyGenerator : MonoBehaviour
                 if (enemyType == 3)
                 {
                     block = ObjectPool.Instance.GetJumpBlock().GetComponent<IBlock>();
-                    y = -0.6f;
+                    y = -4.2f;
                 }
                 else
                 {
                     block = ObjectPool.Instance.GetSlideBlock().GetComponent<IBlock>();
-                    y = 2.1f;
+                    y = -1f;
                 }
                 block.ActivateAndSetPosition(new Vector2(x, y));
             }
             else
             {
                 IZombie zombie = ObjectPool.Instance.GetZombie().GetComponent<IZombie>();
-                y = -.5f;
+                y = -4f;
                 zombie.ActivateAndSetPosition(new Vector2(x, y));
             }
 
