@@ -21,7 +21,6 @@ namespace Project56
         public void ActivatePowerup()
         {
             gameObject.SetActive(true);
-            Debug.Log("Activated " + PowerupType.ToString());
         }
 
         public PowerupType GetPowerupType()

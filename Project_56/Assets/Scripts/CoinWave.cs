@@ -10,7 +10,6 @@ public class CoinWave : MonoBehaviour
 
     public void ActivateAndSetPosition(Vector2 position)
     {
-        Debug.Log("activating wave");
         gameObject.SetActive(true);
         foreach (Transform t in GetComponentsInChildren<Transform>(true))
         {
@@ -24,7 +23,6 @@ public class CoinWave : MonoBehaviour
     private IEnumerator DeactivateWave()
     {
         yield return new WaitForSeconds(10f);
-        Debug.Log("Deactivating wave");
         gameObject.SetActive(false);
     }
 
