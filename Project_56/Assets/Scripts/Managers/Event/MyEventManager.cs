@@ -10,7 +10,7 @@ namespace Project56
         public MyEvent OnAttackClicked = new MyEvent();
         public MyEvent OnObjectInstantiated = new MyEvent();
         public MyEvent<Direction> ChangeMoveDirection = new MyEvent<Direction>();
-        public MyEvent<float,float> OnScoreUpdated = new MyEvent<float,float>();
+        public MyEvent<int,int> OnScoreUpdated = new MyEvent<int,int>();
         public MyEvent<int> OnEnemyKilled = new MyEvent<int>();
 
         //public MyEvent<GameState> UpdateState = new MyEvent<GameState>();

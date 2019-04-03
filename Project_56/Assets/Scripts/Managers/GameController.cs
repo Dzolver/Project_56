@@ -29,7 +29,7 @@ namespace Project56
 
         private IEnumerator CalculateScore()
         {
-            float previousScore;
+            int previousScore;
             while (true)
             {
                 yield return new WaitForSeconds(1f);

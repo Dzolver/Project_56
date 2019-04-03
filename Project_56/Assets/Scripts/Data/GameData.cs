@@ -21,9 +21,9 @@ public class GameData : SingletonMonoBehaviour<GameData>
     public float CurrentObjectPosX;
     private float PreviousObjectPosX;
 
-    public float ScorePerSecond;
+    public int ScorePerSecond;
     public float MultiplierPerKill;
-    public float CurrentScore = 0;
+    public int CurrentScore = 0;
 
     private void Start()
     {
