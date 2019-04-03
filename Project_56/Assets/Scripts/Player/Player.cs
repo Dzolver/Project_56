@@ -40,7 +40,7 @@ namespace Project56
         {
             if (!IsInvincible)
             {
-                if (collision.gameObject.tag.Equals("Zombie"))
+                if (collision.gameObject.CompareTag(GameStrings.Zombie))
                 {
                     if (!attacked)
                     {
@@ -48,14 +48,14 @@ namespace Project56
                     }
                 }
 
-                if (collision.gameObject.tag.Equals("Block"))
+                if (collision.gameObject.CompareTag(GameStrings.Block))
                 {
                     GameOver();
                 }
             }
             else
             {
-                if (collision.gameObject.tag.Equals("Zombie"))
+                if (collision.gameObject.CompareTag(GameStrings.Zombie))
                 {
                     GameData.Instance.AddKills();
                 }             
@@ -70,7 +70,7 @@ namespace Project56
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.CompareTag("Powerup"))
+            if (collision.CompareTag(GameStrings.Powerup))
             {
                 IPowerup powerup = collision.GetComponent<IPowerup>();
                 powerup.OnPowerupCollected();

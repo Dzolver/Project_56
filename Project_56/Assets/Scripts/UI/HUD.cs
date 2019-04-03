@@ -46,7 +46,7 @@ namespace Project56
 
         private void OnScoreUpdated(float updatedScore)
         {
-            Score.text = "" + updatedScore;
+            Score.text = "" + (int)updatedScore;
         }
 
         public void OnJumpClicked()

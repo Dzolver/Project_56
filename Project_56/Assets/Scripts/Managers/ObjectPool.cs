@@ -195,11 +195,14 @@ namespace Project56
             {
                 if (!Platform.activeInHierarchy)
                 {
+                    Debug.Log("Found platform in heirarchy");
                     return Platform;
                 }
             }
             if (shouldExpand)
             {
+                Debug.Log("Creating platform in heirarchy");
+
                 GameObject gameObject = Instantiate(Platform);
                 gameObject.SetActive(false);
                 Platforms.Add(gameObject);
