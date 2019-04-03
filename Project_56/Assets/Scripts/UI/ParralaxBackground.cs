@@ -5,11 +5,13 @@ namespace Project56
 
     public class ParralaxBackground : MonoBehaviour
     {
-        public float scrollSpeed;
         public Camera MyCamera;
         public GameObject CurrentSprite;
         public GameObject LeftSprite;
         public GameObject RightSprite;
+
+        public float scrollSpeed;
+        public float speedIncreaseRate;
 
         //private Vector3 startPosition;
         //private Renderer myRenderer;
@@ -19,7 +21,7 @@ namespace Project56
         private void OnEnable()
         {
             MyEventManager.Instance.ChangeMoveDirection.AddListener(ChangeMoveDirection);
-
+            MyEventManager.Instance.IncreaseSpeed.AddListener(OnSpeedIncrease);
         }
 
         private void OnDisable()
@@ -27,13 +29,8 @@ namespace Project56
             if (MyEventManager.Instance != null)
             {
                 MyEventManager.Instance.ChangeMoveDirection.RemoveListener(ChangeMoveDirection);
-
+                MyEventManager.Instance.IncreaseSpeed.RemoveListener(OnSpeedIncrease);
             }
-        }
-
-        private void ChangeMoveDirection(Direction direction)
-        {
-            this.direction = direction;
         }
 
         void Start()
@@ -85,5 +82,16 @@ namespace Project56
             RightSprite = temp;
             RightSprite.transform.localPosition = new Vector3(CurrentSprite.transform.localPosition.x + 1, 0, 0);
         }
+
+        private void OnSpeedIncrease()
+        {
+            scrollSpeed += speedIncreaseRate;
+        }
+
+        private void ChangeMoveDirection(Direction direction)
+        {
+            this.direction = direction;
+        }
+
     }
 }

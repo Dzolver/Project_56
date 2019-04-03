@@ -26,13 +26,22 @@ public class GameData : SingletonMonoBehaviour<GameData>
     public int CurrentScore = 0;
     public int TotalKills = 0;
 
+
     private void Start()
     {
         CurrentObjectPosX = theRunnerTransform.position.x;
-
+        StartCoroutine(IncreaseSpeed());
     }
 
+    private IEnumerator IncreaseSpeed()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
+            MyEventManager.Instance.IncreaseSpeed.Dispatch();
+        }
 
+    }
 
     private void OnEnable()
     {

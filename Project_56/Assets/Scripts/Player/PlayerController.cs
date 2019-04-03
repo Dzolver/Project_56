@@ -13,6 +13,7 @@ namespace Project56
         public bool grounded;
         private bool sliding;
         public LayerMask whatIsGround;
+
         public float moveSpeed = 5;
         public float jumpForce = 17;
         public float fallGravity = 15;
@@ -45,8 +46,10 @@ namespace Project56
             MyEventManager.Instance.OnJumpClicked.AddListener(OnJumpClicked);
             MyEventManager.Instance.OnFallOrSlideClicked.AddListener(OnFallOrSlideClicked);
             MyEventManager.Instance.OnAttackClicked.AddListener(OnAttackClicked);
+            MyEventManager.Instance.IncreaseSpeed.AddListener(OnSpeedIncrease);
         }
 
+       
         private void OnDisable()
         {
             if (MyEventManager.Instance != null)
@@ -54,6 +57,7 @@ namespace Project56
                 MyEventManager.Instance.OnJumpClicked.RemoveListener(OnJumpClicked);
                 MyEventManager.Instance.OnFallOrSlideClicked.RemoveListener(OnFallOrSlideClicked);
                 //MyEventManager.Instance.OnAttackClicked.RemoveListener(OnAttackClicked);
+                MyEventManager.Instance.IncreaseSpeed.RemoveListener(OnSpeedIncrease);
             }
         }
 
@@ -74,15 +78,6 @@ namespace Project56
 
         private void Update()
         {
-            if (moveSpeed >= 0)
-            {
-                moveSpeed += speedIncreaseRate * Time.deltaTime;
-            }
-            else
-            {
-                moveSpeed -= speedIncreaseRate * Time.deltaTime;
-            }
-
             MouseSwipe();
             TouchSwipe();
             //returns true or false whether the collider is touching another collider containing the layer called 'Ground'
@@ -238,6 +233,19 @@ namespace Project56
         private void SetAttackOff()
         {
             player.attacked = false;
+        }
+
+        private void OnSpeedIncrease()
+        {
+            if (moveSpeed >= 0)
+            {
+                moveSpeed += speedIncreaseRate;
+            }
+            else
+            {
+                moveSpeed -= speedIncreaseRate;
+            }
+
         }
 
         private void SetSlidingOff()
