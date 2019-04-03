@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 
 namespace Project56
 {
@@ -7,6 +9,7 @@ namespace Project56
     [RequireComponent(typeof(Animator))]
     public class PlayerController : MonoBehaviour
     {
+        bool coolDown;
         public bool grounded;
         private bool sliding;
         public LayerMask whatIsGround;
@@ -29,6 +32,7 @@ namespace Project56
 
         private float gravity;
         public float SwipeDetectionSensitivity = 2;
+        float CoolDownTime = 3f;
 
         //Attack variable
         public float swingCoolDown = 1; //player can only once per second
@@ -55,6 +59,7 @@ namespace Project56
 
         private void Start()
         {
+            coolDown = false;
             //initialize the component variables by searching for all needed components using GetComponent
             RunnerCollider = GetComponent<Collider2D>();
             RunnerRigidBody = GetComponent<Rigidbody2D>();
@@ -142,31 +147,38 @@ namespace Project56
 
         private void MouseSwipe()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (!coolDown)
             {
-                m_FirstPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            }
-            if (Input.GetMouseButton(0) || Input.GetMouseButtonUp(0))
-            {
-                m_SecondPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-                SwipePlayer();
+                if (Input.GetMouseButtonDown(0))
+                {
+                    m_FirstPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                }
+                if (Input.GetMouseButton(0) || Input.GetMouseButtonUp(0))
+                {
+                    m_SecondPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                    SwipePlayer();
+                }
             }
         }
 
         private void TouchSwipe()
         {
-            if (Input.touchCount == 1)
+            if (!coolDown)
             {
-                Touch touch = Input.GetTouch(0);
-                if (touch.phase == TouchPhase.Began)
+                if (Input.touchCount == 1)
                 {
-                    m_FirstPressPos = touch.position;
-                }
-                if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Ended)
-                {
-                    m_SecondPressPos = touch.position;
-                    SwipePlayer();
-                    m_FirstPressPos = touch.position;
+                    Touch touch = Input.GetTouch(0);
+                    if (touch.phase == TouchPhase.Began)
+                    {
+                        m_FirstPressPos = touch.position;
+                    }
+                    if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Ended)
+                    {
+                        m_SecondPressPos = touch.position;
+
+                        SwipePlayer();
+                        m_FirstPressPos = touch.position;
+                    }
                 }
             }
         }
@@ -198,6 +210,14 @@ namespace Project56
                 transform.localRotation = Quaternion.identity;
                 MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Right);
             }
+            coolDown = true;
+            StartCoroutine(WaitForCoolDown());
+        }
+
+        private IEnumerator WaitForCoolDown()
+        {
+            yield return new WaitForSeconds(CoolDownTime);
+            coolDown = false;
         }
 
         private void OnJumpClicked()

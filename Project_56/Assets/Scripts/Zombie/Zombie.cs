@@ -63,7 +63,7 @@ namespace Project56
 
             else if (collision.gameObject.tag.Equals("Player"))
             {
-                Deactivate();
+                //Deactivate();
             }
             
         }
