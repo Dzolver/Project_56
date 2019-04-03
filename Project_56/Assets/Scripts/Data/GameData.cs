@@ -1,10 +1,16 @@
-﻿using Project56;
+﻿using System;
+using System.Collections;
+using Project56;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum Direction
+{
+    Left = -1, Right = 1
+}
+
 public class GameData : SingletonMonoBehaviour<GameData>
 {
-
 
     public GameObject theRunner;
 
@@ -15,10 +21,17 @@ public class GameData : SingletonMonoBehaviour<GameData>
     public float CurrentObjectPosX;
     private float PreviousObjectPosX;
 
+    public float ScorePerSecond;
+    public float MultiplierPerKill;
+    public float CurrentScore = 0;
+
     private void Start()
     {
         CurrentObjectPosX = theRunnerTransform.position.x;
+     
     }
+
+    
 
     private void OnEnable()
     {
@@ -53,7 +66,3 @@ public class GameData : SingletonMonoBehaviour<GameData>
     }
 }
 
-public enum Direction
-{
-    Left = -1, Right = 1
-}
