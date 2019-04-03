@@ -57,6 +57,7 @@ namespace Project56
             {
                 Debug.Log("Hit");
                 isDead = true;
+                GameData.Instance.AddKills();
                 Deactivate();
             }
 

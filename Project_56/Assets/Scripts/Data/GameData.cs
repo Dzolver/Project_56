@@ -24,14 +24,15 @@ public class GameData : SingletonMonoBehaviour<GameData>
     public int ScorePerSecond;
     public float MultiplierPerKill;
     public int CurrentScore = 0;
+    public int TotalKills = 0;
 
     private void Start()
     {
         CurrentObjectPosX = theRunnerTransform.position.x;
-     
+
     }
 
-    
+
 
     private void OnEnable()
     {
@@ -63,6 +64,12 @@ public class GameData : SingletonMonoBehaviour<GameData>
             CurrentObjectPosX += (int)direction * 7f;
         }
         return CurrentObjectPosX;
+    }
+
+    public void AddKills()
+    {
+        TotalKills += 1;
+        MyEventManager.Instance.OnEnemyKilled.Dispatch(GameData.Instance.TotalKills);
     }
 }
 

@@ -53,6 +53,13 @@ namespace Project56
                     GameOver();
                 }
             }
+            else
+            {
+                if (collision.gameObject.tag.Equals("Zombie"))
+                {
+                    GameData.Instance.AddKills();
+                }             
+            }
         }
 
         private void GameOver()
