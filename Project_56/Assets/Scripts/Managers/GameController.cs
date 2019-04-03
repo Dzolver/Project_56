@@ -35,7 +35,7 @@ namespace Project56
                 yield return new WaitForSeconds(1f);
                 previousScore = GameData.Instance.CurrentScore;
                 GameData.Instance.CurrentScore += GameData.Instance.ScorePerSecond;
-                MyEventManager.Instance.OnScoreUpdate(previousScore, GameData.Instance.CurrentScore);
+                MyEventManager.Instance.OnScoreUpdated(previousScore, GameData.Instance.CurrentScore);
             }
         }
     }
