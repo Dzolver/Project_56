@@ -18,7 +18,6 @@ public class GameData : SingletonMonoBehaviour<GameData>
     public Transform theRunnerTransform;
 
     public Direction direction = Direction.Right; //-1 = left direction, 1= right direction
-    public float platformWidth;
     public float CurrentObjectPosX;
     private float PreviousObjectPosX;
 
