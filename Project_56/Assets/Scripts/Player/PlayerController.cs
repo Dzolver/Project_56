@@ -14,11 +14,11 @@ namespace Project56
         private bool sliding;
         public LayerMask whatIsGround;
 
-        public float moveSpeed = 5;
+        public float moveSpeed = 3;
         public float jumpForce = 17;
         public float fallGravity = 15;
         public float maxSpeed = 15;
-        public float speedIncreaseRate = 0.1f;
+        public float speedIncreaseRate = 0.05f;
 
         public float slidingInterval = 0.5f;
         private Collider2D RunnerCollider;
