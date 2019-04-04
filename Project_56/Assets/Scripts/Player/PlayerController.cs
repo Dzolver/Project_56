@@ -47,9 +47,10 @@ namespace Project56
             MyEventManager.Instance.OnFallOrSlideClicked.AddListener(OnFallOrSlideClicked);
             MyEventManager.Instance.OnAttackClicked.AddListener(OnAttackClicked);
             MyEventManager.Instance.IncreaseSpeed.AddListener(OnSpeedIncrease);
+            MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
         }
 
-       
+
         private void OnDisable()
         {
             if (MyEventManager.Instance != null)
@@ -58,6 +59,8 @@ namespace Project56
                 MyEventManager.Instance.OnFallOrSlideClicked.RemoveListener(OnFallOrSlideClicked);
                 //MyEventManager.Instance.OnAttackClicked.RemoveListener(OnAttackClicked);
                 MyEventManager.Instance.IncreaseSpeed.RemoveListener(OnSpeedIncrease);
+                MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
+
             }
         }
 
@@ -84,6 +87,7 @@ namespace Project56
             grounded = Physics2D.IsTouchingLayers(RunnerCollider, whatIsGround);
             //Character will move in a direction with each frame
             RunnerRigidBody.velocity = new Vector2(moveSpeed, RunnerRigidBody.velocity.y);
+            GameData.Instance.RunnerVelocity = RunnerRigidBody.velocity;
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -213,6 +217,22 @@ namespace Project56
         {
             yield return new WaitForSeconds(CoolDownTime);
             coolDown = false;
+        }
+
+        private void OnPowerupCollected(BasePowerup powerup)
+        {
+            if (powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
+            {
+                float speed = ((FastRunInvincibility)powerup).GetSpeed();
+                moveSpeed += speed;
+                StartCoroutine(ResetSpeed(powerup.GetPowerupDuration(), speed));
+            }
+        }
+
+        private IEnumerator ResetSpeed(float duration, float speed)
+        {
+            yield return new WaitForSeconds(duration);
+            moveSpeed -= speed;
         }
 
         private void OnJumpClicked()

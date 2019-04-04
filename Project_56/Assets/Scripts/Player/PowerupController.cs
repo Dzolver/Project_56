@@ -7,6 +7,8 @@ namespace Project56
     {
         private float InvinicbilityWait = 2f;
         public GameObject InvincibilityGO;
+        public GameObject ScoreMultiplier;
+        public GameObject FastRun;
 
         private void Start()
         {
@@ -17,12 +19,12 @@ namespace Project56
         private IEnumerator SpawnPowerups()
         {
             yield return new WaitForSeconds(InvinicbilityWait);
-
-            IPowerup powerup;
-            powerup = Instantiate(InvincibilityGO, Vector3.right * 30f, Quaternion.identity).GetComponent<IPowerup>();
-
-
+            BasePowerup powerup;
+            powerup = Instantiate(InvincibilityGO, Vector3.right * 30f, Quaternion.identity).GetComponent<BasePowerup>();
             //Activation logic
+            powerup.ActivatePowerup();
+
+            powerup = Instantiate(FastRun, new Vector3(40f,-2.5f,0), Quaternion.identity).GetComponent<BasePowerup>();
             powerup.ActivatePowerup();
         }
 

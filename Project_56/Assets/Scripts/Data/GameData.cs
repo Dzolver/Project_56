@@ -13,6 +13,7 @@ public class GameData : SingletonMonoBehaviour<GameData>
 {
 
     public GameObject theRunner;
+    public Vector3 RunnerVelocity;
 
     public Transform theRunnerTransform;
 
@@ -78,7 +79,7 @@ public class GameData : SingletonMonoBehaviour<GameData>
     public void AddKills()
     {
         TotalKills += 1;
-        MyEventManager.Instance.OnEnemyKilled.Dispatch(GameData.Instance.TotalKills);
+        MyEventManager.Instance.OnEnemyKilled.Dispatch(TotalKills);
     }
 }
 

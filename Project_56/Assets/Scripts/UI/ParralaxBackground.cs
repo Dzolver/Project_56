@@ -10,9 +10,8 @@ namespace Project56
         public GameObject LeftSprite;
         public GameObject RightSprite;
 
-        public float scrollSpeed;
-        public float speedIncreaseRate;
-
+        public float scrollSpeedFactor;
+      
         //private Vector3 startPosition;
         //private Renderer myRenderer;
         private Direction direction;
@@ -20,8 +19,7 @@ namespace Project56
 
         private void OnEnable()
         {
-            MyEventManager.Instance.ChangeMoveDirection.AddListener(ChangeMoveDirection);
-            MyEventManager.Instance.IncreaseSpeed.AddListener(OnSpeedIncrease);
+            MyEventManager.Instance.ChangeMoveDirection.AddListener(ChangeMoveDirection);            
         }
 
         private void OnDisable()
@@ -29,7 +27,6 @@ namespace Project56
             if (MyEventManager.Instance != null)
             {
                 MyEventManager.Instance.ChangeMoveDirection.RemoveListener(ChangeMoveDirection);
-                MyEventManager.Instance.IncreaseSpeed.RemoveListener(OnSpeedIncrease);
             }
         }
 
@@ -44,7 +41,7 @@ namespace Project56
         {
             if (direction == Direction.Right)
             {
-                transform.Translate(Vector3.left * Time.deltaTime * scrollSpeed);
+                transform.Translate(Vector3.left * Time.deltaTime * (Mathf.Abs(GameData.Instance.RunnerVelocity.x)/scrollSpeedFactor));
                 if (Math.Truncate(CurrentSprite.transform.position.x) == -10f)
                 {
                     AddBgToRight();
@@ -52,7 +49,7 @@ namespace Project56
             }
             else
             {
-                transform.Translate(Vector3.right * Time.deltaTime * scrollSpeed);
+                transform.Translate(Vector3.right * Time.deltaTime * (Mathf.Abs(GameData.Instance.RunnerVelocity.x) / scrollSpeedFactor));
                 if (Math.Truncate(CurrentSprite.transform.position.x) == 10f)
                 {
                     AddBgToLeft();
@@ -81,11 +78,6 @@ namespace Project56
             CurrentSprite = RightSprite;
             RightSprite = temp;
             RightSprite.transform.localPosition = new Vector3(CurrentSprite.transform.localPosition.x + 1, 0, 0);
-        }
-
-        private void OnSpeedIncrease()
-        {
-            scrollSpeed += speedIncreaseRate;
         }
 
         private void ChangeMoveDirection(Direction direction)

@@ -195,7 +195,7 @@ namespace Project56
             {
                 if (!Platform.activeInHierarchy)
                 {
-                    Debug.Log("Found platform in heirarchy");
+                    //Debug.Log("Found platform in heirarchy");
                     return Platform;
                 }
             }

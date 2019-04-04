@@ -18,11 +18,15 @@ namespace Project56
 
         private void OnEnable()
         {
+            MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
         }
 
         private void OnDisable()
         {
-
+            if (MyEventManager.Instance != null)
+            {
+                MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
+            }
         }
 
         public void Deactivate()
@@ -58,6 +62,7 @@ namespace Project56
                 if (collision.gameObject.CompareTag(GameStrings.Zombie))
                 {
                     GameData.Instance.AddKills();
+                    collision.gameObject.GetComponent<Zombie>().Deactivate();
                 }             
             }
         }
@@ -72,15 +77,13 @@ namespace Project56
         {
             if (collision.CompareTag(GameStrings.Powerup))
             {
-                IPowerup powerup = collision.GetComponent<IPowerup>();
-                powerup.OnPowerupCollected();
-                OnPowerupCollected(powerup);
+               collision.gameObject.GetComponent<BasePowerup>().OnPowerupCollected(); 
             }
         }
 
-        private void OnPowerupCollected(IPowerup powerup)
+        private void OnPowerupCollected(BasePowerup powerup)
         {
-            if (powerup.GetPowerupType() == PowerupType.Invincibility)
+            if (powerup.GetPowerupType() == PowerupType.Invincibility || powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
             {
                 IsInvincible = true;
                 StartCoroutine(DeactivateInvincibility(powerup.GetPowerupDuration()));
