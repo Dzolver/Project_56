@@ -43,7 +43,7 @@ namespace Project56
 
         private void OnEnable()
         {
-            MyEventManager.Instance.OnJumpClicked.AddListener(OnJumpClicked);
+            MyEventManager.Instance.OnJumpClicked.AddListener(Jump);
             MyEventManager.Instance.OnFallOrSlideClicked.AddListener(OnFallOrSlideClicked);
             MyEventManager.Instance.OnAttackClicked.AddListener(OnAttackClicked);
             MyEventManager.Instance.IncreaseSpeed.AddListener(OnSpeedIncrease);
@@ -55,7 +55,7 @@ namespace Project56
         {
             if (MyEventManager.Instance != null)
             {
-                MyEventManager.Instance.OnJumpClicked.RemoveListener(OnJumpClicked);
+                MyEventManager.Instance.OnJumpClicked.RemoveListener(Jump);
                 MyEventManager.Instance.OnFallOrSlideClicked.RemoveListener(OnFallOrSlideClicked);
                 //MyEventManager.Instance.OnAttackClicked.RemoveListener(OnAttackClicked);
                 MyEventManager.Instance.IncreaseSpeed.RemoveListener(OnSpeedIncrease);
@@ -84,7 +84,7 @@ namespace Project56
             MouseSwipe();
             TouchSwipe();
             //returns true or false whether the collider is touching another collider containing the layer called 'Ground'
-            grounded = Physics2D.IsTouchingLayers(RunnerCollider, whatIsGround);
+            //grounded = Physics2D.IsTouchingLayers(RunnerCollider, whatIsGround);
             //Character will move in a direction with each frame
             RunnerRigidBody.velocity = new Vector2(moveSpeed, RunnerRigidBody.velocity.y);
             GameData.Instance.RunnerVelocity = RunnerRigidBody.velocity;
@@ -101,8 +101,10 @@ namespace Project56
 
         private void Jump()
         {
+            //Debug.Log("Grounded - " + grounded);
             if (grounded || sliding)
             {
+                grounded = false;
                 if (sliding)
                 {
                     sliding = false;
@@ -110,6 +112,7 @@ namespace Project56
                 }
                 if (RunnerRigidBody.gravityScale > gravity)
                     RunnerRigidBody.gravityScale = gravity;//resetting gravity
+
                 RunnerRigidBody.velocity = new Vector2(RunnerRigidBody.velocity.x, jumpForce);
             }
         }
@@ -235,10 +238,6 @@ namespace Project56
             moveSpeed -= speed;
         }
 
-        private void OnJumpClicked()
-        {
-            Jump();
-        }
 
         private void OnFallOrSlideClicked()
         {
@@ -276,6 +275,14 @@ namespace Project56
                 RunnerAnimator.SetBool("Sliding", sliding);
             }
 
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if(collision.gameObject.CompareTag(GameStrings.Platform))
+            {
+                grounded = true;
+            }
         }
 
     }

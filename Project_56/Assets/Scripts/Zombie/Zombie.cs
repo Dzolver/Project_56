@@ -10,12 +10,10 @@ namespace Project56
     {
         //private Rigidbody2D m_Rigidbody;
         private float m_MoveSpeed = 2.0f;
-        public bool isDead;
 
         public void ActivateAndSetPosition(Vector3 position)
         {
             gameObject.SetActive(true);
-            isDead = false;
             if (GameData.Instance.direction == Direction.Right)
                 transform.SetPositionAndRotation(position, Quaternion.identity);
             else
@@ -24,11 +22,8 @@ namespace Project56
 
         public void Deactivate()
         {
-            if (gameObject != null)
-            {
                 gameObject.SetActive(false);
                 gameObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-            }
         }
 
         public float GetMoveSpeed()
@@ -53,13 +48,7 @@ namespace Project56
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.tag.Equals("Weapon"))
-            {
-                Debug.Log("Hit");
-                isDead = true;
-                GameData.Instance.AddKills();
-                Deactivate();
-            }
+            
 
            
             
@@ -67,8 +56,16 @@ namespace Project56
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if (collision.gameObject.tag.Equals("MainCamera"))
+            Debug.Log("Trigger with - " + collision.gameObject.tag);
+
+            if (collision.gameObject.CompareTag(GameStrings.MainCamera))
             {
+                Deactivate();
+            }
+            if (collision.gameObject.CompareTag(GameStrings.Weapon))
+            {
+                Debug.Log("Hit");
+                GameData.Instance.AddKills();
                 Deactivate();
             }
         }

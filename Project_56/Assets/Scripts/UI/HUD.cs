@@ -11,27 +11,40 @@ namespace Project56
 
         public TextMeshProUGUI Score;
         public TextMeshProUGUI Kills;
+        public TextMeshProUGUI Coins;
+        private int CoinsCollected = 0;
 
         private void Start()
         {
             ShowMenu();
             Time.timeScale = 1;
+            CoinsCollected = 0;
         }
 
         private void OnEnable()
         {
             MyEventManager.Instance.OnScoreUpdated.AddListener(OnScoreUpdated);
             MyEventManager.Instance.OnEnemyKilled.AddListener(OnEnemyKilled);
+            MyEventManager.Instance.OnCoinCollected.AddListener(OnCoinCollected);
         }
 
         private void OnDisable()
         {
             if(MyEventManager.Instance!=null)
             {
-                MyEventManager.Instance.OnScoreUpdated.AddListener(OnScoreUpdated);
+                MyEventManager.Instance.OnScoreUpdated.RemoveListener(OnScoreUpdated);
                 MyEventManager.Instance.OnEnemyKilled.RemoveListener(OnEnemyKilled);
+                MyEventManager.Instance.OnCoinCollected.RemoveListener(OnCoinCollected);
+
 
             }
+        }
+
+        private void OnCoinCollected()
+        {
+            CoinsCollected++;
+            Coins.text = CoinsCollected.ToString(); ;
+
         }
 
         private void OnEnemyKilled(int UpdatedValue)
@@ -51,12 +64,13 @@ namespace Project56
 
         public void OnJumpClicked()
         {
+            //Debug.Log("jUMPING");
             MyEventManager.Instance.OnJumpClicked.Dispatch();
         }
 
         public void OnFallOrSlideClicked()
         {
-            Debug.Log("Falling");
+            //Debug.Log("Falling");
             MyEventManager.Instance.OnFallOrSlideClicked.Dispatch();
         }
 
