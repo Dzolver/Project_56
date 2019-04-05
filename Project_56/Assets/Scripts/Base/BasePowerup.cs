@@ -26,9 +26,10 @@ namespace Project56
         {
             gameObject.SetActive(false);
         }
-        public void ActivatePowerup()
+        public void ActivateAndSetPosition(Vector2 pos)
         {
             gameObject.SetActive(true);
+            gameObject.transform.SetPositionAndRotation(pos, Quaternion.identity);
         }
     }
 

@@ -5,7 +5,7 @@ namespace Project56
 {
     public class PowerupController : MonoBehaviour
     {
-        private float InvinicbilityWait = 2f;
+        private float WaitTime = 10f;
         public GameObject InvincibilityGO;
         public GameObject ScoreMultiplier;
         public GameObject FastRun;
@@ -15,17 +15,34 @@ namespace Project56
             StartCoroutine(SpawnPowerups());
         }
 
-       
+
         private IEnumerator SpawnPowerups()
         {
-            yield return new WaitForSeconds(InvinicbilityWait);
             BasePowerup powerup;
-            powerup = Instantiate(InvincibilityGO, Vector3.right * 30f, Quaternion.identity).GetComponent<BasePowerup>();
-            //Activation logic
-            powerup.ActivatePowerup();
+            GameObject go = InvincibilityGO;
+            while (true)
+            {
+                yield return new WaitForSeconds(WaitTime);
 
-            powerup = Instantiate(FastRun, new Vector3(40f,-2.5f,0), Quaternion.identity).GetComponent<BasePowerup>();
-            powerup.ActivatePowerup();
+                int random = Random.Range(1, 4);
+                switch (random)
+                {
+                    case (int)PowerupType.Invincibility:
+                        go = InvincibilityGO;
+                        break;
+                    case (int)PowerupType.ScoreMultiplier:
+                        go = ScoreMultiplier;
+                        break;
+                    case (int)PowerupType.FastRunInvincibility:
+                        go = FastRun;
+                        break;
+                }
+                powerup = Instantiate(go).GetComponent<BasePowerup>();
+                //Activation logic
+                powerup.ActivateAndSetPosition(new Vector2(GameData.Instance.GetNextObjectPosX(), -2.6f));
+
+            }
+
         }
 
     }
