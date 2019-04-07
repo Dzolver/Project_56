@@ -11,6 +11,14 @@ namespace Project56
         public bool attacked;
         private bool IsInvincible = false;
 
+        Coroutine coroutine;
+        PlayerController playerController;
+
+        private void Start()
+        {
+            playerController = GetComponent<PlayerController>();
+        }
+
         public void ActivateAndSetPosition(Vector3 vector3)
         {
             throw new NotImplementedException();
@@ -52,7 +60,7 @@ namespace Project56
                     }
                 }
 
-                if (collision.gameObject.CompareTag(GameStrings.Block))
+                else if (collision.gameObject.CompareTag(GameStrings.Block))
                 {
                     GameOver();
                 }
@@ -63,7 +71,11 @@ namespace Project56
                 {
                     GameData.Instance.AddKills();
                     collision.gameObject.GetComponent<Zombie>().Deactivate();
-                }             
+                }
+                else if (collision.gameObject.CompareTag(GameStrings.Block))
+                {
+                    collision.gameObject.GetComponent<BlockBase>().Deactivate();
+                }
             }
         }
 
@@ -77,7 +89,7 @@ namespace Project56
         {
             if (collision.CompareTag(GameStrings.Powerup))
             {
-               collision.gameObject.GetComponent<BasePowerup>().OnPowerupCollected(); 
+                collision.gameObject.GetComponent<BasePowerup>().OnPowerupCollected();
             }
         }
 
@@ -86,8 +98,15 @@ namespace Project56
             if (powerup.GetPowerupType() == PowerupType.Invincibility || powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
             {
                 IsInvincible = true;
-                StartCoroutine(DeactivateInvincibility(powerup.GetPowerupDuration()));
+                if (coroutine != null)
+                    StopCoroutine(coroutine);
                 LeanTween.color(gameObject, Color.cyan, 0.5f);
+                coroutine = StartCoroutine(DeactivateInvincibility(powerup.GetPowerupDuration()));
+                if (powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
+                {
+                    playerController.DecreaseSpeed((FastRunInvincibility)powerup);
+                    playerController.IncreaseSpeed((FastRunInvincibility)powerup);
+                }
             }
         }
 
@@ -96,6 +115,7 @@ namespace Project56
             yield return new WaitForSeconds(Duration);
             IsInvincible = false;
             LeanTween.color(gameObject, Color.white, 0.5f);
+            coroutine = null;
         }
     }
 }

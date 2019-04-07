@@ -40,6 +40,7 @@ namespace Project56
         private float lastSwing;
         private Player player; //to know if playerAttacked
 
+        public Coroutine coroutine;
 
         private void OnEnable()
         {
@@ -47,7 +48,6 @@ namespace Project56
             MyEventManager.Instance.OnFallOrSlideClicked.AddListener(OnFallOrSlideClicked);
             MyEventManager.Instance.OnAttackClicked.AddListener(OnAttackClicked);
             MyEventManager.Instance.IncreaseSpeed.AddListener(OnSpeedIncrease);
-            MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
         }
 
 
@@ -59,8 +59,6 @@ namespace Project56
                 MyEventManager.Instance.OnFallOrSlideClicked.RemoveListener(OnFallOrSlideClicked);
                 //MyEventManager.Instance.OnAttackClicked.RemoveListener(OnAttackClicked);
                 MyEventManager.Instance.IncreaseSpeed.RemoveListener(OnSpeedIncrease);
-                MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
-
             }
         }
 
@@ -221,21 +219,27 @@ namespace Project56
             yield return new WaitForSeconds(CoolDownTime);
             coolDown = false;
         }
-
-        private void OnPowerupCollected(BasePowerup powerup)
+    
+        public void IncreaseSpeed(FastRunInvincibility powerup)
         {
-            if (powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
+            moveSpeed += powerup.GetSpeed();
+            coroutine = StartCoroutine(ResetSpeed(powerup.GetPowerupDuration(), powerup.GetSpeed()));
+        }
+
+        public void DecreaseSpeed(FastRunInvincibility powerup)
+        {
+            if (coroutine != null)
             {
-                float speed = ((FastRunInvincibility)powerup).GetSpeed();
-                moveSpeed += speed;
-                StartCoroutine(ResetSpeed(powerup.GetPowerupDuration(), speed));
-            }
+                moveSpeed -= powerup.GetSpeed();
+                StopCoroutine(coroutine);
+            }         
         }
 
         private IEnumerator ResetSpeed(float duration, float speed)
         {
             yield return new WaitForSeconds(duration);
             moveSpeed -= speed;
+            coroutine = null;
         }
 
 
