@@ -102,11 +102,6 @@ namespace Project56
                     StopCoroutine(coroutine);
                 LeanTween.color(gameObject, Color.cyan, 0.5f);
                 coroutine = StartCoroutine(DeactivateInvincibility(powerup.GetPowerupDuration()));
-                if (powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
-                {
-                    playerController.DecreaseSpeed((FastRunInvincibility)powerup);
-                    playerController.IncreaseSpeed((FastRunInvincibility)powerup);
-                }
             }
         }
 
@@ -115,7 +110,6 @@ namespace Project56
             yield return new WaitForSeconds(Duration);
             IsInvincible = false;
             LeanTween.color(gameObject, Color.white, 0.5f);
-            coroutine = null;
         }
     }
 }

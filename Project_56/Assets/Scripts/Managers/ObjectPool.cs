@@ -10,6 +10,9 @@ namespace Project56
         public GameObject Platform;
         public GameObject Jump_Block;
         public GameObject Slide_Block;
+        public GameObject InvincibilityGO;
+        public GameObject ScoreMultiplier;
+        public GameObject FastRun;
         public GameObject CoinWave1;
         public GameObject CoinWave2;
         public GameObject CoinWave3;
@@ -18,6 +21,7 @@ namespace Project56
         public int ZombieCount = 5;
         public int BlockCount = 4;
         public int CoinWaveCount = 3;
+        public int PowerUpCount = 2;
 
         public Transform PooledObjectsHolder;
 
@@ -39,6 +43,13 @@ namespace Project56
         public List<GameObject> CoinWaves2 = new List<GameObject>();
         [HideInInspector]
         public List<GameObject> CoinWaves3 = new List<GameObject>();
+
+        [HideInInspector]
+        public List<GameObject> InvincibilityList = new List<GameObject>();
+        [HideInInspector]
+        public List<GameObject> ScoreMultiplierList = new List<GameObject>();
+        [HideInInspector]
+        public List<GameObject> FastRunInvincibilityList = new List<GameObject>();
 
         public bool shouldExpand = false;
         private WaitForSeconds wait = new WaitForSeconds(0.001f);
@@ -70,6 +81,12 @@ namespace Project56
                 Total += CoinWaveCount;
             if (CoinWaves3 != null)
                 Total += CoinWaveCount;
+            if (InvincibilityGO != null)
+                Total += PowerUpCount;
+            if (FastRun != null)
+                Total += PowerUpCount;
+            if (ScoreMultiplier != null)
+                Total += PowerUpCount;
             return Total;
         }
 
@@ -157,6 +174,43 @@ namespace Project56
                     gameObject.name = "CoinWave 3-" + i;
                     gameObject.SetActive(false);
                     CoinWaves3.Add(gameObject);
+                    MyEventManager.Instance.OnObjectInstantiated.Dispatch();
+                    yield return wait;
+                }
+            }
+            if (InvincibilityGO != null)
+            {
+                for (int i = 0; i < PowerUpCount; i++)
+                {
+                    GameObject gameObject = Instantiate(InvincibilityGO, PooledObjectsHolder);
+                    gameObject.name = "PowerUpInv" + i;
+                    gameObject.SetActive(false);
+                    InvincibilityList.Add(gameObject);
+                    MyEventManager.Instance.OnObjectInstantiated.Dispatch();
+                    yield return wait;
+                }
+            }
+            if (ScoreMultiplier != null)
+            {
+                for (int i = 0; i < PowerUpCount; i++)
+                {
+                    GameObject gameObject = Instantiate(ScoreMultiplier, PooledObjectsHolder);
+                    gameObject.name = "PowerUpScore" + i;
+                    gameObject.SetActive(false);
+                    ScoreMultiplierList.Add(gameObject);
+                    MyEventManager.Instance.OnObjectInstantiated.Dispatch();
+                    yield return wait;
+                }
+            }
+
+            if (FastRun != null)
+            {
+                for (int i = 0; i < PowerUpCount; i++)
+                {
+                    GameObject gameObject = Instantiate(FastRun, PooledObjectsHolder);
+                    gameObject.name = "PowerUpFast" + i;
+                    gameObject.SetActive(false);
+                    FastRunInvincibilityList.Add(gameObject);
                     MyEventManager.Instance.OnObjectInstantiated.Dispatch();
                     yield return wait;
                 }
@@ -252,6 +306,50 @@ namespace Project56
                 GameObject gameObject = Instantiate(Jump_Block);
                 gameObject.SetActive(false);
                 JumpBlocks.Add(gameObject);
+                return gameObject;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public GameObject GetPowerUp(PowerupType type)
+        {
+            List<GameObject> PowerUps;
+            GameObject powerup;
+
+            switch (type)
+            {
+                case PowerupType.Invincibility:
+                    PowerUps = InvincibilityList;
+                    powerup = InvincibilityGO;
+                    break;
+                case PowerupType.ScoreMultiplier:
+                    PowerUps = ScoreMultiplierList;
+                    powerup = ScoreMultiplier;
+                    break;
+                case PowerupType.FastRunInvincibility:
+                    PowerUps = FastRunInvincibilityList;
+                    powerup = FastRun;
+                    break;
+                default:
+                    PowerUps = InvincibilityList;
+                    powerup = InvincibilityGO;
+                    break;
+            }
+            foreach (GameObject go in PowerUps)
+            {
+                if (!go.activeInHierarchy)
+                {
+                    return go;
+                }
+            }
+            if (shouldExpand)
+            {
+                GameObject gameObject = Instantiate(powerup);
+                gameObject.SetActive(false);
+                PowerUps.Add(gameObject);
                 return gameObject;
             }
             else

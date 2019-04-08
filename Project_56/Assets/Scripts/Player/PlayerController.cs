@@ -14,7 +14,7 @@ namespace Project56
         private bool sliding;
         public LayerMask whatIsGround;
 
-        public float moveSpeed = 3;
+        public float speed,moveSpeed = 3;
         public float jumpForce = 17;
         public float fallGravity = 15;
         public float maxSpeed = 15f;
@@ -48,6 +48,7 @@ namespace Project56
             MyEventManager.Instance.OnFallOrSlideClicked.AddListener(OnFallOrSlideClicked);
             MyEventManager.Instance.OnAttackClicked.AddListener(OnAttackClicked);
             MyEventManager.Instance.IncreaseSpeed.AddListener(OnSpeedIncrease);
+            MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
         }
 
 
@@ -58,6 +59,7 @@ namespace Project56
                 MyEventManager.Instance.OnJumpClicked.RemoveListener(Jump);
                 MyEventManager.Instance.OnFallOrSlideClicked.RemoveListener(OnFallOrSlideClicked);
                 //MyEventManager.Instance.OnAttackClicked.RemoveListener(OnAttackClicked);
+                MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
                 MyEventManager.Instance.IncreaseSpeed.RemoveListener(OnSpeedIncrease);
             }
         }
@@ -73,6 +75,7 @@ namespace Project56
             player = GetComponent<Player>();
             //cameraController = Camera.main.GetComponent<CameraController>();
             gravity = RunnerRigidBody.gravityScale;
+            speed = moveSpeed;
 
             MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Right);
         }
@@ -219,29 +222,30 @@ namespace Project56
             yield return new WaitForSeconds(CoolDownTime);
             coolDown = false;
         }
-    
-        public void IncreaseSpeed(FastRunInvincibility powerup)
-        {
-            moveSpeed += powerup.GetSpeed();
-            coroutine = StartCoroutine(ResetSpeed(powerup.GetPowerupDuration(), powerup.GetSpeed()));
-        }
 
-        public void DecreaseSpeed(FastRunInvincibility powerup)
-        {
-            if (coroutine != null)
-            {
-                moveSpeed -= powerup.GetSpeed();
-                StopCoroutine(coroutine);
-            }         
-        }
-
-        private IEnumerator ResetSpeed(float duration, float speed)
+        private IEnumerator IEResetSpeed(float duration)
         {
             yield return new WaitForSeconds(duration);
-            moveSpeed -= speed;
-            coroutine = null;
+            ResetSpeed();
         }
 
+        private void ResetSpeed()
+        {
+            moveSpeed = speed;
+        }
+
+        private void OnPowerupCollected(BasePowerup powerup)
+        {
+            if (powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
+            {
+                if (coroutine != null)
+                    StopCoroutine(coroutine);
+                ResetSpeed();
+                moveSpeed += ((FastRunInvincibility)powerup).GetSpeed();
+                coroutine = StartCoroutine(IEResetSpeed(powerup.GetPowerupDuration()));
+
+            }
+        }
 
         private void OnFallOrSlideClicked()
         {
@@ -270,6 +274,7 @@ namespace Project56
                 {
                     moveSpeed -= speedIncreaseRate;
                 }
+                speed = moveSpeed;
             }
         }
 
@@ -285,7 +290,7 @@ namespace Project56
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if(collision.gameObject.CompareTag(GameStrings.Platform))
+            if (collision.gameObject.CompareTag(GameStrings.Platform))
             {
                 grounded = true;
             }
