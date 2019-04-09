@@ -9,18 +9,21 @@ namespace Project56
     [RequireComponent(typeof(Animator))]
     public class PlayerController : MonoBehaviour
     {
-        bool coolDown;
         public bool grounded;
-        private bool sliding;
-        public LayerMask whatIsGround;
-
-        public float speed,moveSpeed = 3;
+        public float speed, moveSpeed = 3;
         public float jumpForce = 17;
         public float fallGravity = 15;
         public float maxSpeed = 15f;
         public float speedIncreaseRate = 0.05f;
-
         public float slidingInterval = 0.5f;
+        public float SwipeDetectionSensitivity;
+        public LayerMask whatIsGround;
+
+        private bool coolDown;
+        private bool sliding;
+        private float CoolDownTime = 3f;
+        private float gravity;
+        private int m_MoveDirection;
         private Collider2D RunnerCollider;
         private Rigidbody2D RunnerRigidBody;
         private Animator RunnerAnimator;
@@ -28,20 +31,15 @@ namespace Project56
         private Vector2 m_FirstPressPos;
         private Vector2 m_SecondPressPos;
         private Vector2 m_CurrentSwipe;
-        private int m_MoveDirection;
-        //   private CameraController cameraController;
-
-        private float gravity;
-        public float SwipeDetectionSensitivity = 2;
-        float CoolDownTime = 3f;
+        private Coroutine coroutine;
 
         //Attack variable
         public float swingCoolDown = 1; //player can only once per second
         private float lastSwing;
         private Player player; //to know if playerAttacked
 
-        public Coroutine coroutine;
 
+        #region Life Cycle
         private void OnEnable()
         {
             MyEventManager.Instance.OnJumpClicked.AddListener(Jump);
@@ -66,6 +64,7 @@ namespace Project56
 
         private void Start()
         {
+            SwipeDetectionSensitivity = Screen.width / 30f;
             coolDown = false;
             //initialize the component variables by searching for all needed components using GetComponent
             RunnerCollider = GetComponent<Collider2D>();
@@ -100,53 +99,17 @@ namespace Project56
             RunnerAnimator.SetBool("Grounded", grounded);
         }
 
-        private void Jump()
+        private void OnCollisionEnter2D(Collision2D collision)
         {
-            //Debug.Log("Grounded - " + grounded);
-            if (grounded || sliding)
+            if (collision.gameObject.CompareTag(GameStrings.Platform))
             {
-                grounded = false;
-                if (sliding)
-                {
-                    sliding = false;
-                    RunnerAnimator.SetBool("Sliding", sliding);
-                }
-                if (RunnerRigidBody.gravityScale > gravity)
-                    RunnerRigidBody.gravityScale = gravity;//resetting gravity
-
-                RunnerRigidBody.velocity = new Vector2(RunnerRigidBody.velocity.x, jumpForce);
+                grounded = true;
             }
+            
         }
+        #endregion
 
-        private void FallOrSlide()
-        {
-            if (!grounded)
-            {
-                RunnerRigidBody.gravityScale = fallGravity;
-
-            }
-            if (grounded)
-            {
-                RunnerRigidBody.gravityScale = gravity;
-                sliding = true;
-                RunnerAnimator.SetBool("Sliding", sliding);
-                Invoke("SetSlidingOff", slidingInterval);
-            }
-
-        }
-
-        private void Attack()
-        {
-            if (Time.time - lastSwing >= swingCoolDown)
-            {
-                RunnerWeaponAnimator.SetTrigger("Attack");
-                lastSwing = Time.time;
-                player.attacked = true;
-                Invoke("SetAttackOff", RunnerWeaponAnimator.GetCurrentAnimatorStateInfo(0).length);
-
-            }
-
-        }
+        #region SWIPE
 
         private void MouseSwipe()
         {
@@ -223,17 +186,59 @@ namespace Project56
             coolDown = false;
         }
 
-        private IEnumerator IEResetSpeed(float duration)
+        #endregion
+
+        #region Player Movements
+        private void Jump()
         {
-            yield return new WaitForSeconds(duration);
-            ResetSpeed();
+            if (grounded || sliding)
+            {
+                grounded = false;
+                if (sliding)
+                {
+                    sliding = false;
+                    RunnerAnimator.SetBool("Sliding", sliding);
+                }
+                if (RunnerRigidBody.gravityScale > gravity)
+                    RunnerRigidBody.gravityScale = gravity;//resetting gravity
+
+                RunnerRigidBody.velocity = new Vector2(RunnerRigidBody.velocity.x, jumpForce);
+            }
         }
 
-        private void ResetSpeed()
+        private void FallOrSlide()
         {
-            moveSpeed = speed;
+            if (!grounded)
+            {
+                RunnerRigidBody.gravityScale = fallGravity;
+
+            }
+            if (grounded)
+            {
+                RunnerRigidBody.gravityScale = gravity;
+                sliding = true;
+                RunnerAnimator.SetBool("Sliding", sliding);
+                Invoke("SetSlidingOff", slidingInterval);
+            }
+
         }
 
+        private void Attack()
+        {
+            if (Time.time - lastSwing >= swingCoolDown)
+            {
+                RunnerWeaponAnimator.SetTrigger("Attack");
+                lastSwing = Time.time;
+                player.attacked = true;
+                Invoke("SetAttackOff", RunnerWeaponAnimator.GetCurrentAnimatorStateInfo(0).length);
+
+            }
+
+        }
+
+        #endregion
+
+        #region Listeners
         private void OnPowerupCollected(BasePowerup powerup)
         {
             if (powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
@@ -257,11 +262,6 @@ namespace Project56
             Attack();
         }
 
-        private void SetAttackOff()
-        {
-            player.attacked = false;
-        }
-
         private void OnSpeedIncrease()
         {
             if (Mathf.Abs(moveSpeed) < maxSpeed)
@@ -278,6 +278,14 @@ namespace Project56
             }
         }
 
+        #endregion
+
+        #region Other Methods
+        private void SetAttackOff()
+        {
+            player.attacked = false;
+        }
+
         private void SetSlidingOff()
         {
             if (sliding)
@@ -288,13 +296,16 @@ namespace Project56
 
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private IEnumerator IEResetSpeed(float duration)
         {
-            if (collision.gameObject.CompareTag(GameStrings.Platform))
-            {
-                grounded = true;
-            }
+            yield return new WaitForSeconds(duration);
+            ResetSpeed();
         }
 
+        private void ResetSpeed()
+        {
+            moveSpeed = speed;
+        }
+        #endregion
     }
 }

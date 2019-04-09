@@ -5,7 +5,7 @@ namespace Project56
 {
     public class PowerupController : MonoBehaviour
     {
-        private float WaitTime = 10f;
+        private float WaitTime = 25f;
 
         private void Start()
         {

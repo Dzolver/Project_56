@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlideBlock : BlockBase
+public class SlideBlock : MonoBehaviour
 {
-    //public GameObject pivot;
-
     private void OnEnable()
     {
         ToLeft();

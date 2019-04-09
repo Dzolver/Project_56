@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +12,7 @@ namespace Project56
         public bool attacked;
         private bool IsInvincible = false;
 
+        List<GameObject> blocks = new List<GameObject>();
         Coroutine coroutine;
         PlayerController playerController;
 
@@ -74,13 +76,14 @@ namespace Project56
                 }
                 else if (collision.gameObject.CompareTag(GameStrings.Block))
                 {
-                    collision.gameObject.GetComponent<BlockBase>().Deactivate();
+                    playerController.grounded = true;
                 }
             }
         }
 
         private void GameOver()
         {
+            Debug.Log("Game over");
             //Deactivate();
             //SceneManager.LoadScene(3);
         }
