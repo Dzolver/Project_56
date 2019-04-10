@@ -4,22 +4,23 @@ using UnityEngine;
 public class PlatformGenerator : MonoBehaviour
 {
     public Transform startPoint;
-    public float CurrentPlatformWidth, LeftPlatformWidth, RightPlatformWidth;
+    public float CurrentPlatformWidth, smallerWidth;
     [SerializeField]
     private Platform CurrentPlatform, LeftPlatform, RightPlatform;
 
     private void Start()
     {
 
-        CurrentPlatform = ObjectPool.Instance.GetPlatform().GetComponent<Platform>();
-        CurrentPlatformWidth = CurrentPlatform.gameObject.GetComponent<BoxCollider2D>().size.x;
+        CurrentPlatform = ObjectPool.Instance.GetPlatform(1).GetComponent<Platform>(); ;
         CurrentPlatform.ActivateAndSetPosition(startPoint.localPosition);
 
-        LeftPlatform = ObjectPool.Instance.GetPlatform().GetComponent<Platform>();
-        LeftPlatform.ActivateAndSetPosition(new Vector2(startPoint.position.x - CurrentPlatformWidth, startPoint.position.y));
+        LeftPlatform = GetPlatform();
+        SetSmallerWidth(LeftPlatform, CurrentPlatform);
+        LeftPlatform.ActivateAndSetPosition(new Vector2(startPoint.position.x - smallerWidth, startPoint.position.y));
 
-        RightPlatform = ObjectPool.Instance.GetPlatform().GetComponent<Platform>();
-        RightPlatform.ActivateAndSetPosition(new Vector2(startPoint.position.x + CurrentPlatformWidth, startPoint.position.y));
+        RightPlatform = GetPlatform();
+        SetSmallerWidth(RightPlatform, CurrentPlatform);
+        RightPlatform.ActivateAndSetPosition(new Vector2(startPoint.position.x + smallerWidth, startPoint.position.y));
 
     }
 
@@ -32,27 +33,44 @@ public class PlatformGenerator : MonoBehaviour
 
     }
 
+    private Platform GetPlatform()
+    {
+        return ObjectPool.Instance.GetPlatform(Random.Range(1, 4)).GetComponent<Platform>();
+    }
+
+    private void SetSmallerWidth(Platform platform1, Platform platform2)
+    {
+        if (platform1.GetComponent<BoxCollider2D>().size.x < platform2.GetComponent<BoxCollider2D>().size.x)
+        {
+            smallerWidth = platform1.GetComponent<BoxCollider2D>().size.x;
+        }
+        else
+        {
+            smallerWidth = platform2.GetComponent<BoxCollider2D>().size.x;
+        }
+    }
+
     private void ActivateRightPlatform()
     {
-        RightPlatformWidth = RightPlatform.gameObject.GetComponent<BoxCollider2D>().size.x;
-        Platform platform = ObjectPool.Instance.GetPlatform().GetComponent<Platform>();
-        platform.ActivateAndSetPosition(new Vector2(RightPlatform.transform.position.x + RightPlatformWidth, startPoint.position.y));
+        Platform platform = GetPlatform();
+        SetSmallerWidth(platform, RightPlatform);
+        platform.ActivateAndSetPosition(new Vector2(RightPlatform.transform.position.x + smallerWidth, startPoint.position.y));
         LeftPlatform.GetComponent<Platform>().Deactivate();
         LeftPlatform = CurrentPlatform;
         CurrentPlatform = RightPlatform;
         RightPlatform = platform;
-        CurrentPlatformWidth = RightPlatformWidth;
+        CurrentPlatformWidth = CurrentPlatform.gameObject.GetComponent<BoxCollider2D>().size.x;
     }
 
     private void ActivateLeftPlatform()
     {
-        LeftPlatformWidth = LeftPlatform.gameObject.GetComponent<BoxCollider2D>().size.x;
-        Platform platform = ObjectPool.Instance.GetPlatform().GetComponent<Platform>();
-        platform.ActivateAndSetPosition(new Vector2(LeftPlatform.transform.position.x - LeftPlatformWidth, startPoint.position.y));
+        Platform platform = GetPlatform();
+        SetSmallerWidth(platform, LeftPlatform);
+        platform.ActivateAndSetPosition(new Vector2(LeftPlatform.transform.position.x - smallerWidth, startPoint.position.y));
         RightPlatform.GetComponent<Platform>().Deactivate();
         RightPlatform = CurrentPlatform;
         CurrentPlatform = LeftPlatform;
         LeftPlatform = platform;
-        CurrentPlatformWidth = LeftPlatformWidth;
+        CurrentPlatformWidth = CurrentPlatform.gameObject.GetComponent<BoxCollider2D>().size.x;
     }
 }

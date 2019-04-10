@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IPlayer
 {
-    void OnDie();
+    //void OnDie();
 
     void Deactivate();
 

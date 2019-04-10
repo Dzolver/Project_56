@@ -10,7 +10,7 @@ namespace Project56
     public class PlayerController : MonoBehaviour
     {
         public bool grounded;
-        public float speed, moveSpeed = 3;
+        public float moveSpeed = 3;
         public float jumpForce = 17;
         public float fallGravity = 15;
         public float maxSpeed = 15f;
@@ -74,7 +74,6 @@ namespace Project56
             player = GetComponent<Player>();
             //cameraController = Camera.main.GetComponent<CameraController>();
             gravity = RunnerRigidBody.gravityScale;
-            speed = moveSpeed;
 
             MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Right);
         }
@@ -86,7 +85,7 @@ namespace Project56
             //returns true or false whether the collider is touching another collider containing the layer called 'Ground'
             //grounded = Physics2D.IsTouchingLayers(RunnerCollider, whatIsGround);
             //Character will move in a direction with each frame
-            RunnerRigidBody.velocity = new Vector2(moveSpeed, RunnerRigidBody.velocity.y);
+            RunnerRigidBody.velocity = new Vector2(moveSpeed * (int)GameData.Instance.direction, RunnerRigidBody.velocity.y);
             GameData.Instance.RunnerVelocity = RunnerRigidBody.velocity;
 
             if (Input.GetKeyDown(KeyCode.Space))
@@ -105,7 +104,7 @@ namespace Project56
             {
                 grounded = true;
             }
-            
+
         }
         #endregion
 
@@ -164,17 +163,18 @@ namespace Project56
 
             if (m_CurrentSwipe.x < 0)
             {
-                RunnerRigidBody.velocity = Vector2.zero;
-                moveSpeed = -Mathf.Abs(moveSpeed);
-                transform.localRotation = new Quaternion(0, 180, 0, transform.rotation.w);
                 MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Left);
+                RunnerRigidBody.velocity = Vector2.zero;
+                // moveSpeed = -Mathf.Abs(moveSpeed);
+                transform.localRotation = new Quaternion(0, 180, 0, transform.rotation.w);
 
             }
             else if (m_CurrentSwipe.x > 0/* && (currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)*/)
             {
-                moveSpeed = Mathf.Abs(moveSpeed);
-                transform.localRotation = Quaternion.identity;
                 MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Right);
+                //moveSpeed = Mathf.Abs(moveSpeed);
+                transform.localRotation = Quaternion.identity;
+
             }
             coolDown = true;
             StartCoroutine(WaitForCoolDown());
@@ -245,9 +245,8 @@ namespace Project56
             {
                 if (coroutine != null)
                     StopCoroutine(coroutine);
-                ResetSpeed();
                 moveSpeed += ((FastRunInvincibility)powerup).GetSpeed();
-                coroutine = StartCoroutine(IEResetSpeed(powerup.GetPowerupDuration()));
+                coroutine = StartCoroutine(IEResetSpeed(powerup.GetPowerupDuration(), ((FastRunInvincibility)powerup).GetSpeed()));
 
             }
         }
@@ -266,15 +265,7 @@ namespace Project56
         {
             if (Mathf.Abs(moveSpeed) < maxSpeed)
             {
-                if (moveSpeed >= 0)
-                {
-                    moveSpeed += speedIncreaseRate;
-                }
-                else
-                {
-                    moveSpeed -= speedIncreaseRate;
-                }
-                speed = moveSpeed;
+                moveSpeed += speedIncreaseRate;
             }
         }
 
@@ -296,15 +287,11 @@ namespace Project56
 
         }
 
-        private IEnumerator IEResetSpeed(float duration)
+        private IEnumerator IEResetSpeed(float duration, float speed)
         {
+            Debug.Log("Coroutine started");
             yield return new WaitForSeconds(duration);
-            ResetSpeed();
-        }
-
-        private void ResetSpeed()
-        {
-            moveSpeed = speed;
+            moveSpeed -= speed;
         }
         #endregion
     }

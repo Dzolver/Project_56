@@ -10,4 +10,5 @@ public class GameStrings  {
     public static string Weapon = "Weapon";
     public static string MainCamera = "MainCamera";
     public static string Platform = "Platform";
+    public static string PlatformParent = "PlatformParent";
 }

@@ -9,6 +9,7 @@ namespace Project56
         public GameObject Zombie;
         public GameObject Platform1;
         public GameObject Platform2;
+        public GameObject Platform3;
         public GameObject InvincibilityGO;
         public GameObject ScoreMultiplier;
         public GameObject FastRun;
@@ -88,13 +89,16 @@ namespace Project56
                 }
             }
 
-            for (int i = 0; i < PlatformCount * 2; i++)
+            for (int i = 0; i < PlatformCount * 3; i++)
             {
                 GameObject gameObject;
                 if (i < 3)
                     gameObject = Instantiate(Platform1, PooledObjectsHolder);
-                else
+                else if (i < 6)
                     gameObject = Instantiate(Platform2, PooledObjectsHolder);
+                else
+                    gameObject = Instantiate(Platform3, PooledObjectsHolder);
+                gameObject.name = "Platform - " + i;
                 gameObject.SetActive(false);
                 Platforms.Add(gameObject);
                 MyEventManager.Instance.OnObjectInstantiated.Dispatch();
@@ -180,8 +184,15 @@ namespace Project56
             }
         }
 
-        public GameObject GetPlatform()
+        public GameObject GetPlatform(int id)
         {
+            foreach (GameObject Platform in Platforms)
+            {
+                if (!Platform.activeInHierarchy && Platform.GetComponent<Platform>().GetPlatformId() == id)
+                {
+                    return Platform;
+                }
+            }
             foreach (GameObject Platform in Platforms)
             {
                 if (!Platform.activeInHierarchy)
@@ -189,20 +200,8 @@ namespace Project56
                     return Platform;
                 }
             }
-            if (shouldExpand)
-            {
-                Debug.Log("Creating platform in heirarchy");
+            return null;
 
-                GameObject gameObject = Instantiate(Platform1);
-                gameObject.SetActive(false);
-                Platforms.Add(gameObject);
-                return gameObject;
-            }
-            else
-            {
-                Debug.Log("Getting Null");
-                return null;
-            }
         }
 
         public GameObject GetPowerUp(PowerupType type)

@@ -16,16 +16,6 @@ namespace Project56
         Coroutine coroutine;
         PlayerController playerController;
 
-        private void Start()
-        {
-            playerController = GetComponent<PlayerController>();
-        }
-
-        public void ActivateAndSetPosition(Vector3 vector3)
-        {
-            throw new NotImplementedException();
-        }
-
         private void OnEnable()
         {
             MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
@@ -39,15 +29,22 @@ namespace Project56
             }
         }
 
-        public void Deactivate()
+        private void Start()
         {
-            LeanTween.color(gameObject, Color.white, 0.1f);
-            gameObject.SetActive(false);
-            gameObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+            playerController = GetComponent<PlayerController>();
         }
 
-        public void OnDie()
+        private void OnTriggerEnter2D(Collider2D collision)
         {
+            if (collision.CompareTag(GameStrings.Powerup))
+            {
+                collision.gameObject.GetComponent<BasePowerup>().OnPowerupCollected();
+            }
+            if (collision.CompareTag(GameStrings.PlatformParent))
+            {
+                // GameOver();
+                SceneManager.LoadScene(3);
+            }
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -81,6 +78,18 @@ namespace Project56
             }
         }
 
+        public void ActivateAndSetPosition(Vector3 vector3)
+        {
+            throw new NotImplementedException();
+        }
+      
+        public void Deactivate()
+        {
+            LeanTween.color(gameObject, Color.white, 0.1f);
+            gameObject.SetActive(false);
+            gameObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        }
+
         private void GameOver()
         {
             Debug.Log("Game over");
@@ -88,14 +97,7 @@ namespace Project56
             //SceneManager.LoadScene(3);
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.CompareTag(GameStrings.Powerup))
-            {
-                collision.gameObject.GetComponent<BasePowerup>().OnPowerupCollected();
-            }
-        }
-
+        
         private void OnPowerupCollected(BasePowerup powerup)
         {
             if (powerup.GetPowerupType() == PowerupType.Invincibility || powerup.GetPowerupType() == PowerupType.FastRunInvincibility)

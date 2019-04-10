@@ -21,7 +21,8 @@ namespace Project56
                 yield return new WaitForSeconds(WaitTime);
                 int random = Random.Range(1, 4);
                 go = ObjectPool.Instance.GetPowerUp((PowerupType)random);
-                go.GetComponent<BasePowerup>().ActivateAndSetPosition(new Vector2(GameData.Instance.GetNextObjectPosX(), -2.6f));
+                Vector2 nextPos = new Vector2(GameData.Instance.GetNextObjectPosX(), -2.6f);
+                go.GetComponent<BasePowerup>().ActivateAndSetPosition(nextPos);
 
             }
 

@@ -56,15 +56,12 @@ namespace Project56
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            Debug.Log("Trigger with - " + collision.gameObject.tag);
-
             if (collision.gameObject.CompareTag(GameStrings.MainCamera))
             {
                 Deactivate();
             }
             if (collision.gameObject.CompareTag(GameStrings.Weapon))
             {
-                Debug.Log("Hit");
                 GameData.Instance.AddKills();
                 Deactivate();
             }

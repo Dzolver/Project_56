@@ -7,4 +7,6 @@ public interface IPlatform
     void ActivateAndSetPosition(Vector3 position);
 
     void Deactivate();
+
+    int GetPlatformId();
 }
