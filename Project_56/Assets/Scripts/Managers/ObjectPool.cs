@@ -7,9 +7,7 @@ namespace Project56
     public class ObjectPool : SingletonMonoBehaviour<ObjectPool>
     {
         public GameObject Zombie;
-        public GameObject Platform1;
-        public GameObject Platform2;
-        public GameObject Platform3;
+        public GameObject[] PlatformTypes;
         public GameObject InvincibilityGO;
         public GameObject ScoreMultiplier;
         public GameObject FastRun;
@@ -17,7 +15,7 @@ namespace Project56
         public GameObject CoinWave2;
         public GameObject CoinWave3;
 
-        public int PlatformCount = 3;
+        public int PlatformCount = 2;
         public int ZombieCount = 5;
         public int CoinWaveCount = 3;
         public int PowerUpCount = 2;
@@ -89,20 +87,18 @@ namespace Project56
                 }
             }
 
-            for (int i = 0; i < PlatformCount * 3; i++)
+            if (PlatformTypes != null)
             {
-                GameObject gameObject;
-                if (i < 3)
-                    gameObject = Instantiate(Platform1, PooledObjectsHolder);
-                else if (i < 6)
-                    gameObject = Instantiate(Platform2, PooledObjectsHolder);
-                else
-                    gameObject = Instantiate(Platform3, PooledObjectsHolder);
-                gameObject.name = "Platform - " + i;
-                gameObject.SetActive(false);
-                Platforms.Add(gameObject);
-                MyEventManager.Instance.OnObjectInstantiated.Dispatch();
-                yield return wait;
+                for (int i = 0; i < PlatformCount * PlatformTypes.Length; i++)
+                {
+                    GameObject gameObject;
+                    gameObject = Instantiate(PlatformTypes[i / PlatformTypes.Length], PooledObjectsHolder);
+                    gameObject.name = "Platform - " + i;
+                    gameObject.SetActive(false);
+                    Platforms.Add(gameObject);
+                    MyEventManager.Instance.OnObjectInstantiated.Dispatch();
+                    yield return wait;
+                }
             }
 
             if (CoinWave1 != null)

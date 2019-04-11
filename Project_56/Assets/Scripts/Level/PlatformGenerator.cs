@@ -35,7 +35,7 @@ public class PlatformGenerator : MonoBehaviour
 
     private Platform GetPlatform()
     {
-        return ObjectPool.Instance.GetPlatform(Random.Range(1, 4)).GetComponent<Platform>();
+        return ObjectPool.Instance.GetPlatform(Random.Range(1, 5)).GetComponent<Platform>();
     }
 
     private void SetSmallerWidth(Platform platform1, Platform platform2)
