@@ -17,6 +17,7 @@ namespace Project56
         //public MyEvent<GameState> UpdateState = new MyEvent<GameState>();
         // public MyEvent OnGameStateChanged = new MyEvent();
         public MyEvent<BasePowerup> OnPowerupCollected = new MyEvent<BasePowerup>();
+        public MyEvent<BasePowerup> OnPowerupExhausted = new MyEvent<BasePowerup>();
         public MyEvent<CollectibleType> OnCollectibleCollected = new MyEvent<CollectibleType>();
     }
 }

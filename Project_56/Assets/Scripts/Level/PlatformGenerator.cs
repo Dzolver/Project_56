@@ -54,7 +54,7 @@ public class PlatformGenerator : MonoBehaviour
     {
         Platform platform = GetPlatform();
         SetSmallerWidth(platform, RightPlatform);
-        platform.ActivateAndSetPosition(new Vector2(RightPlatform.transform.position.x + smallerWidth, startPoint.position.y));
+        platform.ActivateAndSetPosition(new Vector2(RightPlatform.transform.position.x + smallerWidth, startPoint.position.y),GameData.Instance.GetCurrentPoweruup());
         LeftPlatform.GetComponent<Platform>().Deactivate();
         LeftPlatform = CurrentPlatform;
         CurrentPlatform = RightPlatform;
@@ -66,7 +66,7 @@ public class PlatformGenerator : MonoBehaviour
     {
         Platform platform = GetPlatform();
         SetSmallerWidth(platform, LeftPlatform);
-        platform.ActivateAndSetPosition(new Vector2(LeftPlatform.transform.position.x - smallerWidth, startPoint.position.y));
+        platform.ActivateAndSetPosition(new Vector2(LeftPlatform.transform.position.x - smallerWidth, startPoint.position.y), GameData.Instance.GetCurrentPoweruup());
         RightPlatform.GetComponent<Platform>().Deactivate();
         RightPlatform = CurrentPlatform;
         CurrentPlatform = LeftPlatform;

@@ -26,6 +26,8 @@ public class GameData : SingletonMonoBehaviour<GameData>
     public int CurrentScore = 0;
     public int TotalKills = 0;
 
+    private BasePowerup currentPowerup = null;
+
 
     private void Start()
     {
@@ -46,6 +48,9 @@ public class GameData : SingletonMonoBehaviour<GameData>
     private void OnEnable()
     {
         MyEventManager.Instance.ChangeMoveDirection.AddListener(ChangeMoveDirection);
+        MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
+        MyEventManager.Instance.OnPowerupExhausted.AddListener(OnPowerupExhausted);
+
 
     }
 
@@ -54,13 +59,31 @@ public class GameData : SingletonMonoBehaviour<GameData>
         if (MyEventManager.Instance != null)
         {
             MyEventManager.Instance.ChangeMoveDirection.RemoveListener(ChangeMoveDirection);
+            MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
+            MyEventManager.Instance.OnPowerupExhausted.RemoveListener(OnPowerupExhausted);
+
 
         }
+    }
+
+    private void OnPowerupExhausted(BasePowerup powerup)
+    {
+        currentPowerup = null;
+    }
+
+    private void OnPowerupCollected(BasePowerup powerup)
+    {
+        currentPowerup = powerup;
     }
 
     private void ChangeMoveDirection(Direction direction)
     {
         this.direction = direction;
+    }
+
+    public BasePowerup GetCurrentPoweruup()
+    {
+        return currentPowerup;
     }
 
     public float GetNextObjectPosX()
