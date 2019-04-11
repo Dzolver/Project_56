@@ -40,7 +40,10 @@ public class PlatformGenerator : MonoBehaviour
 
     private void SetSmallerWidth(Platform platform1, Platform platform2)
     {
-        if (platform1.GetComponent<BoxCollider2D>().size.x < platform2.GetComponent<BoxCollider2D>().size.x)
+        Debug.Log("Width 1  = " + platform1.GetComponent<BoxCollider2D>().size.x);
+        Debug.Log("Width 2  = " + platform2.GetComponent<BoxCollider2D>().size.x);
+
+        if (platform1.GetComponent<BoxCollider2D>().size.x <= platform2.GetComponent<BoxCollider2D>().size.x)
         {
             smallerWidth = platform1.GetComponent<BoxCollider2D>().size.x;
         }
@@ -54,7 +57,7 @@ public class PlatformGenerator : MonoBehaviour
     {
         Platform platform = GetPlatform();
         SetSmallerWidth(platform, RightPlatform);
-        platform.ActivateAndSetPosition(new Vector2(RightPlatform.transform.position.x + smallerWidth, startPoint.position.y),GameData.Instance.GetCurrentPoweruup());
+        platform.ActivateAndSetPosition(new Vector2(RightPlatform.transform.position.x + smallerWidth, startPoint.position.y));
         LeftPlatform.GetComponent<Platform>().Deactivate();
         LeftPlatform = CurrentPlatform;
         CurrentPlatform = RightPlatform;
@@ -66,7 +69,7 @@ public class PlatformGenerator : MonoBehaviour
     {
         Platform platform = GetPlatform();
         SetSmallerWidth(platform, LeftPlatform);
-        platform.ActivateAndSetPosition(new Vector2(LeftPlatform.transform.position.x - smallerWidth, startPoint.position.y), GameData.Instance.GetCurrentPoweruup());
+        platform.ActivateAndSetPosition(new Vector2(LeftPlatform.transform.position.x - smallerWidth, startPoint.position.y));
         RightPlatform.GetComponent<Platform>().Deactivate();
         RightPlatform = CurrentPlatform;
         CurrentPlatform = LeftPlatform;
