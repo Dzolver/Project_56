@@ -54,6 +54,7 @@ namespace GooglePlayGames.OurUtils
         {
             if (instance != null)
             {
+                
                 return;
             }
 
