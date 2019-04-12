@@ -14,11 +14,15 @@ namespace Project56
         public TextMeshProUGUI Coins;
         private int CoinsCollected = 0;
 
+        public PowerupTimer powerupTimer;
+
         private void Start()
         {
             ShowMenu();
             Time.timeScale = 1;
             CoinsCollected = 0;
+            if(powerupTimer != null)
+            powerupTimer.Deactivate();
         }
 
         private void OnEnable()
@@ -26,6 +30,7 @@ namespace Project56
             MyEventManager.Instance.OnScoreUpdated.AddListener(OnScoreUpdated);
             MyEventManager.Instance.OnEnemyKilled.AddListener(OnEnemyKilled);
             MyEventManager.Instance.OnCoinCollected.AddListener(OnCoinCollected);
+            MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
         }
 
         private void OnDisable()
@@ -35,9 +40,17 @@ namespace Project56
                 MyEventManager.Instance.OnScoreUpdated.RemoveListener(OnScoreUpdated);
                 MyEventManager.Instance.OnEnemyKilled.RemoveListener(OnEnemyKilled);
                 MyEventManager.Instance.OnCoinCollected.RemoveListener(OnCoinCollected);
+                MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
+
 
 
             }
+        }
+
+        private void OnPowerupCollected(BasePowerup powerup)
+        {
+            if (powerupTimer != null)
+                powerupTimer.ActivateTimer(powerup.GetPowerupDuration());
         }
 
         private void OnCoinCollected()
