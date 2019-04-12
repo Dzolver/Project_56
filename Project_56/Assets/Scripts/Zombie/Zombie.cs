@@ -14,16 +14,17 @@ namespace Project56
         public void ActivateAndSetPosition(Vector3 position)
         {
             gameObject.SetActive(true);
-            if (GameData.Instance.direction == Direction.Right)
-                transform.SetPositionAndRotation(position, Quaternion.identity);
-            else
-                transform.SetPositionAndRotation(position, Quaternion.Euler(new Vector3(0, 0, 180)));
+            transform.position = position;
+            if (GameData.Instance.direction == Direction.Left)
+            {
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
+            }
         }
 
         public void Deactivate()
         {
-                gameObject.SetActive(false);
-                gameObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+            gameObject.SetActive(false);
+            gameObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         }
 
         public float GetMoveSpeed()
@@ -48,10 +49,10 @@ namespace Project56
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            
 
-           
-            
+
+
+
         }
 
         private void OnTriggerExit2D(Collider2D collision)

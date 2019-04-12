@@ -10,7 +10,7 @@ namespace Project56
         public MyEvent OnAttackClicked = new MyEvent();
         public MyEvent OnObjectInstantiated = new MyEvent();
         public MyEvent<Direction> ChangeMoveDirection = new MyEvent<Direction>();
-        public MyEvent<int,int> OnScoreUpdated = new MyEvent<int,int>();
+        public MyEvent<int, int> OnScoreUpdated = new MyEvent<int, int>();
         public MyEvent<int> OnEnemyKilled = new MyEvent<int>();
         public MyEvent IncreaseSpeed = new MyEvent();
         public MyEvent OnCoinCollected = new MyEvent();
@@ -19,5 +19,9 @@ namespace Project56
         public MyEvent<BasePowerup> OnPowerupCollected = new MyEvent<BasePowerup>();
         public MyEvent<BasePowerup> OnPowerupExhausted = new MyEvent<BasePowerup>();
         public MyEvent<CollectibleType> OnCollectibleCollected = new MyEvent<CollectibleType>();
+
+        public MyEvent<IZombie> OnEnemyGenerated = new MyEvent<IZombie>();
+        public MyEvent<BasePowerup> OnPowerupGenerated = new MyEvent<BasePowerup>();
+
     }
 }

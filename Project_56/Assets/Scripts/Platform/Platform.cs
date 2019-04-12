@@ -10,11 +10,23 @@ namespace Project56
         [SerializeField]
         int platformId;
 
+        public Transform[] EnemyPoints;
+        public Transform[] PowerUpPoints;
+
+        Queue<Transform> EnemySpawnPoints;
+        Queue<Transform> PowerupSpawnPoints;
+
+        private void Start()
+        {
+            EnemySpawnPoints = new Queue<Transform>(EnemyPoints);
+            PowerupSpawnPoints = new Queue<Transform>(PowerUpPoints);
+        }
+
         public void ActivateAndSetPosition(Vector3 position)
         {
             gameObject.SetActive(true);
             transform.SetPositionAndRotation(position, Quaternion.identity);
-           // OnPowerupCollected(null);
+            // OnPowerupCollected(null);
         }
 
         public void Deactivate()
@@ -27,6 +39,19 @@ namespace Project56
             return platformId;
         }
 
+        public Transform GetEnemyPoint()
+        {
+            Transform t = EnemySpawnPoints.Dequeue();
+            EnemySpawnPoints.Enqueue(t);
+            return t;
+        }
+
+        public Transform GetPowerupPoint()
+        {
+            Transform t = PowerupSpawnPoints.Dequeue();
+            PowerupSpawnPoints.Enqueue(t);
+            return t;
+        }
         // public Collider2D[] InvincibilityColliders;
 
         //private void OnEnable()
@@ -77,6 +102,5 @@ namespace Project56
         //    OnPowerupCollected(powerup);
 
         //}
-
     }
 }

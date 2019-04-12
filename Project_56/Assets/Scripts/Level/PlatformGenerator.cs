@@ -8,6 +8,21 @@ public class PlatformGenerator : MonoBehaviour
     [SerializeField]
     private Platform CurrentPlatform, LeftPlatform, RightPlatform;
 
+    private void OnEnable()
+    {
+        MyEventManager.Instance.OnEnemyGenerated.AddListener(OnEnemyGenerated);
+        MyEventManager.Instance.OnPowerupGenerated.AddListener(OnPowerupGenerated);
+    }
+    private void OnDisable()
+    {
+        if (MyEventManager.Instance != null)
+        {
+            MyEventManager.Instance.OnEnemyGenerated.RemoveListener(OnEnemyGenerated);
+            MyEventManager.Instance.OnPowerupGenerated.RemoveListener(OnPowerupGenerated);
+
+        }
+    }
+
     private void Start()
     {
 
@@ -61,4 +76,25 @@ public class PlatformGenerator : MonoBehaviour
         LeftPlatform = platform;
         CurrentPlatformWidth = CurrentPlatform.gameObject.GetComponent<BoxCollider2D>().size.x;
     }
+
+    private void OnEnemyGenerated(IZombie zombie)
+    {
+        Vector2 pos;
+        if (GameData.Instance.direction == Direction.Right)
+            pos = RightPlatform.GetComponent<Platform>().GetEnemyPoint().position;
+        else
+            pos = LeftPlatform.GetComponent<Platform>().GetEnemyPoint().position;
+        zombie.ActivateAndSetPosition(pos);
+    }
+
+    private void OnPowerupGenerated(BasePowerup powerup)
+    {
+        Vector2 pos;
+        if (GameData.Instance.direction == Direction.Right)
+            pos = RightPlatform.GetComponent<Platform>().GetPowerupPoint().position;
+        else
+            pos = LeftPlatform.GetComponent<Platform>().GetPowerupPoint().position;
+        powerup.ActivateAndSetPosition(pos);
+    }
+
 }

@@ -10,7 +10,7 @@ namespace Project56
         protected PowerupType powerType;
 
         public abstract int GetPowerupDuration();
-       
+
         public PowerupType GetPowerupType()
         {
             return powerType;
@@ -29,7 +29,7 @@ namespace Project56
         public void ActivateAndSetPosition(Vector2 pos)
         {
             gameObject.SetActive(true);
-            gameObject.transform.SetPositionAndRotation(pos, Quaternion.identity);
+            gameObject.transform.position = pos;
         }
     }
 

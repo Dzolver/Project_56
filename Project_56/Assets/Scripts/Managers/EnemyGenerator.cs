@@ -13,13 +13,14 @@ public class EnemyGenerator : MonoBehaviour
 
     private IEnumerator GenerateEnemy()
     {
-        float x, y;
+        //float x, y;
+        yield return new WaitForSeconds(2f);
         while (true)
         {
-            x = GameData.Instance.GetNextObjectPosX();
+            //x = GameData.Instance.GetNextObjectPosX();  y = -4f;
             IZombie zombie = ObjectPool.Instance.GetZombie().GetComponent<IZombie>();
-            y = -4f;
-            zombie.ActivateAndSetPosition(new Vector2(x, y));
+            MyEventManager.Instance.OnEnemyGenerated.Dispatch(zombie);
+            //zombie.ActivateAndSetPosition(new Vector2(x, y));
             yield return new WaitForSeconds(5f);
         }
     }
