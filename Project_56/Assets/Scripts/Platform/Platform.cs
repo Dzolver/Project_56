@@ -10,16 +10,22 @@ namespace Project56
         [SerializeField]
         int platformId;
 
-        public Transform[] EnemyPoints;
-        public Transform[] PowerUpPoints;
+        [SerializeField]
+        Transform[] EnemyPoints;
+        [SerializeField]
+        Transform[] PowerUpPoints;
+        [SerializeField]
+        Transform[] CoinPoints;
 
         Queue<Transform> EnemySpawnPoints;
         Queue<Transform> PowerupSpawnPoints;
+        Queue<Transform> CoinWaveSpawnPoints;
 
         private void Start()
         {
             EnemySpawnPoints = new Queue<Transform>(EnemyPoints);
             PowerupSpawnPoints = new Queue<Transform>(PowerUpPoints);
+            CoinWaveSpawnPoints = new Queue<Transform>(CoinPoints);
         }
 
         public void ActivateAndSetPosition(Vector3 position)
@@ -52,6 +58,15 @@ namespace Project56
             PowerupSpawnPoints.Enqueue(t);
             return t;
         }
+
+        public Transform GetCoinWavePoint()
+        {
+            Transform t = CoinWaveSpawnPoints.Dequeue();
+            CoinWaveSpawnPoints.Enqueue(t);
+            return t;
+        }
+
+
         // public Collider2D[] InvincibilityColliders;
 
         //private void OnEnable()

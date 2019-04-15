@@ -59,7 +59,7 @@ namespace Project56
                     }
                 }
 
-                else if (collision.gameObject.CompareTag(GameStrings.Block))
+                else if (collision.gameObject.CompareTag(GameStrings.JumpBlock) || collision.gameObject.CompareTag(GameStrings.SlideBlock))
                 {
                     GameOver();
                 }
@@ -71,7 +71,7 @@ namespace Project56
                     GameData.Instance.AddKills();
                     collision.gameObject.GetComponent<Zombie>().Deactivate();
                 }
-                else if (collision.gameObject.CompareTag(GameStrings.Block))
+                else if (collision.gameObject.CompareTag(GameStrings.JumpBlock))
                 {
                     playerController.grounded = true;
                 }
@@ -82,7 +82,7 @@ namespace Project56
         {
             throw new NotImplementedException();
         }
-      
+
         public void Deactivate()
         {
             LeanTween.color(gameObject, Color.white, 0.1f);
@@ -97,7 +97,7 @@ namespace Project56
             //SceneManager.LoadScene(3);
         }
 
-        
+
         private void OnPowerupCollected(BasePowerup powerup)
         {
             if (powerup.GetPowerupType() == PowerupType.Invincibility || powerup.GetPowerupType() == PowerupType.FastRunInvincibility)

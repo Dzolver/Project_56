@@ -18,9 +18,7 @@ public class GameData : SingletonMonoBehaviour<GameData>
     public Transform theRunnerTransform;
 
     public Direction direction = Direction.Right; //-1 = left direction, 1= right direction
-    public float CurrentObjectPosX;
-    private float PreviousObjectPosX;
-
+    
     public int ScorePerSecond;
     public float MultiplierPerKill;
     public int CurrentScore = 0;
@@ -31,7 +29,6 @@ public class GameData : SingletonMonoBehaviour<GameData>
 
     private void Start()
     {
-        CurrentObjectPosX = theRunnerTransform.position.x;
         StartCoroutine(IncreaseSpeed());
     }
 
@@ -84,18 +81,6 @@ public class GameData : SingletonMonoBehaviour<GameData>
     public BasePowerup GetCurrentPoweruup()
     {
         return currentPowerup;
-    }
-
-    public float GetNextObjectPosX()
-    {
-        PreviousObjectPosX = CurrentObjectPosX;
-        float distance = UnityEngine.Random.Range(18f, 25f);
-        CurrentObjectPosX = theRunnerTransform.position.x + ((int)direction * distance);
-        if (Mathf.Abs(PreviousObjectPosX - CurrentObjectPosX) < 7f)
-        {
-            CurrentObjectPosX += (int)direction * 7f;
-        }
-        return CurrentObjectPosX;
     }
 
     public void AddKills()

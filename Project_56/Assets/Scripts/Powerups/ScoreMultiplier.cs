@@ -24,7 +24,7 @@ namespace Project56
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if (collision.CompareTag("MainCamera"))
+            if (collision.CompareTag(GameStrings.MainCamera))
             {
                 DeactivatePowerup();
             }

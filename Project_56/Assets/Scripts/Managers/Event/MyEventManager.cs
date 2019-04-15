@@ -22,6 +22,6 @@ namespace Project56
 
         public MyEvent<IZombie> OnEnemyGenerated = new MyEvent<IZombie>();
         public MyEvent<BasePowerup> OnPowerupGenerated = new MyEvent<BasePowerup>();
-
+        public MyEvent<CoinWave> OnCoinWaveGenerated= new MyEvent<CoinWave>();
     }
 }

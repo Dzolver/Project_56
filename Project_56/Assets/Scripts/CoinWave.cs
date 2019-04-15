@@ -6,24 +6,27 @@ using UnityEngine;
 public class CoinWave : MonoBehaviour
 {
 
-    public float length;
-
-    public void ActivateAndSetPosition(Vector2 position)
+    public void ActivateAndSetPosition(Vector2 position, Quaternion rotation)
     {
+        gameObject.transform.SetPositionAndRotation(position, rotation);
         gameObject.SetActive(true);
         foreach (Transform t in GetComponentsInChildren<Transform>(true))
         {
             if (!t.gameObject.activeInHierarchy)
                 t.gameObject.SetActive(true);
-        }
-        gameObject.transform.SetPositionAndRotation(position, Quaternion.identity);
-        StartCoroutine(DeactivateWave());
+        }       
     }
 
-    private IEnumerator DeactivateWave()
+    private void DeactivateWave()
     {
-        yield return new WaitForSeconds(10f);
         gameObject.SetActive(false);
     }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag(GameStrings.MainCamera))
+        {
+            DeactivateWave();
+        }
+    }
 }

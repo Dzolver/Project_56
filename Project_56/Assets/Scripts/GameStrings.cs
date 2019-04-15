@@ -5,7 +5,8 @@ using UnityEngine;
 public class GameStrings  {
 
     public static string Zombie = "Zombie";
-    public static string Block = "Block";
+    public static string JumpBlock = "JumpBlock";
+    public static string SlideBlock = "SlideBlock";
     public static string Powerup = "Powerup";
     public static string Weapon = "Weapon";
     public static string MainCamera = "MainCamera";

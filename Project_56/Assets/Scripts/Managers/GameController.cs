@@ -50,12 +50,10 @@ namespace Project56
             GameObject coinwave;
             while (true)
             {
-                yield return new WaitForSeconds(9f);
+                yield return new WaitForSeconds(10f);
                 int wave = UnityEngine.Random.Range(1, 4);
                 coinwave = ObjectPool.Instance.GetCoinWave(wave);
-                Vector2 pos = new Vector2(GameData.Instance.GetNextObjectPosX(), -0.2f);
-                GameData.Instance.CurrentObjectPosX = pos.x + ((int)GameData.Instance.direction * coinwave.GetComponent<CoinWave>().length);
-                coinwave.GetComponent<CoinWave>().ActivateAndSetPosition(pos);
+                MyEventManager.Instance.OnCoinWaveGenerated.Dispatch(coinwave.GetComponent<CoinWave>());              
             }
         }
 

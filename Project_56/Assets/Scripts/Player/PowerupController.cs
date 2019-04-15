@@ -22,9 +22,6 @@ namespace Project56
                 int random = Random.Range(1, 4);
                 go = ObjectPool.Instance.GetPowerUp((PowerupType)random);
                 MyEventManager.Instance.OnPowerupGenerated.Dispatch(go.GetComponent<BasePowerup>());
-                //Vector2 nextPos = new Vector2(GameData.Instance.GetNextObjectPosX(), -2.6f);
-                //go.GetComponent<BasePowerup>().ActivateAndSetPosition(nextPos);
-
             }
 
         }

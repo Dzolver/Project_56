@@ -12,14 +12,17 @@ public class PlatformGenerator : MonoBehaviour
     {
         MyEventManager.Instance.OnEnemyGenerated.AddListener(OnEnemyGenerated);
         MyEventManager.Instance.OnPowerupGenerated.AddListener(OnPowerupGenerated);
+        MyEventManager.Instance.OnCoinWaveGenerated.AddListener(OnCoinWaveGenerated);
+
     }
+
     private void OnDisable()
     {
         if (MyEventManager.Instance != null)
         {
             MyEventManager.Instance.OnEnemyGenerated.RemoveListener(OnEnemyGenerated);
             MyEventManager.Instance.OnPowerupGenerated.RemoveListener(OnPowerupGenerated);
-
+            MyEventManager.Instance.OnCoinWaveGenerated.RemoveListener(OnCoinWaveGenerated);
         }
     }
 
@@ -41,9 +44,9 @@ public class PlatformGenerator : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (GameData.Instance.theRunnerTransform.position.x - CurrentPlatform.transform.position.x > CurrentPlatformWidth / 2)
+        if (GameData.Instance.theRunnerTransform.position.x - CurrentPlatform.transform.position.x > CurrentPlatformWidth)
             ActivateRightPlatform();
-        else if (CurrentPlatform.transform.position.x - GameData.Instance.theRunnerTransform.position.x > CurrentPlatformWidth / 2)
+        else if (CurrentPlatform.transform.position.x - GameData.Instance.theRunnerTransform.position.x > 0)
             ActivateLeftPlatform();
 
     }
@@ -96,5 +99,22 @@ public class PlatformGenerator : MonoBehaviour
             pos = LeftPlatform.GetComponent<Platform>().GetPowerupPoint().position;
         powerup.ActivateAndSetPosition(pos);
     }
+
+
+    private void OnCoinWaveGenerated(CoinWave coinwave)
+    {
+        Vector2 pos;
+        Quaternion rotation = Quaternion.identity;
+        if (GameData.Instance.direction == Direction.Right)
+            pos = RightPlatform.GetComponent<Platform>().GetCoinWavePoint().position;
+        else
+        {
+            pos = LeftPlatform.GetComponent<Platform>().GetCoinWavePoint().position;
+            rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+        }
+
+        coinwave.ActivateAndSetPosition(pos, rotation);
+    }
+
 
 }

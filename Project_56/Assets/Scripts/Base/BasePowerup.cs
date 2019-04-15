@@ -26,6 +26,7 @@ namespace Project56
         {
             gameObject.SetActive(false);
         }
+
         public void ActivateAndSetPosition(Vector2 pos)
         {
             gameObject.SetActive(true);
