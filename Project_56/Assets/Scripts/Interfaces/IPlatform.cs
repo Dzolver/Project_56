@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IPlatform
+namespace Project56
 {
-    void ActivateAndSetPosition(Vector3 position);
+    public interface IPlatform
+    {
+        void ActivateAndSetPosition(Vector3 position);
 
-    void Deactivate();
+        void Deactivate();
 
-    int GetPlatformId();
+        PlatformType GetPlatformType();
+    }
 }

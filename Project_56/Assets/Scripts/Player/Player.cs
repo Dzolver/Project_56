@@ -55,7 +55,8 @@ namespace Project56
                 {
                     if (!attacked)
                     {
-                        GameOver();
+                        //GameOver();
+                        Debug.Log("Game over");
                     }
                 }
 
@@ -92,9 +93,8 @@ namespace Project56
 
         private void GameOver()
         {
-            Debug.Log("Game over");
-            //Deactivate();
-            //SceneManager.LoadScene(3);
+            Deactivate();
+            SceneManager.LoadScene(3);
         }
 
 

@@ -28,13 +28,12 @@ public class PlatformGenerator : MonoBehaviour
 
     private void Start()
     {
-
-        CurrentPlatform = ObjectPool.Instance.GetPlatform(1).GetComponent<Platform>();
-        CurrentPlatformWidth = CurrentPlatform.GetComponent<BoxCollider2D>().size.x;
+        CurrentPlatform = ObjectPool.Instance.GetPlatform(PlatformType.VeryEasy).GetComponent<Platform>();
         CurrentPlatform.ActivateAndSetPosition(startPoint.localPosition);
+        CurrentPlatformWidth = CurrentPlatform.GetComponent<BoxCollider2D>().size.x - 0.01f;
 
         LeftPlatform = GetPlatform();
-        PlatformWidth = LeftPlatform.GetComponent<BoxCollider2D>().size.x;
+        PlatformWidth = LeftPlatform.GetComponent<BoxCollider2D>().size.x - 0.01f;
         LeftPlatform.ActivateAndSetPosition(new Vector2(startPoint.position.x - PlatformWidth, startPoint.position.y));
 
         RightPlatform = GetPlatform();
@@ -53,12 +52,28 @@ public class PlatformGenerator : MonoBehaviour
 
     private Platform GetPlatform()
     {
-        return ObjectPool.Instance.GetPlatform(Random.Range(1, 5)).GetComponent<Platform>();
+        PlatformType type;
+        if (GameData.Instance.MinutesSinceGame <= 0.5f)
+        {
+            type = (PlatformType)Random.Range((int)PlatformType.VeryEasy, (int)PlatformType.Easy + 1);
+        }
+        else if (GameData.Instance.MinutesSinceGame <= 1.5f)
+        {
+            type = (PlatformType)Random.Range((int)PlatformType.VeryEasy, (int)PlatformType.Average + 1);
+        }
+        else if (GameData.Instance.MinutesSinceGame <= 3f)
+        {
+            type = (PlatformType)Random.Range((int)PlatformType.Easy, (int)PlatformType.Hard + 1);
+        }
+        else
+            type = (PlatformType)Random.Range((int)PlatformType.Average, (int)PlatformType.Hard + 1);
+
+        return ObjectPool.Instance.GetPlatform(type).GetComponent<Platform>();
     }
 
     private void ActivateRightPlatform()
     {
-        PlatformWidth = RightPlatform.GetComponent<BoxCollider2D>().size.x;
+        PlatformWidth = RightPlatform.GetComponent<BoxCollider2D>().size.x - 0.01f;
         Platform platform = GetPlatform();
         platform.ActivateAndSetPosition(new Vector2(RightPlatform.transform.position.x + PlatformWidth, startPoint.position.y));
         LeftPlatform.GetComponent<Platform>().Deactivate();
@@ -71,7 +86,7 @@ public class PlatformGenerator : MonoBehaviour
     private void ActivateLeftPlatform()
     {
         Platform platform = GetPlatform();
-        PlatformWidth = platform.GetComponent<BoxCollider2D>().size.x;
+        PlatformWidth = platform.GetComponent<BoxCollider2D>().size.x - 0.01f;
         platform.ActivateAndSetPosition(new Vector2(LeftPlatform.transform.position.x - PlatformWidth, startPoint.position.y));
         RightPlatform.GetComponent<Platform>().Deactivate();
         RightPlatform = CurrentPlatform;
@@ -83,11 +98,17 @@ public class PlatformGenerator : MonoBehaviour
     private void OnEnemyGenerated(IZombie zombie)
     {
         Vector2 pos;
-        if (GameData.Instance.direction == Direction.Right)
-            pos = RightPlatform.GetComponent<Platform>().GetEnemyPoint().position;
-        else
-            pos = LeftPlatform.GetComponent<Platform>().GetEnemyPoint().position;
+        do
+        {
+            if (GameData.Instance.direction == Direction.Right)
+                pos = RightPlatform.GetComponent<Platform>().GetEnemyPoint().position;
+            else
+                pos = LeftPlatform.GetComponent<Platform>().GetEnemyPoint().position;
+        }
+        while (Mathf.Abs(pos.x - GameData.Instance.theRunnerTransform.position.x) < 10f);
+
         zombie.ActivateAndSetPosition(pos);
+
     }
 
     private void OnPowerupGenerated(BasePowerup powerup)
@@ -105,13 +126,16 @@ public class PlatformGenerator : MonoBehaviour
     {
         Vector2 pos;
         Quaternion rotation = Quaternion.identity;
-        if (GameData.Instance.direction == Direction.Right)
-            pos = RightPlatform.GetComponent<Platform>().GetCoinWavePoint().position;
-        else
+        do
         {
-            pos = LeftPlatform.GetComponent<Platform>().GetCoinWavePoint().position;
-            rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-        }
+            if (GameData.Instance.direction == Direction.Right)
+                pos = RightPlatform.GetComponent<Platform>().GetCoinWavePoint().position;
+            else
+            {
+                pos = LeftPlatform.GetComponent<Platform>().GetCoinWavePoint().position;
+                rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+            }
+        } while (Mathf.Abs(pos.x - GameData.Instance.theRunnerTransform.position.x) < 10f);
 
         coinwave.ActivateAndSetPosition(pos, rotation);
     }

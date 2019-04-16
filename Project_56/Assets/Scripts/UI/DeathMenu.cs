@@ -7,7 +7,8 @@ namespace Project56
     {
         private void Start()
         {
-            ShowMenu();    
+            ShowMenu();
+            ObjectPool.Instance.DeactivateObjects();
         }
 
         public void PlayAgain()

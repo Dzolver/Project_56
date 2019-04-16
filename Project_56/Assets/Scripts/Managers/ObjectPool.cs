@@ -92,7 +92,7 @@ namespace Project56
                 for (int i = 0; i < PlatformCount * PlatformTypes.Length; i++)
                 {
                     GameObject gameObject;
-                    gameObject = Instantiate(PlatformTypes[i / PlatformTypes.Length], PooledObjectsHolder);
+                    gameObject = Instantiate(PlatformTypes[i % PlatformTypes.Length], PooledObjectsHolder);
                     gameObject.name = "Platform - " + i;
                     gameObject.SetActive(false);
                     Platforms.Add(gameObject);
@@ -180,11 +180,11 @@ namespace Project56
             }
         }
 
-        public GameObject GetPlatform(int id)
-        {
+        public GameObject GetPlatform(PlatformType platformType)
+        {            
             foreach (GameObject Platform in Platforms)
             {
-                if (!Platform.activeInHierarchy && Platform.GetComponent<Platform>().GetPlatformId() == id)
+                if (!Platform.activeInHierarchy && Platform.GetComponent<Platform>().GetPlatformType() == platformType)
                 {
                     return Platform;
                 }
@@ -262,6 +262,34 @@ namespace Project56
             else
             {
                 return null;
+            }
+        }
+
+        public void DeactivateObjects()
+        {
+            foreach (GameObject zombie in Zombies)
+            {
+                zombie.SetActive(false);
+            }
+            foreach (GameObject Platform in Platforms)
+            {
+                Platform.SetActive(false);
+            }
+            foreach (GameObject go in Powerups)
+            {
+                go.SetActive(false);
+            }
+            foreach (GameObject cw in CoinWaves1)
+            {
+                cw.SetActive(false);
+            }
+            foreach (GameObject cw in CoinWaves2)
+            {
+                cw.SetActive(false);
+            }
+            foreach (GameObject cw in CoinWaves3)
+            {
+                cw.SetActive(false);
             }
         }
     }

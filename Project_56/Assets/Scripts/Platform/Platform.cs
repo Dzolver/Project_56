@@ -5,10 +5,20 @@ using UnityEngine;
 
 namespace Project56
 {
+    public enum PlatformType
+    {
+        VeryEasy,
+        Easy,
+        Average,
+        Hard,
+        VeryHard
+    }
+
     public class Platform : MonoBehaviour, IPlatform
     {
+
         [SerializeField]
-        int platformId;
+        PlatformType platformType;
 
         [SerializeField]
         Transform[] EnemyPoints;
@@ -40,16 +50,18 @@ namespace Project56
             gameObject.SetActive(false);
         }
 
-        public int GetPlatformId()
+        public PlatformType GetPlatformType()
         {
-            return platformId;
+            return platformType;
         }
 
         public Transform GetEnemyPoint()
         {
+
             Transform t = EnemySpawnPoints.Dequeue();
             EnemySpawnPoints.Enqueue(t);
             return t;
+
         }
 
         public Transform GetPowerupPoint()

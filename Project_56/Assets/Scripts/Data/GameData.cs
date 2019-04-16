@@ -18,18 +18,30 @@ public class GameData : SingletonMonoBehaviour<GameData>
     public Transform theRunnerTransform;
 
     public Direction direction = Direction.Right; //-1 = left direction, 1= right direction
-    
+
     public int ScorePerSecond;
     public float MultiplierPerKill;
     public int CurrentScore = 0;
     public int TotalKills = 0;
-
+    public float MinutesSinceGame = 0f;
+  
     private BasePowerup currentPowerup = null;
 
 
     private void Start()
     {
+        StartCoroutine(IncreaseTime());
         StartCoroutine(IncreaseSpeed());
+    }
+
+    private IEnumerator IncreaseTime()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(30f);
+            MinutesSinceGame += 0.5f;
+            MyEventManager.Instance.OnTimePassed.Dispatch(MinutesSinceGame);
+        }
     }
 
     private IEnumerator IncreaseSpeed()

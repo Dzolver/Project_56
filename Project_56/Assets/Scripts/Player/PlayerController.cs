@@ -14,9 +14,8 @@ namespace Project56
         public float jumpForce = 17;
         public float fallGravity = 15;
         public float maxSpeed = 15f;
-        public float speedIncreaseRate = 0.05f;
-        public float slidingInterval = 0.5f;
-        public float SwipeDetectionSensitivity;
+        public float speedIncreaseRate;
+        public float slidingInterval = 0.5f;         
         public LayerMask whatIsGround;
 
         private bool coolDown;
@@ -32,7 +31,8 @@ namespace Project56
         private Vector2 m_SecondPressPos;
         private Vector2 m_CurrentSwipe;
         private Coroutine coroutine;
-
+        private float SwipeDetectionSensitivity;
+        
         //Attack variable
         public float swingCoolDown = 1; //player can only once per second
         private float lastSwing;
@@ -71,6 +71,7 @@ namespace Project56
             RunnerRigidBody = GetComponent<Rigidbody2D>();
             RunnerAnimator = GetComponent<Animator>();
             RunnerWeaponAnimator = transform.GetChild(0).GetComponent<Animator>();
+            
             player = GetComponent<Player>();
             //cameraController = Camera.main.GetComponent<CameraController>();
             gravity = RunnerRigidBody.gravityScale;

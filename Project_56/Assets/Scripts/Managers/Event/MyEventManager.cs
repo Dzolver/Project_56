@@ -14,6 +14,7 @@ namespace Project56
         public MyEvent<int> OnEnemyKilled = new MyEvent<int>();
         public MyEvent IncreaseSpeed = new MyEvent();
         public MyEvent OnCoinCollected = new MyEvent();
+        public MyEvent<float> OnTimePassed = new MyEvent<float>();
         //public MyEvent<GameState> UpdateState = new MyEvent<GameState>();
         // public MyEvent OnGameStateChanged = new MyEvent();
         public MyEvent<BasePowerup> OnPowerupCollected = new MyEvent<BasePowerup>();
