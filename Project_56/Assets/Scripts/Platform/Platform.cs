@@ -33,9 +33,13 @@ namespace Project56
 
         private void Start()
         {
+            ExtensionMethods.Shuffle(EnemyPoints);
+            ExtensionMethods.Shuffle(PowerUpPoints);
+            ExtensionMethods.Shuffle(CoinPoints);
+
             EnemySpawnPoints = new Queue<Transform>(EnemyPoints);
             PowerupSpawnPoints = new Queue<Transform>(PowerUpPoints);
-            CoinWaveSpawnPoints = new Queue<Transform>(CoinPoints);
+            CoinWaveSpawnPoints = new Queue<Transform>(CoinPoints);           
         }
 
         public void ActivateAndSetPosition(Vector3 position)
