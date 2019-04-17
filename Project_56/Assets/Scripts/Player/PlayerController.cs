@@ -15,7 +15,7 @@ namespace Project56
         public float fallGravity = 15;
         public float maxSpeed = 15f;
         public float speedIncreaseRate;
-        public float slidingInterval = 0.5f;
+        public float slidingInterval = .5f;
         public LayerMask whatIsGround;
 
         private bool coolDown;
@@ -193,11 +193,7 @@ namespace Project56
             if (grounded || sliding)
             {
                 grounded = false;
-                if (sliding)
-                {
-                    sliding = false;
-                    RunnerAnimator.SetBool("Sliding", sliding);
-                }
+                SetSlidingOff();
                 if (RunnerRigidBody.gravityScale > gravity)
                     RunnerRigidBody.gravityScale = gravity;//resetting gravity
 

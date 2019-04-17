@@ -39,11 +39,6 @@ namespace Project56
             {
                 collision.gameObject.GetComponent<BasePowerup>().OnPowerupCollected();
             }
-            if (collision.CompareTag(GameStrings.PlatformParent))
-            {
-                // GameOver();
-                SceneManager.LoadScene(3);
-            }
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
