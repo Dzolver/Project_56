@@ -6,7 +6,7 @@ public interface IZombie
 {
     void Move();
 
-    void ActivateAndSetPosition(Vector3 position);
+    void ActivateAndSetPosition(Vector3 position, Transform Parent);
 
     float GetMoveSpeed();
 

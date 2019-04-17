@@ -27,10 +27,11 @@ namespace Project56
             gameObject.SetActive(false);
         }
 
-        public void ActivateAndSetPosition(Vector2 pos)
+        public void ActivateAndSetPosition(Vector2 pos, Transform parent)
         {
             gameObject.SetActive(true);
             gameObject.transform.position = pos;
+            gameObject.transform.SetParent(parent);
         }
     }
 

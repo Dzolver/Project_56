@@ -62,7 +62,7 @@ namespace Project56
 
                 else if (collision.gameObject.CompareTag(GameStrings.JumpBlock) || collision.gameObject.CompareTag(GameStrings.SlideBlock))
                 {
-                    GameOver();
+                    //GameOver();
                 }
             }
             else

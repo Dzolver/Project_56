@@ -39,7 +39,7 @@ namespace Project56
 
             EnemySpawnPoints = new Queue<Transform>(EnemyPoints);
             PowerupSpawnPoints = new Queue<Transform>(PowerUpPoints);
-            CoinWaveSpawnPoints = new Queue<Transform>(CoinPoints);           
+            CoinWaveSpawnPoints = new Queue<Transform>(CoinPoints);
         }
 
         public void ActivateAndSetPosition(Vector3 position)
@@ -51,6 +51,18 @@ namespace Project56
 
         public void Deactivate()
         {
+            foreach (IZombie z in GetComponentsInChildren<IZombie>())
+            {
+                z.Deactivate();
+            }
+            foreach (CoinWave cw in GetComponentsInChildren<CoinWave>())
+            {
+                cw.DeactivateWave();
+            }
+            foreach (BasePowerup p in GetComponentsInChildren<BasePowerup>())
+            {
+                p.DeactivatePowerup();
+            }
             gameObject.SetActive(false);
         }
 
@@ -61,7 +73,6 @@ namespace Project56
 
         public Transform GetEnemyPoint()
         {
-
             Transform t = EnemySpawnPoints.Dequeue();
             EnemySpawnPoints.Enqueue(t);
             return t;

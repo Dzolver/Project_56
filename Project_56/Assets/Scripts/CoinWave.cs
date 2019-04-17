@@ -6,18 +6,19 @@ using UnityEngine;
 public class CoinWave : MonoBehaviour
 {
 
-    public void ActivateAndSetPosition(Vector2 position, Quaternion rotation)
+    public void ActivateAndSetPosition(Vector2 position, Quaternion rotation, Transform parent)
     {
         gameObject.transform.SetPositionAndRotation(position, rotation);
         gameObject.SetActive(true);
+        gameObject.transform.SetParent(parent);
         foreach (Transform t in GetComponentsInChildren<Transform>(true))
         {
             if (!t.gameObject.activeInHierarchy)
                 t.gameObject.SetActive(true);
-        }       
+        }
     }
 
-    private void DeactivateWave()
+    public void DeactivateWave()
     {
         gameObject.SetActive(false);
     }

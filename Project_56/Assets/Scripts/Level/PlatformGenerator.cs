@@ -98,46 +98,66 @@ public class PlatformGenerator : MonoBehaviour
     private void OnEnemyGenerated(IZombie zombie)
     {
         Vector2 pos;
+        Transform parent;
         do
         {
             if (GameData.Instance.direction == Direction.Right)
+            {
                 pos = RightPlatform.GetComponent<Platform>().GetEnemyPoint().position;
+                parent = RightPlatform.transform;
+            }
             else
+            {
                 pos = LeftPlatform.GetComponent<Platform>().GetEnemyPoint().position;
+                parent = LeftPlatform.transform;
+            }
         }
-        while (Mathf.Abs(pos.x - GameData.Instance.theRunnerTransform.position.x) < 10f);
+        while (Mathf.Abs(pos.x - GameData.Instance.theRunnerTransform.position.x) < 13f);
 
-        zombie.ActivateAndSetPosition(pos);
+        zombie.ActivateAndSetPosition(pos, parent);
 
     }
 
     private void OnPowerupGenerated(BasePowerup powerup)
     {
         Vector2 pos;
+        Transform parent;
         if (GameData.Instance.direction == Direction.Right)
+        {
             pos = RightPlatform.GetComponent<Platform>().GetPowerupPoint().position;
+            parent = RightPlatform.transform;
+        }
         else
+        {
             pos = LeftPlatform.GetComponent<Platform>().GetPowerupPoint().position;
-        powerup.ActivateAndSetPosition(pos);
+            parent = LeftPlatform.transform;
+        }
+        powerup.ActivateAndSetPosition(pos, parent);
     }
 
 
     private void OnCoinWaveGenerated(CoinWave coinwave)
     {
         Vector2 pos;
-        Quaternion rotation = Quaternion.identity;
+        Quaternion rotation;
+        Transform parent;
         do
         {
             if (GameData.Instance.direction == Direction.Right)
+            {
                 pos = RightPlatform.GetComponent<Platform>().GetCoinWavePoint().position;
+                rotation = Quaternion.identity;
+                parent = RightPlatform.transform;
+            }
             else
             {
                 pos = LeftPlatform.GetComponent<Platform>().GetCoinWavePoint().position;
                 rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+                parent = LeftPlatform.transform;
             }
-        } while (Mathf.Abs(pos.x - GameData.Instance.theRunnerTransform.position.x) < 10f);
+        } while (Mathf.Abs(pos.x - GameData.Instance.theRunnerTransform.position.x) < 13f);
 
-        coinwave.ActivateAndSetPosition(pos, rotation);
+        coinwave.ActivateAndSetPosition(pos, rotation, parent);
     }
 
 

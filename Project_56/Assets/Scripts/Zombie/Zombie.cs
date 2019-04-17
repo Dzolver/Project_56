@@ -11,7 +11,7 @@ namespace Project56
         //private Rigidbody2D m_Rigidbody;
         private float m_MoveSpeed = 2.0f;
 
-        public void ActivateAndSetPosition(Vector3 position)
+        public void ActivateAndSetPosition(Vector3 position,Transform parent)
         {
             gameObject.SetActive(true);
             transform.position = position;
@@ -19,6 +19,7 @@ namespace Project56
             {
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
             }
+            transform.SetParent(parent);
         }
 
         public void Deactivate()
