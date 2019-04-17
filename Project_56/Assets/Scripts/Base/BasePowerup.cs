@@ -33,6 +33,14 @@ namespace Project56
             gameObject.transform.position = pos;
             gameObject.transform.SetParent(parent);
         }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (collision.CompareTag(GameStrings.MainCamera))
+            {
+                DeactivatePowerup();
+            }
+        }
     }
 
     public enum PowerupType

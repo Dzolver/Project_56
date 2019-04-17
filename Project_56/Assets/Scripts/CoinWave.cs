@@ -25,7 +25,7 @@ public class CoinWave : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag(GameStrings.MainCamera))
+        if (collision.CompareTag(GameStrings.MainCamera))
         {
             DeactivateWave();
         }

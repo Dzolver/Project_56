@@ -22,14 +22,6 @@ namespace Project56
         {
             return Speed;
         }
-
-        private void OnTriggerExit2D(Collider2D collision)
-        {
-            if (collision.CompareTag("MainCamera"))
-            {
-                DeactivatePowerup();
-            }
-        }
     }
    
 }

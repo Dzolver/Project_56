@@ -48,20 +48,8 @@ namespace Project56
             //Move();
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-
-
-
-
-        }
-
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if (collision.gameObject.CompareTag(GameStrings.MainCamera))
-            {
-                Deactivate();
-            }
             if (collision.gameObject.CompareTag(GameStrings.Weapon))
             {
                 GameData.Instance.AddKills();
