@@ -15,7 +15,7 @@ namespace Project56
         public float fallGravity = 15;
         public float maxSpeed = 15f;
         public float speedIncreaseRate;
-        public float slidingInterval = 0.5f;         
+        public float slidingInterval = 0.5f;
         public LayerMask whatIsGround;
 
         private bool coolDown;
@@ -32,7 +32,7 @@ namespace Project56
         private Vector2 m_CurrentSwipe;
         private Coroutine coroutine;
         private float SwipeDetectionSensitivity;
-        
+
         //Attack variable
         public float swingCoolDown = 1; //player can only once per second
         private float lastSwing;
@@ -66,16 +66,14 @@ namespace Project56
         {
             SwipeDetectionSensitivity = Screen.width / 30f;
             coolDown = false;
-            //initialize the component variables by searching for all needed components using GetComponent
+
             RunnerCollider = GetComponent<Collider2D>();
             RunnerRigidBody = GetComponent<Rigidbody2D>();
             RunnerAnimator = GetComponent<Animator>();
-            RunnerWeaponAnimator = transform.GetChild(0).GetComponent<Animator>();
-            
-            player = GetComponent<Player>();
-            //cameraController = Camera.main.GetComponent<CameraController>();
-            gravity = RunnerRigidBody.gravityScale;
+            //RunnerWeaponAnimator = transform.GetChild(0).GetComponent<Animator>();
 
+            player = GetComponent<Player>();
+            gravity = RunnerRigidBody.gravityScale;
             MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Right);
         }
 
@@ -95,7 +93,7 @@ namespace Project56
             }
             if (sliding)
                 return;
-            RunnerAnimator.SetFloat("Speed", RunnerRigidBody.velocity.x);
+            RunnerAnimator.SetFloat("Speed", Mathf.Abs(RunnerRigidBody.velocity.x));
             RunnerAnimator.SetBool("Grounded", grounded);
         }
 

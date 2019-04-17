@@ -12,7 +12,6 @@ namespace Project56
         public bool attacked;
         private bool IsInvincible = false;
 
-        List<GameObject> blocks = new List<GameObject>();
         Coroutine coroutine;
         PlayerController playerController;
 
