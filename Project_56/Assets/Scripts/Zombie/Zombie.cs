@@ -55,6 +55,10 @@ namespace Project56
                 GameData.Instance.AddKills();
                 Deactivate();
             }
+            if(collision.gameObject.CompareTag(GameStrings.MainCamera))
+            {
+                Deactivate();
+            }
         }
     }
 }

@@ -2,32 +2,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class CoinWave : MonoBehaviour
+namespace Project56
 {
-
-    public void ActivateAndSetPosition(Vector2 position, Quaternion rotation, Transform parent)
+    public class CoinWave : MonoBehaviour
     {
-        gameObject.transform.SetPositionAndRotation(position, rotation);
-        gameObject.SetActive(true);
-        gameObject.transform.SetParent(parent);
-        foreach (Transform t in GetComponentsInChildren<Transform>(true))
+        public List<Coin> Coins;
+
+        private void Start()
         {
-            if (!t.gameObject.activeInHierarchy)
-                t.gameObject.SetActive(true);
+            Coins = new List<Coin>(GetComponentsInChildren<Coin>());
+        }
+        public void ActivateAndSetPosition(Vector2 position, Quaternion rotation, Transform parent)
+        {
+            gameObject.transform.SetPositionAndRotation(position, rotation);
+            gameObject.SetActive(true);
+            gameObject.transform.SetParent(parent);
+            foreach (Coin coin in Coins)
+            {
+                coin.Activate();
+            }
+        }
+
+        public void DeactivateWave()
+        {
+            gameObject.SetActive(false);
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (collision.CompareTag(GameStrings.MainCamera))
+            {
+                DeactivateWave();
+            }
         }
     }
 
-    public void DeactivateWave()
-    {
-        gameObject.SetActive(false);
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag(GameStrings.MainCamera))
-        {
-            DeactivateWave();
-        }
-    }
 }
