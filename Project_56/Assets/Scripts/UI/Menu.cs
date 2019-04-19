@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Project56
+namespace AlyxAdventure
 {
     [RequireComponent(typeof(CanvasGroup))]
     public class Menu : MonoBehaviour

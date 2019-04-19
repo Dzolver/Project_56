@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using System.Threading;
 
-namespace Project56
+namespace AlyxAdventure
 {
     public static class ExtensionMethods
     {

@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Project56
+namespace AlyxAdventure
 {
     [RequireComponent(typeof(Collider2D))]
     [RequireComponent(typeof(Rigidbody2D))]

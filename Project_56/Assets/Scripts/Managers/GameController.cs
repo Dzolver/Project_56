@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Project56
+namespace AlyxAdventure
 {
     public class GameController : MonoBehaviour
     {

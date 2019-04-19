@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using TMPro;
 
-namespace Project56
+namespace AlyxAdventure
 {
     public class GooglePlayManager : SingletonMonoBehaviour<GooglePlayManager>
     {

@@ -1,4 +1,4 @@
-﻿namespace Project56
+﻿namespace AlyxAdventure
 {
     /// <summary>
     /// Can be dispatched and listened to, with up to three parameters of given types.

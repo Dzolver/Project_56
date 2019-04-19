@@ -1,6 +1,6 @@
 ﻿using UnityEngine.SceneManagement;
 
-namespace Project56
+namespace AlyxAdventure
 {
     public class MainMenu : Menu
     {

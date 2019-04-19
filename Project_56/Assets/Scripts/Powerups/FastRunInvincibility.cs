@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Project56
+namespace AlyxAdventure
 {
     
     public class FastRunInvincibility : BasePowerup

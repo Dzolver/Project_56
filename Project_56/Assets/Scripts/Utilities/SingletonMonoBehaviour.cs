@@ -8,7 +8,7 @@
 /// As a note, this is made as MonoBehaviour because we need Coroutines.
 /// </summary>
 
-namespace Project56
+namespace AlyxAdventure
 {
     public class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
     {

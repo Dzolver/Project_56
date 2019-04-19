@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Project56
+namespace AlyxAdventure
 {
     public enum PlatformType
     {
@@ -51,7 +51,7 @@ namespace Project56
 
         public void Deactivate()
         {
-            foreach (IZombie z in GetComponentsInChildren<IZombie>())
+            foreach (AbstractEnemy z in GetComponentsInChildren<AbstractEnemy>())
             {
                 z.Deactivate();
             }

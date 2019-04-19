@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-namespace Project56
+namespace AlyxAdventure
 {
     public class SplashScreen : MonoBehaviour
     {

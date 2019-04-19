@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-namespace Project56
+namespace AlyxAdventure
 {
 
     public class ParralaxBackground : MonoBehaviour

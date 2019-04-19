@@ -1,4 +1,4 @@
-﻿using Project56;
+﻿using AlyxAdventure;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -54,8 +54,11 @@ public class EnemyGenerator : MonoBehaviour
         yield return new WaitForSeconds(2f);
         while (true)
         {
-            IZombie zombie = ObjectPool.Instance.GetZombie().GetComponent<IZombie>();
+            AbstractEnemy zombie = ObjectPool.Instance.GetZombie().GetComponent<AbstractEnemy>();
             MyEventManager.Instance.OnEnemyGenerated.Dispatch(zombie);
+
+            AbstractEnemy raven = ObjectPool.Instance.GetRaven().GetComponent<AbstractEnemy>();
+            MyEventManager.Instance.OnEnemyGenerated.Dispatch(raven);
             yield return new WaitForSeconds(WaitTime);
         }
     }

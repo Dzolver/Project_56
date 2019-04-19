@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project56
+namespace AlyxAdventure
 {
     public class DontDestroyOnLoad : SingletonMonoBehaviour<DontDestroyOnLoad>
     {

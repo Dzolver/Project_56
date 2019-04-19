@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Project56
+namespace AlyxAdventure
 {
     public class MenuManager : SingletonMonoBehaviour<MenuManager>
     {

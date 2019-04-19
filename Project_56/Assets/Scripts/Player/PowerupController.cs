@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Project56
+namespace AlyxAdventure
 {
     public class PowerupController : MonoBehaviour
     {

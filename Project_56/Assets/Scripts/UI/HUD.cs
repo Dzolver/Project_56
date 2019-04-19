@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace Project56
+namespace AlyxAdventure
 {
     public class HUD : Menu
     {

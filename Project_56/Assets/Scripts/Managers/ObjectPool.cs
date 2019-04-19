@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Project56
+namespace AlyxAdventure
 {
     public class ObjectPool : SingletonMonoBehaviour<ObjectPool>
     {
         public GameObject Zombie;
+        public GameObject Raven;
         public GameObject[] PlatformTypes;
         public GameObject InvincibilityGO;
         public GameObject ScoreMultiplier;
@@ -17,6 +18,7 @@ namespace Project56
 
         public int PlatformCount = 2;
         public int ZombieCount = 5;
+        public int RavenCount = 5;
         public int CoinWaveCount = 3;
         public int PowerUpCount = 2;
 
@@ -24,6 +26,9 @@ namespace Project56
 
         [HideInInspector]
         public List<GameObject> Zombies = new List<GameObject>();
+        [HideInInspector]
+        public List<GameObject> Ravens = new List<GameObject>();
+
 
         [HideInInspector]
         public List<GameObject> Platforms = new List<GameObject>();
@@ -45,6 +50,19 @@ namespace Project56
         {
         }
 
+        private void OnEnable()
+        {
+            MyEventManager.Instance.DeactivatePooledObjects.AddListener(DeactivateObjects);
+        }
+
+        private void OnDisable()
+        {
+            if(MyEventManager.Instance!=null)
+            {
+                MyEventManager.Instance.DeactivatePooledObjects.RemoveListener(DeactivateObjects);
+            }
+        }
+
         public void StartInstantiatingObjects()
         {
             StartCoroutine(InstantiateObjects());
@@ -57,6 +75,8 @@ namespace Project56
             Total += PlatformCount;
             if (Zombie != null)
                 Total += ZombieCount;
+            if (Raven != null)
+                Total += RavenCount;
             if (CoinWaves1 != null)
                 Total += CoinWaveCount;
             if (CoinWaves2 != null)
@@ -82,6 +102,19 @@ namespace Project56
                     gameObject.name = "Zombie -" + i;
                     gameObject.SetActive(false);
                     Zombies.Add(gameObject);
+                    MyEventManager.Instance.OnObjectInstantiated.Dispatch();
+                    yield return wait;
+                }
+            }
+
+            if (Raven != null)
+            {
+                for (int i = 0; i < RavenCount; i++)
+                {
+                    GameObject gameObject = Instantiate(Raven, PooledObjectsHolder);
+                    gameObject.name = "Raven -" + i;
+                    gameObject.SetActive(false);
+                    Ravens.Add(gameObject);
                     MyEventManager.Instance.OnObjectInstantiated.Dispatch();
                     yield return wait;
                 }
@@ -180,6 +213,31 @@ namespace Project56
             }
         }
 
+        public GameObject GetRaven()
+        {
+            //Perform normal return of the selected cube from selected queue
+            foreach (GameObject raven in Ravens)
+            {
+                if (!raven.activeInHierarchy)
+                {
+                    return raven;
+                }
+            }
+            //If there are no deactivated objects, instantiate a new one and return that
+            //Increase count in the start if this case arrives while testing
+            if (shouldExpand)
+            {
+                GameObject gameObject = Instantiate(Raven);
+                gameObject.SetActive(false);
+                Ravens.Add(gameObject);
+                return gameObject;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public GameObject GetPlatform(PlatformType platformType)
         {            
             foreach (GameObject Platform in Platforms)
@@ -265,7 +323,7 @@ namespace Project56
             }
         }
 
-        public void DeactivateObjects()
+        private void DeactivateObjects()
         {
             foreach (GameObject zombie in Zombies)
             {
@@ -290,6 +348,11 @@ namespace Project56
             foreach (GameObject cw in CoinWaves3)
             {
                 cw.SetActive(false);
+            }
+
+            foreach (GameObject r in Ravens)
+            {
+                r.SetActive(false);
             }
         }
     }

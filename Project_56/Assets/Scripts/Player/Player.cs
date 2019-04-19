@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Project56
+namespace AlyxAdventure
 {
     [RequireComponent(typeof(PlayerController))]
     public class Player : MonoBehaviour, IPlayer

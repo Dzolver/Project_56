@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project56
+namespace AlyxAdventure
 {
     public class MyEventManager : SingletonMonoBehaviour<MyEventManager>
     {
@@ -13,6 +13,7 @@ namespace Project56
         public MyEvent<int, int> OnScoreUpdated = new MyEvent<int, int>();
         public MyEvent<int> OnEnemyKilled = new MyEvent<int>();
         public MyEvent IncreaseSpeed = new MyEvent();
+        public MyEvent DeactivatePooledObjects = new MyEvent();
         public MyEvent OnCoinCollected = new MyEvent();
         public MyEvent<float> OnTimePassed = new MyEvent<float>();
         //public MyEvent<GameState> UpdateState = new MyEvent<GameState>();
@@ -21,7 +22,7 @@ namespace Project56
         public MyEvent<BasePowerup> OnPowerupExhausted = new MyEvent<BasePowerup>();
         public MyEvent<CollectibleType> OnCollectibleCollected = new MyEvent<CollectibleType>();
 
-        public MyEvent<IZombie> OnEnemyGenerated = new MyEvent<IZombie>();
+        public MyEvent<AbstractEnemy> OnEnemyGenerated = new MyEvent<AbstractEnemy>();
         public MyEvent<BasePowerup> OnPowerupGenerated = new MyEvent<BasePowerup>();
         public MyEvent<CoinWave> OnCoinWaveGenerated= new MyEvent<CoinWave>();
     }

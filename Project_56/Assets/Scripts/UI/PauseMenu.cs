@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Project56
+namespace AlyxAdventure
 {
     public class PauseMenu : Menu
     {
@@ -17,6 +17,7 @@ namespace Project56
         public void ReturnToMain()
         {
             HideMenu();
+            MyEventManager.Instance.DeactivatePooledObjects.Dispatch();
             SceneManager.LoadScene(1);
         }
     }

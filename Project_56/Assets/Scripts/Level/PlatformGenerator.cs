@@ -1,4 +1,4 @@
-﻿using Project56;
+﻿using AlyxAdventure;
 using UnityEngine;
 
 public class PlatformGenerator : MonoBehaviour
@@ -95,7 +95,7 @@ public class PlatformGenerator : MonoBehaviour
         CurrentPlatformWidth = CurrentPlatform.gameObject.GetComponent<BoxCollider2D>().size.x;
     }
 
-    private void OnEnemyGenerated(IZombie zombie)
+    private void OnEnemyGenerated(AbstractEnemy enemy)
     {
         Vector2 pos;
         Transform parent;
@@ -114,8 +114,7 @@ public class PlatformGenerator : MonoBehaviour
         }
         while (Mathf.Abs(pos.x - GameData.Instance.theRunnerTransform.position.x) < 13f);
 
-        zombie.ActivateAndSetPosition(pos, parent);
-
+        enemy.ActivateAndSetPosition(pos, parent);
     }
 
     private void OnPowerupGenerated(BasePowerup powerup)
