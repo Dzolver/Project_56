@@ -42,7 +42,8 @@ public abstract class AbstractEnemy : MonoBehaviour
         gameObject.SetActive(false);
         gameObject.transform.position = Vector3.zero;
         spriteRenderer.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-        StopCoroutine(routine);
+        if (routine != null)
+            StopCoroutine(routine);
     }
 
     public float GetMoveSpeed()

@@ -107,14 +107,13 @@ public class PlatformGenerator : MonoBehaviour
 
     private void OnPowerupGenerated(BasePowerup powerup)
     {
-        Vector2 pos;
         Platform parent;
         if (GameData.Instance.direction == Direction.Right)
             parent = RightPlatform;
         else
             parent = LeftPlatform;
-
-        pos = parent.GetPowerupPoint().position;
+        Vector2 pos = parent.GetPowerupPoint().position;
+        Debug.Log("Power up  activated;Parent = " + parent + " pos = " + pos);
         powerup.ActivateAndSetPosition(pos, parent.transform);
     }
 

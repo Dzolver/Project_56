@@ -29,9 +29,10 @@ namespace AlyxAdventure
 
         public void ActivateAndSetPosition(Vector2 pos, Transform parent)
         {
+            Debug.Log("pos= " + pos);
+            transform.SetParent(parent);
+            transform.position = pos;
             gameObject.SetActive(true);
-            gameObject.transform.position = pos;
-            gameObject.transform.SetParent(parent);
         }
 
         private void OnTriggerExit2D(Collider2D collision)

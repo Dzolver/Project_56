@@ -50,27 +50,28 @@ namespace AlyxAdventure
 
         private void Start()
         {
-            ZombiePoints = new List<Transform>(ZombieParent.GetComponentsInChildren<Transform>());
-            RavenPoints = new List<Transform>(RavenParent.GetComponentsInChildren<Transform>());
             PowerUpPoints = new List<Transform>(PowerupParent.GetComponentsInChildren<Transform>());
-            CoinPoints = new List<Transform>(CoinParent.GetComponentsInChildren<Transform>());
+            PowerUpPoints.Shuffle();  
+            PowerupSpawnPoints = new Queue<Transform>(PowerUpPoints);
 
-            if (ZombiePoints != null)
+            CoinPoints = new List<Transform>(CoinParent.GetComponentsInChildren<Transform>());
+            CoinWaveSpawnPoints = new Queue<Transform>(CoinPoints);
+            CoinPoints.Shuffle();
+
+            if (ZombieParent != null)
             {
+                ZombiePoints = new List<Transform>(ZombieParent.GetComponentsInChildren<Transform>());
                 ZombiePoints.Shuffle();
                 ZombieSpawnPoints = new Queue<Transform>(ZombiePoints);
             }
 
-            if (RavenPoints != null)
+            if (RavenParent != null)
             {
+
+                RavenPoints = new List<Transform>(RavenParent.GetComponentsInChildren<Transform>());
                 RavenPoints.Shuffle();
                 RavenSpawnPoints = new Queue<Transform>(RavenPoints);
             }
-
-            PowerUpPoints.Shuffle();
-            CoinPoints.Shuffle();
-            PowerupSpawnPoints = new Queue<Transform>(PowerUpPoints);
-            CoinWaveSpawnPoints = new Queue<Transform>(CoinPoints);
 
         }
 
@@ -110,14 +111,9 @@ namespace AlyxAdventure
             gameObject.SetActive(false);
         }
 
-        public PlatformType GetPlatformType()
-        {
-            return platformType;
-        }
-
         private IEnumerator GetPointAndActivateZombie(Zombie zombie)
         {
-            if (ZombiePoints != null)
+            if (ZombieParent != null)
             {
                 Transform t;
                 do
@@ -135,7 +131,7 @@ namespace AlyxAdventure
 
         private IEnumerator GetPointAndActivateRaven(Raven raven)
         {
-            if (RavenPoints != null)
+            if (RavenParent != null)
             {
                 Transform t;
                 do
@@ -155,6 +151,7 @@ namespace AlyxAdventure
         {
             Transform t = PowerupSpawnPoints.Dequeue();
             PowerupSpawnPoints.Enqueue(t);
+            Debug.Log(t.position);
             return t;
         }
 
@@ -163,6 +160,12 @@ namespace AlyxAdventure
             Transform t = CoinWaveSpawnPoints.Dequeue();
             CoinWaveSpawnPoints.Enqueue(t);
             return t;
+        }
+
+
+        public PlatformType GetPlatformType()
+        {
+            return platformType;
         }
 
 

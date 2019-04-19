@@ -15,13 +15,14 @@ namespace AlyxAdventure
 
         public void ActivateAndSetPosition(Vector2 position, Quaternion rotation, Transform parent)
         {
+            gameObject.transform.SetParent(parent);
             gameObject.transform.SetPositionAndRotation(position, rotation);
             gameObject.SetActive(true);
-            gameObject.transform.SetParent(parent);
             foreach (Coin coin in Coins)
             {
                 coin.Activate();
             }
+            
         }
 
         public void DeactivateWave()

@@ -15,6 +15,7 @@ namespace AlyxAdventure
         private void Start()
         {
             StatusText.text = "Running Google Play";
+
             PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
             .EnableSavedGames()
             // registers a callback to handle game invitations received while the game is not running.

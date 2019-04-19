@@ -270,9 +270,9 @@ namespace AlyxAdventure
             {
                 zombie.Deactivate();
             }
-            foreach (Platform Platform in Platforms)
+            foreach (Raven r in Ravens)
             {
-                Platform.Deactivate();
+                r.Deactivate();
             }
             foreach (BasePowerup go in Powerups)
             {
@@ -282,10 +282,11 @@ namespace AlyxAdventure
             {
                 cw.DeactivateWave();
             }
-            foreach (Raven r in Ravens)
+            foreach (Platform Platform in Platforms)
             {
-                r.Deactivate();
+                Platform.Deactivate();
             }
+
         }
     }
 }
