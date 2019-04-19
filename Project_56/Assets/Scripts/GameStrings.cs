@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameStrings  {
 
-    public static string Zombie = "Zombie";
+    public static string Enemy = "Enemy";
     public static string JumpBlock = "JumpBlock";
     public static string SlideBlock = "SlideBlock";
     public static string Powerup = "Powerup";

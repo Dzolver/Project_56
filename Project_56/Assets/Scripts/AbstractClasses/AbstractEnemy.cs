@@ -8,9 +8,12 @@ public abstract class AbstractEnemy : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public List<Sprite> AnimSprites;
     WaitForSeconds endOfFrame = new WaitForSeconds(0.1f);
-    public virtual void Move()
+    [SerializeField]
+    private EnemyType enemyType;
+    Coroutine routine;
+    public virtual void Move(Direction direction)
     {
-        transform.Translate(Vector3.left * Time.deltaTime * GetMoveSpeed());
+        
     }
 
     public virtual void ActivateAndSetPosition(Vector3 position, Transform Parent)
@@ -19,16 +22,19 @@ public abstract class AbstractEnemy : MonoBehaviour
         transform.position = position;
         if (GameData.Instance.direction == Direction.Left)
         {
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
+            spriteRenderer.transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
         }
         transform.SetParent(Parent);
         StartCoroutine(AnimateEnemy());
+        routine = StartCoroutine(MoveEnemy(GameData.Instance.direction));
     }
 
     public virtual void Deactivate()
     {
         gameObject.SetActive(false);
-        gameObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        gameObject.transform.position = Vector3.zero;
+        spriteRenderer.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        StopCoroutine(routine);
     }
 
     public float GetMoveSpeed()
@@ -49,6 +55,11 @@ public abstract class AbstractEnemy : MonoBehaviour
         }
     }
 
+    public EnemyType GetEnemyType()
+    {
+        return enemyType;
+    }
+
     IEnumerator AnimateEnemy()
     {
         int i = 0;
@@ -61,5 +72,20 @@ public abstract class AbstractEnemy : MonoBehaviour
            
             yield return endOfFrame;
         }
+    }
+
+    IEnumerator MoveEnemy(Direction direction)
+    {
+        while (true)
+        {
+            Move(direction);
+            yield return null;
+        }
+    }
+
+    public enum EnemyType
+    {
+        Zombie,
+        Raven
     }
 }

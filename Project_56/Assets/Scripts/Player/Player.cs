@@ -45,7 +45,7 @@ namespace AlyxAdventure
         {
             if (!IsInvincible)
             {
-                if (collision.gameObject.CompareTag(GameStrings.Zombie))
+                if (collision.gameObject.CompareTag(GameStrings.Enemy))
                 {
                     if (!attacked)
                     {
@@ -61,7 +61,7 @@ namespace AlyxAdventure
             }
             else
             {
-                if (collision.gameObject.CompareTag(GameStrings.Zombie))
+                if (collision.gameObject.CompareTag(GameStrings.Enemy))
                 {
                     GameData.Instance.AddKills();
                     collision.gameObject.GetComponent<Zombie>().Deactivate();

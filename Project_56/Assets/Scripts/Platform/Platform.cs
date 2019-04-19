@@ -20,26 +20,37 @@ namespace AlyxAdventure
         [SerializeField]
         PlatformType platformType;
 
-        [SerializeField]
-        Transform[] EnemyPoints;
-        [SerializeField]
-        Transform[] PowerUpPoints;
-        [SerializeField]
-        Transform[] CoinPoints;
+        public Transform ZombieParent;
+        public Transform RavenParent;
+        public Transform PowerupParent;
+        public Transform CoinParent;
 
-        Queue<Transform> EnemySpawnPoints;
+        List<Transform> ZombiePoints;
+        List<Transform> RavenPoints;
+        List<Transform> PowerUpPoints;
+        List<Transform> CoinPoints;
+
+        Queue<Transform> ZombieSpawnPoints;
+        Queue<Transform> RavenSpawnPoints;
         Queue<Transform> PowerupSpawnPoints;
         Queue<Transform> CoinWaveSpawnPoints;
 
         private void Start()
         {
-            ExtensionMethods.Shuffle(EnemyPoints);
-            ExtensionMethods.Shuffle(PowerUpPoints);
-            ExtensionMethods.Shuffle(CoinPoints);
+            ZombiePoints = new List<Transform>(ZombieParent.GetComponentsInChildren<Transform>());
+            RavenPoints = new List<Transform>(RavenParent.GetComponentsInChildren<Transform>());
+            PowerUpPoints = new List<Transform>(PowerupParent.GetComponentsInChildren<Transform>());
+            CoinPoints = new List<Transform>(CoinParent.GetComponentsInChildren<Transform>());
 
-            EnemySpawnPoints = new Queue<Transform>(EnemyPoints);
+            ZombiePoints.Shuffle();
+            PowerUpPoints.Shuffle();
+            CoinPoints.Shuffle();
+            RavenPoints.Shuffle();
+
+            ZombieSpawnPoints = new Queue<Transform>(ZombiePoints);
             PowerupSpawnPoints = new Queue<Transform>(PowerUpPoints);
             CoinWaveSpawnPoints = new Queue<Transform>(CoinPoints);
+            RavenSpawnPoints = new Queue<Transform>(RavenPoints);
         }
 
         public void ActivateAndSetPosition(Vector3 position)
@@ -71,10 +82,18 @@ namespace AlyxAdventure
             return platformType;
         }
 
-        public Transform GetEnemyPoint()
+        public Transform GetZombiePoint()
         {
-            Transform t = EnemySpawnPoints.Dequeue();
-            EnemySpawnPoints.Enqueue(t);
+            Transform t = ZombieSpawnPoints.Dequeue();
+            ZombieSpawnPoints.Enqueue(t);
+            return t;
+
+        }
+
+        public Transform GetRavenPoint()
+        {
+            Transform t = RavenSpawnPoints.Dequeue();
+            RavenSpawnPoints.Enqueue(t);
             return t;
 
         }

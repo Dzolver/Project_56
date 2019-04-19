@@ -98,23 +98,32 @@ public class PlatformGenerator : MonoBehaviour
     private void OnEnemyGenerated(AbstractEnemy enemy)
     {
         Vector2 pos;
-        Transform parent;
+        Platform parent;
         do
         {
             if (GameData.Instance.direction == Direction.Right)
             {
-                pos = RightPlatform.GetComponent<Platform>().GetEnemyPoint().position;
-                parent = RightPlatform.transform;
+                pos = RightPlatform.GetZombiePoint().position;
+                parent = RightPlatform;
             }
             else
             {
-                pos = LeftPlatform.GetComponent<Platform>().GetEnemyPoint().position;
-                parent = LeftPlatform.transform;
+                pos = LeftPlatform.GetZombiePoint().position;
+                parent = LeftPlatform;
+            }
+
+            if(enemy.GetEnemyType() == AbstractEnemy.EnemyType.Zombie)
+            {
+                pos = parent.GetZombiePoint().position;
+            }
+            else if(enemy.GetEnemyType() == AbstractEnemy.EnemyType.Raven)
+            {
+                pos = parent.GetRavenPoint().position;
             }
         }
-        while (Mathf.Abs(pos.x - GameData.Instance.theRunnerTransform.position.x) < 13f);
+        while (Mathf.Abs(pos.x - GameData.Instance.theRunnerTransform.position.x) < 15f);
 
-        enemy.ActivateAndSetPosition(pos, parent);
+        enemy.ActivateAndSetPosition(pos, parent.transform);
     }
 
     private void OnPowerupGenerated(BasePowerup powerup)
