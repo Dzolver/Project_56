@@ -15,7 +15,6 @@ namespace AlyxAdventure
                 gameObject.SetActive(true);
             if (Random.Range(1, 3) == 2)
             {
-                Debug.Log("Activating");
                 LeanTween.rotateAround(gameObject,Vector3.up, 360, Random.Range(.5f,1.5f)).setEase(LeanTweenType.linear).setLoopType(LeanTweenType.linear);
             }
         }

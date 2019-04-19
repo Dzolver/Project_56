@@ -7,7 +7,7 @@ namespace AlyxAdventure
     public class SplashScreen : MonoBehaviour
     {
         int Counter = 0;
-        // Use this for initialization
+       
         void Start()
         {
             ObjectPool.Instance.StartInstantiatingObjects();

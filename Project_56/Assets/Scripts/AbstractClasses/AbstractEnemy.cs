@@ -4,16 +4,24 @@ using UnityEngine;
 
 public abstract class AbstractEnemy : MonoBehaviour
 {
-    private float m_MoveSpeed = 2.0f;
-    public SpriteRenderer spriteRenderer;
-    public List<Sprite> AnimSprites;
-    WaitForSeconds endOfFrame = new WaitForSeconds(0.1f);
+    public enum EnemyType
+    {
+        Zombie,
+        Raven
+    }
+
     [SerializeField]
     private EnemyType enemyType;
+    private float m_MoveSpeed = 2.0f;
+    WaitForSeconds endOfFrame = new WaitForSeconds(0.1f);
     Coroutine routine;
+
+    public SpriteRenderer spriteRenderer;
+    public List<Sprite> AnimSprites;
+
     public virtual void Move(Direction direction)
     {
-        
+
     }
 
     public virtual void ActivateAndSetPosition(Vector3 position, Transform Parent)
@@ -63,13 +71,13 @@ public abstract class AbstractEnemy : MonoBehaviour
     IEnumerator AnimateEnemy()
     {
         int i = 0;
-        while(true)
+        while (true)
         {
             if (i == AnimSprites.Count)
                 i = 0;
 
             spriteRenderer.sprite = AnimSprites[i++];
-           
+
             yield return endOfFrame;
         }
     }
@@ -83,9 +91,4 @@ public abstract class AbstractEnemy : MonoBehaviour
         }
     }
 
-    public enum EnemyType
-    {
-        Zombie,
-        Raven
-    }
 }

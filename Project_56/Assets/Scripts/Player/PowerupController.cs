@@ -15,13 +15,13 @@ namespace AlyxAdventure
 
         private IEnumerator SpawnPowerups()
         {
-            GameObject go;
+            BasePowerup powerup;
             while (true)
             {
                 yield return new WaitForSeconds(WaitTime);
                 int random = Random.Range(1, 4);
-                go = ObjectPool.Instance.GetPowerUp((PowerupType)random);
-                MyEventManager.Instance.OnPowerupGenerated.Dispatch(go.GetComponent<BasePowerup>());
+                powerup = ObjectPool.Instance.GetPowerUp((PowerupType)random);
+                MyEventManager.Instance.OnPowerupGenerated.Dispatch(powerup);
             }
 
         }

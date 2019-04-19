@@ -22,7 +22,8 @@ public class EnemyGenerator : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(GenerateEnemy());
+        StartCoroutine(GenerateZombie());
+        StartCoroutine(GenerateRaven());
     }
 
     private void OnTimePassed(float minutes)
@@ -49,17 +50,25 @@ public class EnemyGenerator : MonoBehaviour
         }
     }
 
-    private IEnumerator GenerateEnemy()
+    private IEnumerator GenerateZombie()
+    {
+        yield return new WaitForSeconds(4f);
+        while (true)
+        {
+            AbstractEnemy zombie = ObjectPool.Instance.GetZombie();
+            MyEventManager.Instance.OnEnemyGenerated.Dispatch(zombie);
+            yield return new WaitForSeconds(WaitTime);
+        }
+    }
+
+    private IEnumerator GenerateRaven()
     {
         yield return new WaitForSeconds(2f);
         while (true)
         {
-            AbstractEnemy zombie = ObjectPool.Instance.GetZombie().GetComponent<AbstractEnemy>();
-            MyEventManager.Instance.OnEnemyGenerated.Dispatch(zombie);
-
-            AbstractEnemy raven = ObjectPool.Instance.GetRaven().GetComponent<AbstractEnemy>();
+            AbstractEnemy raven = ObjectPool.Instance.GetRaven();
             MyEventManager.Instance.OnEnemyGenerated.Dispatch(raven);
-            yield return new WaitForSeconds(WaitTime);
+            yield return new WaitForSeconds(WaitTime + UnityEngine.Random.Range(1,3));
         }
     }
 }

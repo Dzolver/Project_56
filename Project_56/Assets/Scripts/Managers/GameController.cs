@@ -47,13 +47,12 @@ namespace AlyxAdventure
 
         private IEnumerator GenerateCoinWave()
         {
-            GameObject coinwave;
+            CoinWave coinwave;
             while (true)
             {
                 yield return new WaitForSeconds(10f);
-                int wave = UnityEngine.Random.Range(1, 4);
-                coinwave = ObjectPool.Instance.GetCoinWave(wave);
-                MyEventManager.Instance.OnCoinWaveGenerated.Dispatch(coinwave.GetComponent<CoinWave>());              
+                coinwave = ObjectPool.Instance.GetCoinWave();
+                MyEventManager.Instance.OnCoinWaveGenerated.Dispatch(coinwave);              
             }
         }
 

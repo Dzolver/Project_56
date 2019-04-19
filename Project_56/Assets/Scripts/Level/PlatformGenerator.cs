@@ -28,7 +28,7 @@ public class PlatformGenerator : MonoBehaviour
 
     private void Start()
     {
-        CurrentPlatform = ObjectPool.Instance.GetPlatform(PlatformType.VeryEasy).GetComponent<Platform>();
+        CurrentPlatform = ObjectPool.Instance.GetPlatform(PlatformType.VeryEasy);
         CurrentPlatform.ActivateAndSetPosition(startPoint.localPosition);
         CurrentPlatformWidth = CurrentPlatform.GetComponent<BoxCollider2D>().size.x - 0.01f;
 
@@ -68,7 +68,7 @@ public class PlatformGenerator : MonoBehaviour
         else
             type = (PlatformType)Random.Range((int)PlatformType.Average, (int)PlatformType.Hard + 1);
 
-        return ObjectPool.Instance.GetPlatform(type).GetComponent<Platform>();
+        return ObjectPool.Instance.GetPlatform(type);
     }
 
     private void ActivateRightPlatform()
@@ -76,7 +76,7 @@ public class PlatformGenerator : MonoBehaviour
         PlatformWidth = RightPlatform.GetComponent<BoxCollider2D>().size.x - 0.01f;
         Platform platform = GetPlatform();
         platform.ActivateAndSetPosition(new Vector2(RightPlatform.transform.position.x + PlatformWidth, startPoint.position.y));
-        LeftPlatform.GetComponent<Platform>().Deactivate();
+        LeftPlatform.Deactivate();
         LeftPlatform = CurrentPlatform;
         CurrentPlatform = RightPlatform;
         RightPlatform = platform;
@@ -88,7 +88,7 @@ public class PlatformGenerator : MonoBehaviour
         Platform platform = GetPlatform();
         PlatformWidth = platform.GetComponent<BoxCollider2D>().size.x - 0.01f;
         platform.ActivateAndSetPosition(new Vector2(LeftPlatform.transform.position.x - PlatformWidth, startPoint.position.y));
-        RightPlatform.GetComponent<Platform>().Deactivate();
+        RightPlatform.Deactivate();
         RightPlatform = CurrentPlatform;
         CurrentPlatform = LeftPlatform;
         LeftPlatform = platform;
@@ -97,50 +97,25 @@ public class PlatformGenerator : MonoBehaviour
 
     private void OnEnemyGenerated(AbstractEnemy enemy)
     {
-        Vector2 pos;
         Platform parent;
-        do
-        {
-            if (GameData.Instance.direction == Direction.Right)
-            {
-                pos = RightPlatform.GetZombiePoint().position;
-                parent = RightPlatform;
-            }
-            else
-            {
-                pos = LeftPlatform.GetZombiePoint().position;
-                parent = LeftPlatform;
-            }
-
-            if(enemy.GetEnemyType() == AbstractEnemy.EnemyType.Zombie)
-            {
-                pos = parent.GetZombiePoint().position;
-            }
-            else if(enemy.GetEnemyType() == AbstractEnemy.EnemyType.Raven)
-            {
-                pos = parent.GetRavenPoint().position;
-            }
-        }
-        while (Mathf.Abs(pos.x - GameData.Instance.theRunnerTransform.position.x) < 15f);
-
-        enemy.ActivateAndSetPosition(pos, parent.transform);
+        if (GameData.Instance.direction == Direction.Right)
+            parent = RightPlatform;
+        else
+            parent = LeftPlatform;
+        MyEventManager.Instance.OnGotEnemyParent.Dispatch(enemy, parent);
     }
 
     private void OnPowerupGenerated(BasePowerup powerup)
     {
         Vector2 pos;
-        Transform parent;
+        Platform parent;
         if (GameData.Instance.direction == Direction.Right)
-        {
-            pos = RightPlatform.GetComponent<Platform>().GetPowerupPoint().position;
-            parent = RightPlatform.transform;
-        }
+            parent = RightPlatform;
         else
-        {
-            pos = LeftPlatform.GetComponent<Platform>().GetPowerupPoint().position;
-            parent = LeftPlatform.transform;
-        }
-        powerup.ActivateAndSetPosition(pos, parent);
+            parent = LeftPlatform;
+
+        pos = parent.GetPowerupPoint().position;
+        powerup.ActivateAndSetPosition(pos, parent.transform);
     }
 
 
@@ -148,24 +123,24 @@ public class PlatformGenerator : MonoBehaviour
     {
         Vector2 pos;
         Quaternion rotation;
-        Transform parent;
+        Platform parent;
         do
         {
             if (GameData.Instance.direction == Direction.Right)
             {
-                pos = RightPlatform.GetComponent<Platform>().GetCoinWavePoint().position;
                 rotation = Quaternion.identity;
-                parent = RightPlatform.transform;
+                parent = RightPlatform;
             }
             else
             {
-                pos = LeftPlatform.GetComponent<Platform>().GetCoinWavePoint().position;
                 rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-                parent = LeftPlatform.transform;
+                parent = LeftPlatform;
             }
-        } while (Mathf.Abs(pos.x - GameData.Instance.theRunnerTransform.position.x) < 13f);
+            pos = parent.GetCoinWavePoint().position;
+        }
+        while (Mathf.Abs(pos.x - GameData.Instance.theRunnerTransform.position.x) < 13f);
 
-        coinwave.ActivateAndSetPosition(pos, rotation, parent);
+        coinwave.ActivateAndSetPosition(pos, rotation, parent.transform);
     }
 
 

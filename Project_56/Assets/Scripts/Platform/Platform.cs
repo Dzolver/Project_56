@@ -35,6 +35,19 @@ namespace AlyxAdventure
         Queue<Transform> PowerupSpawnPoints;
         Queue<Transform> CoinWaveSpawnPoints;
 
+        private void OnEnable()
+        {
+            MyEventManager.Instance.OnGotEnemyParent.AddListener(OnGotEnemyParent);
+        }
+
+        private void OnDisable()
+        {
+            if (MyEventManager.Instance != null)
+            {
+                MyEventManager.Instance.OnGotEnemyParent.RemoveListener(OnGotEnemyParent);
+            }
+        }
+
         private void Start()
         {
             ZombiePoints = new List<Transform>(ZombieParent.GetComponentsInChildren<Transform>());
@@ -42,15 +55,35 @@ namespace AlyxAdventure
             PowerUpPoints = new List<Transform>(PowerupParent.GetComponentsInChildren<Transform>());
             CoinPoints = new List<Transform>(CoinParent.GetComponentsInChildren<Transform>());
 
-            ZombiePoints.Shuffle();
+            if (ZombiePoints != null)
+            {
+                ZombiePoints.Shuffle();
+                ZombieSpawnPoints = new Queue<Transform>(ZombiePoints);
+            }
+
+            if (RavenPoints != null)
+            {
+                RavenPoints.Shuffle();
+                RavenSpawnPoints = new Queue<Transform>(RavenPoints);
+            }
+
             PowerUpPoints.Shuffle();
             CoinPoints.Shuffle();
-            RavenPoints.Shuffle();
-
-            ZombieSpawnPoints = new Queue<Transform>(ZombiePoints);
             PowerupSpawnPoints = new Queue<Transform>(PowerUpPoints);
             CoinWaveSpawnPoints = new Queue<Transform>(CoinPoints);
-            RavenSpawnPoints = new Queue<Transform>(RavenPoints);
+
+        }
+
+
+        private void OnGotEnemyParent(AbstractEnemy enemy, Platform platform)
+        {
+            if (platform == this)
+            {
+                if (enemy.GetEnemyType() == AbstractEnemy.EnemyType.Zombie)
+                    StartCoroutine(GetPointAndActivateZombie((Zombie)enemy));
+                else
+                    StartCoroutine(GetPointAndActivateRaven((Raven)enemy));
+            }
         }
 
         public void ActivateAndSetPosition(Vector3 position)
@@ -82,19 +115,39 @@ namespace AlyxAdventure
             return platformType;
         }
 
-        public Transform GetZombiePoint()
+        private IEnumerator GetPointAndActivateZombie(Zombie zombie)
         {
-            Transform t = ZombieSpawnPoints.Dequeue();
-            ZombieSpawnPoints.Enqueue(t);
-            return t;
+            if (ZombiePoints != null)
+            {
+                Transform t;
+                do
+                {
+                    t = ZombieSpawnPoints.Dequeue();
+                    ZombieSpawnPoints.Enqueue(t);
+                    yield return new WaitForEndOfFrame();
+                }
+                while (Mathf.Abs(t.position.x - GameData.Instance.theRunnerTransform.position.x) < 14f);
+
+                zombie.ActivateAndSetPosition(t.position, transform);
+            }
 
         }
 
-        public Transform GetRavenPoint()
+        private IEnumerator GetPointAndActivateRaven(Raven raven)
         {
-            Transform t = RavenSpawnPoints.Dequeue();
-            RavenSpawnPoints.Enqueue(t);
-            return t;
+            if (RavenPoints != null)
+            {
+                Transform t;
+                do
+                {
+                    t = RavenSpawnPoints.Dequeue();
+                    RavenSpawnPoints.Enqueue(t);
+                    yield return new WaitForEndOfFrame();
+                }
+                while (Mathf.Abs(t.position.x - GameData.Instance.theRunnerTransform.position.x) < 14f);
+
+                raven.ActivateAndSetPosition(t.position, transform);
+            }
 
         }
 

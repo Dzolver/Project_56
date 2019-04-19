@@ -6,15 +6,15 @@ namespace AlyxAdventure
 {
     public class ObjectPool : SingletonMonoBehaviour<ObjectPool>
     {
-        public GameObject Zombie;
-        public GameObject Raven;
-        public GameObject[] PlatformTypes;
-        public GameObject InvincibilityGO;
-        public GameObject ScoreMultiplier;
-        public GameObject FastRun;
-        public GameObject CoinWave1;
-        public GameObject CoinWave2;
-        public GameObject CoinWave3;
+        public Zombie Zombie;
+        public Raven Raven;
+        public Platform[] PlatformTypes;
+        public BasePowerup InvincibilityGO;
+        public BasePowerup ScoreMultiplier;
+        public BasePowerup FastRun;
+        public CoinWave CoinWave1;
+        public CoinWave CoinWave2;
+        public CoinWave CoinWave3;
 
         public int PlatformCount = 2;
         public int ZombieCount = 5;
@@ -25,30 +25,22 @@ namespace AlyxAdventure
         public Transform PooledObjectsHolder;
 
         [HideInInspector]
-        public List<GameObject> Zombies = new List<GameObject>();
+        public List<Zombie> Zombies = new List<Zombie>();
         [HideInInspector]
-        public List<GameObject> Ravens = new List<GameObject>();
+        public List<Raven> Ravens = new List<Raven>();
 
 
         [HideInInspector]
-        public List<GameObject> Platforms = new List<GameObject>();
+        public List<Platform> Platforms = new List<Platform>();
 
         [HideInInspector]
-        public List<GameObject> CoinWaves1 = new List<GameObject>();
-        [HideInInspector]
-        public List<GameObject> CoinWaves2 = new List<GameObject>();
-        [HideInInspector]
-        public List<GameObject> CoinWaves3 = new List<GameObject>();
+        public List<CoinWave> CoinWaves = new List<CoinWave>();
 
         [HideInInspector]
-        public List<GameObject> Powerups = new List<GameObject>();
+        public List<BasePowerup> Powerups = new List<BasePowerup>();
 
         public bool shouldExpand = false;
         private WaitForSeconds wait = new WaitForSeconds(0.001f);
-
-        private void Start()
-        {
-        }
 
         private void OnEnable()
         {
@@ -57,7 +49,7 @@ namespace AlyxAdventure
 
         private void OnDisable()
         {
-            if(MyEventManager.Instance!=null)
+            if (MyEventManager.Instance != null)
             {
                 MyEventManager.Instance.DeactivatePooledObjects.RemoveListener(DeactivateObjects);
             }
@@ -77,11 +69,11 @@ namespace AlyxAdventure
                 Total += ZombieCount;
             if (Raven != null)
                 Total += RavenCount;
-            if (CoinWaves1 != null)
+            if (CoinWave1 != null)
                 Total += CoinWaveCount;
-            if (CoinWaves2 != null)
+            if (CoinWave2 != null)
                 Total += CoinWaveCount;
-            if (CoinWaves3 != null)
+            if (CoinWave3 != null)
                 Total += CoinWaveCount;
             if (InvincibilityGO != null)
                 Total += PowerUpCount;
@@ -98,10 +90,10 @@ namespace AlyxAdventure
             {
                 for (int i = 0; i < ZombieCount; i++)
                 {
-                    GameObject gameObject = Instantiate(Zombie, PooledObjectsHolder);
+                    GameObject gameObject = Instantiate(Zombie.gameObject, PooledObjectsHolder);
                     gameObject.name = "Zombie -" + i;
                     gameObject.SetActive(false);
-                    Zombies.Add(gameObject);
+                    Zombies.Add(gameObject.GetComponent<Zombie>());
                     MyEventManager.Instance.OnObjectInstantiated.Dispatch();
                     yield return wait;
                 }
@@ -111,10 +103,10 @@ namespace AlyxAdventure
             {
                 for (int i = 0; i < RavenCount; i++)
                 {
-                    GameObject gameObject = Instantiate(Raven, PooledObjectsHolder);
+                    GameObject gameObject = Instantiate(Raven.gameObject, PooledObjectsHolder);
                     gameObject.name = "Raven -" + i;
                     gameObject.SetActive(false);
-                    Ravens.Add(gameObject);
+                    Ravens.Add(gameObject.GetComponent<Raven>());
                     MyEventManager.Instance.OnObjectInstantiated.Dispatch();
                     yield return wait;
                 }
@@ -125,10 +117,10 @@ namespace AlyxAdventure
                 for (int i = 0; i < PlatformCount * PlatformTypes.Length; i++)
                 {
                     GameObject gameObject;
-                    gameObject = Instantiate(PlatformTypes[i % PlatformTypes.Length], PooledObjectsHolder);
+                    gameObject = Instantiate(PlatformTypes[i % PlatformTypes.Length].gameObject, PooledObjectsHolder);
                     gameObject.name = "Platform - " + i;
                     gameObject.SetActive(false);
-                    Platforms.Add(gameObject);
+                    Platforms.Add(gameObject.GetComponent<Platform>());
                     MyEventManager.Instance.OnObjectInstantiated.Dispatch();
                     yield return wait;
                 }
@@ -136,64 +128,48 @@ namespace AlyxAdventure
 
             if (CoinWave1 != null)
             {
-                for (int i = 0; i < CoinWaveCount; i++)
+                for (int i = 0; i < CoinWaveCount * 3; i++)
                 {
-                    GameObject gameObject = Instantiate(CoinWave1, PooledObjectsHolder);
-                    gameObject.name = "CoinWave 1-" + i;
+                    GameObject gameObject;
+                    if (i < 2)
+                        gameObject = Instantiate(CoinWave1.gameObject, PooledObjectsHolder);
+                    else if (i < 4)
+                        gameObject = Instantiate(CoinWave2.gameObject, PooledObjectsHolder);
+                    else
+                        gameObject = Instantiate(CoinWave3.gameObject, PooledObjectsHolder);
+
+                    gameObject.name = "CoinWave " + i;
                     gameObject.SetActive(false);
-                    CoinWaves1.Add(gameObject);
+                    CoinWaves.Add(gameObject.GetComponent<CoinWave>());
                     MyEventManager.Instance.OnObjectInstantiated.Dispatch();
                     yield return wait;
                 }
             }
-            if (CoinWave2 != null)
-            {
-                for (int i = 0; i < CoinWaveCount; i++)
-                {
-                    GameObject gameObject = Instantiate(CoinWave2, PooledObjectsHolder);
-                    gameObject.name = "CoinWave 2-" + i;
-                    gameObject.SetActive(false);
-                    CoinWaves2.Add(gameObject);
-                    MyEventManager.Instance.OnObjectInstantiated.Dispatch();
-                    yield return wait;
-                }
-            }
-            if (CoinWave3 != null)
-            {
-                for (int i = 0; i < CoinWaveCount; i++)
-                {
-                    GameObject gameObject = Instantiate(CoinWave3, PooledObjectsHolder);
-                    gameObject.name = "CoinWave 3-" + i;
-                    gameObject.SetActive(false);
-                    CoinWaves3.Add(gameObject);
-                    MyEventManager.Instance.OnObjectInstantiated.Dispatch();
-                    yield return wait;
-                }
-            }
+
 
             for (int i = 0; i < PowerUpCount * 3; i++)
             {
                 GameObject gameObject;
                 if (i < 2)
-                    gameObject = Instantiate(InvincibilityGO, PooledObjectsHolder);
+                    gameObject = Instantiate(InvincibilityGO.gameObject, PooledObjectsHolder);
                 else if (i < 4)
-                    gameObject = Instantiate(FastRun, PooledObjectsHolder);
+                    gameObject = Instantiate(FastRun.gameObject, PooledObjectsHolder);
                 else
-                    gameObject = Instantiate(ScoreMultiplier, PooledObjectsHolder);
+                    gameObject = Instantiate(ScoreMultiplier.gameObject, PooledObjectsHolder);
                 gameObject.name = "PowerUp" + i;
                 gameObject.SetActive(false);
-                Powerups.Add(gameObject);
+                Powerups.Add(gameObject.GetComponent<BasePowerup>());
                 MyEventManager.Instance.OnObjectInstantiated.Dispatch();
                 yield return wait;
             }
         }
 
-        public GameObject GetZombie()
+        public Zombie GetZombie()
         {
             //Perform normal return of the selected cube from selected queue
-            foreach (GameObject zombie in Zombies)
+            foreach (Zombie zombie in Zombies)
             {
-                if (!zombie.activeInHierarchy)
+                if (!zombie.gameObject.activeInHierarchy)
                 {
                     return zombie;
                 }
@@ -202,10 +178,10 @@ namespace AlyxAdventure
             //Increase count in the start if this case arrives while testing
             if (shouldExpand)
             {
-                GameObject gameObject = Instantiate(Zombie);
+                GameObject gameObject = Instantiate(Zombie.gameObject);
                 gameObject.SetActive(false);
-                Zombies.Add(gameObject);
-                return gameObject;
+                Zombies.Add(gameObject.GetComponent<Zombie>());
+                return gameObject.GetComponent<Zombie>();
             }
             else
             {
@@ -213,24 +189,21 @@ namespace AlyxAdventure
             }
         }
 
-        public GameObject GetRaven()
+        public Raven GetRaven()
         {
-            //Perform normal return of the selected cube from selected queue
-            foreach (GameObject raven in Ravens)
+            foreach (Raven raven in Ravens)
             {
-                if (!raven.activeInHierarchy)
+                if (!raven.gameObject.activeInHierarchy)
                 {
-                    return raven;
+                    return raven.GetComponent<Raven>();
                 }
             }
-            //If there are no deactivated objects, instantiate a new one and return that
-            //Increase count in the start if this case arrives while testing
             if (shouldExpand)
             {
-                GameObject gameObject = Instantiate(Raven);
+                GameObject gameObject = Instantiate(Raven.gameObject);
                 gameObject.SetActive(false);
-                Ravens.Add(gameObject);
-                return gameObject;
+                Ravens.Add(gameObject.GetComponent<Raven>());
+                return gameObject.GetComponent<Raven>();
             }
             else
             {
@@ -238,31 +211,31 @@ namespace AlyxAdventure
             }
         }
 
-        public GameObject GetPlatform(PlatformType platformType)
-        {            
-            foreach (GameObject Platform in Platforms)
+        public Platform GetPlatform(PlatformType platformType)
+        {
+            foreach (Platform platform in Platforms)
             {
-                if (!Platform.activeInHierarchy && Platform.GetComponent<Platform>().GetPlatformType() == platformType)
+                if (!platform.gameObject.activeInHierarchy && platform.GetPlatformType() == platformType)
                 {
-                    return Platform;
+                    return platform;
                 }
             }
-            foreach (GameObject Platform in Platforms)
+            foreach (Platform platform in Platforms)
             {
-                if (!Platform.activeInHierarchy)
+                if (!platform.gameObject.activeInHierarchy)
                 {
-                    return Platform;
+                    return platform;
                 }
             }
             return null;
 
         }
 
-        public GameObject GetPowerUp(PowerupType type)
+        public BasePowerup GetPowerUp(PowerupType type)
         {
-            foreach (GameObject go in Powerups)
+            foreach (BasePowerup go in Powerups)
             {
-                if (!go.activeInHierarchy && go.GetComponent<BasePowerup>().GetPowerupType() == type)
+                if (!go.gameObject.activeInHierarchy && go.GetPowerupType() == type)
                 {
                     return go;
                 }
@@ -279,80 +252,39 @@ namespace AlyxAdventure
 
         }
 
-        public GameObject GetCoinWave(int num)
+        public CoinWave GetCoinWave()
         {
-            List<GameObject> CoinWaves;
-            GameObject CoinWave;
-
-            switch (num)
+            foreach (CoinWave cw in CoinWaves)
             {
-                case 1:
-                    CoinWaves = CoinWaves1;
-                    CoinWave = CoinWave1;
-                    break;
-                case 2:
-                    CoinWaves = CoinWaves2;
-                    CoinWave = CoinWave2;
-                    break;
-                case 3:
-                    CoinWaves = CoinWaves3;
-                    CoinWave = CoinWave3;
-                    break;
-                default:
-                    CoinWaves = CoinWaves1;
-                    CoinWave = CoinWave1;
-                    break;
-            }
-            foreach (GameObject cw in CoinWaves)
-            {
-                if (!cw.activeInHierarchy)
+                if (!cw.gameObject.activeInHierarchy)
                 {
-                    return cw;
+                    return cw.GetComponent<CoinWave>();
                 }
             }
-            if (shouldExpand)
-            {
-                GameObject gameObject = Instantiate(CoinWave);
-                gameObject.SetActive(false);
-                CoinWaves.Add(gameObject);
-                return gameObject;
-            }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         private void DeactivateObjects()
         {
-            foreach (GameObject zombie in Zombies)
+            foreach (Zombie zombie in Zombies)
             {
-                zombie.SetActive(false);
+                zombie.Deactivate();
             }
-            foreach (GameObject Platform in Platforms)
+            foreach (Platform Platform in Platforms)
             {
-                Platform.SetActive(false);
+                Platform.Deactivate();
             }
-            foreach (GameObject go in Powerups)
+            foreach (BasePowerup go in Powerups)
             {
-                go.SetActive(false);
+                go.DeactivatePowerup();
             }
-            foreach (GameObject cw in CoinWaves1)
+            foreach (CoinWave cw in CoinWaves)
             {
-                cw.SetActive(false);
+                cw.DeactivateWave();
             }
-            foreach (GameObject cw in CoinWaves2)
+            foreach (Raven r in Ravens)
             {
-                cw.SetActive(false);
-            }
-            foreach (GameObject cw in CoinWaves3)
-            {
-                cw.SetActive(false);
-            }
-
-            foreach (GameObject r in Ravens)
-            {
-                r.SetActive(false);
+                r.Deactivate();
             }
         }
     }

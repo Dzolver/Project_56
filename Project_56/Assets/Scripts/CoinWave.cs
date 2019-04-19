@@ -12,6 +12,7 @@ namespace AlyxAdventure
         {
             Coins = new List<Coin>(GetComponentsInChildren<Coin>());
         }
+
         public void ActivateAndSetPosition(Vector2 position, Quaternion rotation, Transform parent)
         {
             gameObject.transform.SetPositionAndRotation(position, rotation);
