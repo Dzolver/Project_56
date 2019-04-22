@@ -29,7 +29,6 @@ namespace AlyxAdventure
 
         public void ActivateAndSetPosition(Vector2 pos, Transform parent)
         {
-            Debug.Log("pos= " + pos);
             transform.SetParent(parent);
             transform.position = pos;
             gameObject.SetActive(true);

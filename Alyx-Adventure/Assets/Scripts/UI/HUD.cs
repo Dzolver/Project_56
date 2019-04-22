@@ -89,7 +89,7 @@ namespace AlyxAdventure
 
         public void OnAttackClicked()
         {
-            //MyEventManager.Instance.OnAttackClicked.Dispatch();
+            MyEventManager.Instance.OnAttackClicked.Dispatch();
         }
 
         public void Pause()

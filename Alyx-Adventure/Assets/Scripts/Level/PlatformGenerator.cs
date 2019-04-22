@@ -113,7 +113,6 @@ public class PlatformGenerator : MonoBehaviour
         else
             parent = LeftPlatform;
         Vector2 pos = parent.GetPowerupPoint().position;
-        Debug.Log("Power up  activated;Parent = " + parent + " pos = " + pos);
         powerup.ActivateAndSetPosition(pos, parent.transform);
     }
 

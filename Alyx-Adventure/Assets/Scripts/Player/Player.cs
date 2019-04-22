@@ -9,7 +9,7 @@ namespace AlyxAdventure
     [RequireComponent(typeof(PlayerController))]
     public class Player : MonoBehaviour, IPlayer
     {
-        public bool attacked;
+        // public bool attacked;
         private bool IsInvincible = false;
 
         Coroutine coroutine;
@@ -47,11 +47,9 @@ namespace AlyxAdventure
             {
                 if (collision.gameObject.CompareTag(GameStrings.Enemy))
                 {
-                    if (!attacked)
-                    {
-                        //GameOver();
-                        Debug.Log("Game over");
-                    }
+                    // if (!attacked) GameOver();
+                    Debug.Log("Game over");
+
                 }
 
                 else if (collision.gameObject.CompareTag(GameStrings.JumpBlock) || collision.gameObject.CompareTag(GameStrings.SlideBlock))

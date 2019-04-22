@@ -124,7 +124,7 @@ namespace AlyxAdventure
                 {
                     t = ZombieSpawnPoints.Dequeue();
                     ZombieSpawnPoints.Enqueue(t);
-                    yield return new WaitForEndOfFrame();
+                    yield return new WaitForSeconds(.5f);
                 }
                 while (Mathf.Abs(t.position.x - GameData.Instance.theRunnerTransform.position.x) < 14f);
 
@@ -155,7 +155,6 @@ namespace AlyxAdventure
         {
             Transform t = PowerupSpawnPoints.Dequeue();
             PowerupSpawnPoints.Enqueue(t);
-            Debug.Log(t.position);
             return t;
         }
 

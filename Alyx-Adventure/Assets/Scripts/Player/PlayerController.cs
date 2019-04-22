@@ -56,7 +56,7 @@ namespace AlyxAdventure
             {
                 MyEventManager.Instance.OnJumpClicked.RemoveListener(Jump);
                 MyEventManager.Instance.OnFallOrSlideClicked.RemoveListener(OnFallOrSlideClicked);
-                //MyEventManager.Instance.OnAttackClicked.RemoveListener(OnAttackClicked);
+                MyEventManager.Instance.OnAttackClicked.RemoveListener(OnAttackClicked);
                 MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
                 MyEventManager.Instance.IncreaseSpeed.RemoveListener(OnSpeedIncrease);
             }
@@ -222,10 +222,11 @@ namespace AlyxAdventure
         {
             if (Time.time - lastSwing >= swingCoolDown)
             {
-                RunnerWeaponAnimator.SetTrigger("Attack");
+                //RunnerWeaponAnimator.SetTrigger("Attack");
+                RunnerAnimator.SetTrigger("Attack");
                 lastSwing = Time.time;
-                player.attacked = true;
-                Invoke("SetAttackOff", RunnerWeaponAnimator.GetCurrentAnimatorStateInfo(0).length);
+                // player.attacked = true;
+                //Invoke("SetAttackOff", RunnerAnimator.GetCurrentAnimatorStateInfo(0).length);
 
             }
 
@@ -269,7 +270,7 @@ namespace AlyxAdventure
         #region Other Methods
         private void SetAttackOff()
         {
-            player.attacked = false;
+            //player.attacked = false;
         }
 
         private void SetSlidingOff()
