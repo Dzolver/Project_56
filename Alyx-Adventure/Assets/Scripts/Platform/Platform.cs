@@ -52,7 +52,7 @@ namespace AlyxAdventure
         {
             PowerUpPoints = new List<Transform>(PowerupParent.GetComponentsInChildren<Transform>());
             PowerUpPoints.Remove(PowerupParent);
-            PowerUpPoints.Shuffle();  
+            PowerUpPoints.Shuffle();
             PowerupSpawnPoints = new Queue<Transform>(PowerUpPoints);
 
             CoinPoints = new List<Transform>(CoinParent.GetComponentsInChildren<Transform>());
