@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "177713382013",
+    "firebase_url": "https://alyxs-adventure-93067716.firebaseio.com",
+    "project_id": "alyxs-adventure-93067716",
+    "storage_bucket": "alyxs-adventure-93067716.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177713382013:android:37a75aa119152fab",
+        "android_client_info": {
+          "package_name": "com.knightowl.alyxadv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "177713382013-ftdndbjg9uo3hg34g1e551dckqr69mr3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrz9df71bdK00vJSXDMcGmFIEYK9Nnstc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "177713382013-ftdndbjg9uo3hg34g1e551dckqr69mr3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177713382013:android:1d6f9ff3b9fea2e9",
+        "android_client_info": {
+          "package_name": "htowl.alyxsadvalyxsadv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "177713382013-ftdndbjg9uo3hg34g1e551dckqr69mr3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrz9df71bdK00vJSXDMcGmFIEYK9Nnstc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "177713382013-ftdndbjg9uo3hg34g1e551dckqr69mr3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,5 @@
-﻿using GooglePlayGames;
-using GooglePlayGames.BasicApi;
+﻿//using GooglePlayGames;
+//using GooglePlayGames.BasicApi;
 using System;
 using UnityEngine;
 using TMPro;
@@ -14,35 +14,35 @@ namespace AlyxAdventure
 
         private void Start()
         {
-            StatusText.text = "Running Google Play";
+            //StatusText.text = "Running Google Play";
 
-            PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
-            .EnableSavedGames()
-            // registers a callback to handle game invitations received while the game is not running.
-            //.WithInvitationDelegate(< callback method >)
-            // requests the email address of the player be available.
-            // Will bring up a prompt for consent.
-            .RequestEmail()
-            // requests a server auth code be generated so it can be passed to an
-            //  associated back end server application and exchanged for an OAuth token.
-            .RequestServerAuthCode(false)
-            // requests an ID token be generated.  This OAuth token can be used to
-            //  identify the player to other services such as Firebase.
-            //.RequestIdToken()
-            .Build();
-            StatusText.text = "Play Build done";
+            //PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
+            //.EnableSavedGames()
+            //// registers a callback to handle game invitations received while the game is not running.
+            ////.WithInvitationDelegate(< callback method >)
+            //// requests the email address of the player be available.
+            //// Will bring up a prompt for consent.
+            //.RequestEmail()
+            //// requests a server auth code be generated so it can be passed to an
+            ////  associated back end server application and exchanged for an OAuth token.
+            //.RequestServerAuthCode(false)
+            //// requests an ID token be generated.  This OAuth token can be used to
+            ////  identify the player to other services such as Firebase.
+            ////.RequestIdToken()
+            //.Build();
+            //StatusText.text = "Play Build done";
 
-            PlayGamesPlatform.InitializeInstance(config);
-            StatusText.text = "Play Initialized";
+            //PlayGamesPlatform.InitializeInstance(config);
+            //StatusText.text = "Play Initialized";
 
-            // recommended for debugging:
-            PlayGamesPlatform.DebugLogEnabled = true;
-            // Activate the Google Play Games platform
-            PlayGamesPlatform.Activate();
-            StatusText.text = "Actrivate called";
+            //// recommended for debugging:
+            //PlayGamesPlatform.DebugLogEnabled = true;
+            //// Activate the Google Play Games platform
+            //PlayGamesPlatform.Activate();
+            //StatusText.text = "Actrivate called";
 
-            StatusText.text = "Authenticating";
-            Social.localUser.Authenticate(OnAuthenticationComplete);
+            //StatusText.text = "Authenticating";
+            //Social.localUser.Authenticate(OnAuthenticationComplete);
             //Canvas.SetActive(false);
         }
 
