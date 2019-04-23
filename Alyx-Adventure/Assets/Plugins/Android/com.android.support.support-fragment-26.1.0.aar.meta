@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: 539a3d107c5c8be438ae84715628ff16
+labels:
+- gpsr
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
