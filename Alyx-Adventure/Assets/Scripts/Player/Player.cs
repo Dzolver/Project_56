@@ -9,7 +9,7 @@ namespace AlyxAdventure
     [RequireComponent(typeof(PlayerController))]
     public class Player : MonoBehaviour, IPlayer
     {
-        // public bool attacked;
+        public bool attacked;
         private bool IsInvincible = false;
 
         Coroutine coroutine;
@@ -45,17 +45,7 @@ namespace AlyxAdventure
         {
             if (!IsInvincible)
             {
-                if (collision.gameObject.CompareTag(GameStrings.Enemy))
-                {
-                    // if (!attacked) GameOver();
-                    Debug.Log("Game over");
-
-                }
-
-                else if (collision.gameObject.CompareTag(GameStrings.JumpBlock) || collision.gameObject.CompareTag(GameStrings.SlideBlock))
-                {
-                    //GameOver();
-                }
+                OnCollision(collision);
             }
             else
             {
@@ -71,6 +61,34 @@ namespace AlyxAdventure
             }
         }
 
+        private void OnCollision(Collision2D collision)
+        {
+            if (collision.gameObject.CompareTag(GameStrings.Enemy))
+            {
+                //if (!attacked)
+                //    GameOver();
+            }
+
+            else if (collision.gameObject.CompareTag(GameStrings.JumpBlock) || collision.gameObject.CompareTag(GameStrings.SlideBlock))
+            {
+                // GameOver(); 
+            }
+        }
+
+        private void OnCollisionStay2D(Collision2D collision)
+        {
+            if (!IsInvincible)
+            {
+                OnCollision(collision);
+            }
+        }
+
+        private void GameOver()
+        {
+            Deactivate();
+            SceneManager.LoadScene(3);
+        }
+
         public void ActivateAndSetPosition(Vector3 vector3)
         {
             throw new NotImplementedException();
@@ -82,13 +100,6 @@ namespace AlyxAdventure
             gameObject.SetActive(false);
             gameObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         }
-
-        private void GameOver()
-        {
-            Deactivate();
-            SceneManager.LoadScene(3);
-        }
-
 
         private void OnPowerupCollected(BasePowerup powerup)
         {

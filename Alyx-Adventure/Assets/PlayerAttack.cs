@@ -14,7 +14,5 @@ public class PlayerAttack : MonoBehaviour
             collision.gameObject.GetComponent<AbstractEnemy>().Deactivate();
         }
 
-
-
     }
 }

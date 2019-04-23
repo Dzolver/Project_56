@@ -1,13 +1,44 @@
-﻿using System;
+﻿using AlyxAdventure;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SlideBlock : MonoBehaviour
 {
+    CircleCollider2D myCollider;
+
+    private void Awake()
+    {
+        myCollider = GetComponentInChildren<CircleCollider2D>();
+    }
+
     private void OnEnable()
     {
+        MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
+        MyEventManager.Instance.OnPowerupExhausted.AddListener(OnPowerupExhausted);
         ToLeft();
+    }
+
+    private void OnDisable()
+    {
+        if (MyEventManager.Instance != null)
+        {
+            MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
+            //MyEventManager.Instance.OnPowerupExhausted.RemoveListener(OnPowerupExhausted);
+        }
+    }
+
+    private void OnPowerupCollected(BasePowerup powerup)
+    {
+        if (powerup.GetPowerupType() == PowerupType.Invincibility || powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
+            myCollider.isTrigger = true;
+    }
+
+    private void OnPowerupExhausted(BasePowerup powerup)
+    {
+        if (myCollider.isTrigger)
+            myCollider.isTrigger = false;
     }
 
     private void ToLeft()

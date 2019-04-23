@@ -100,5 +100,6 @@ public class GameData : SingletonMonoBehaviour<GameData>
         TotalKills += 1;
         MyEventManager.Instance.OnEnemyKilled.Dispatch(TotalKills);
     }
+
 }
 

@@ -1,13 +1,16 @@
-﻿using System;
+﻿using AlyxAdventure;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PowerupTimer : MonoBehaviour {
+public class PowerupTimer : MonoBehaviour
+{
 
     public Image FillImage;
-	public void ActivateTimer(int duration)
+
+    public void ActivateTimer(int duration)
     {
         gameObject.SetActive(true);
         FillImage.type = Image.Type.Filled;
@@ -16,6 +19,7 @@ public class PowerupTimer : MonoBehaviour {
 
     private void OnPowerupExhausted()
     {
+        MyEventManager.Instance.OnPowerupExhausted.Dispatch(GameData.Instance.GetCurrentPoweruup());
         Deactivate();
     }
 

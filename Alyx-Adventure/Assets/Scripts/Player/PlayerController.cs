@@ -99,7 +99,7 @@ namespace AlyxAdventure
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.CompareTag(GameStrings.Platform))
+            if (collision.gameObject.CompareTag(GameStrings.Ground))
             {
                 grounded = true;
             }
@@ -225,9 +225,8 @@ namespace AlyxAdventure
                 //RunnerWeaponAnimator.SetTrigger("Attack");
                 RunnerAnimator.SetTrigger("Attack");
                 lastSwing = Time.time;
-                // player.attacked = true;
-                //Invoke("SetAttackOff", RunnerAnimator.GetCurrentAnimatorStateInfo(0).length);
-
+                player.attacked = true;
+                Invoke("SetAttackOff", RunnerAnimator.GetCurrentAnimatorStateInfo(0).length);
             }
 
         }
@@ -270,7 +269,7 @@ namespace AlyxAdventure
         #region Other Methods
         private void SetAttackOff()
         {
-            //player.attacked = false;
+            player.attacked = false;
         }
 
         private void SetSlidingOff()
