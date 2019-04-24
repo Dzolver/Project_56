@@ -30,7 +30,6 @@ namespace AlyxAdventure
         private Vector2 m_FirstPressPos;
         private Vector2 m_SecondPressPos;
         private Vector2 m_CurrentSwipe;
-        private Coroutine coroutine;
         private float SwipeDetectionSensitivity;
 
         //Attack variable
@@ -47,6 +46,7 @@ namespace AlyxAdventure
             MyEventManager.Instance.OnAttackClicked.AddListener(OnAttackClicked);
             MyEventManager.Instance.IncreaseSpeed.AddListener(OnSpeedIncrease);
             MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
+            MyEventManager.Instance.OnPowerupExhausted.AddListener(OnPowerupExhausted);
         }
 
 
@@ -59,6 +59,7 @@ namespace AlyxAdventure
                 MyEventManager.Instance.OnAttackClicked.RemoveListener(OnAttackClicked);
                 MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
                 MyEventManager.Instance.IncreaseSpeed.RemoveListener(OnSpeedIncrease);
+                MyEventManager.Instance.OnPowerupExhausted.RemoveListener(OnPowerupExhausted);
             }
         }
 
@@ -238,11 +239,16 @@ namespace AlyxAdventure
         {
             if (powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
             {
-                if (coroutine != null)
-                    StopCoroutine(coroutine);
-                moveSpeed += ((FastRunInvincibility)powerup).GetSpeed();
-                coroutine = StartCoroutine(IEResetSpeed(powerup.GetPowerupDuration(), ((FastRunInvincibility)powerup).GetSpeed()));
+                 moveSpeed += ((FastRunInvincibility)powerup).GetSpeed();
+            }
+        }
 
+
+        private void OnPowerupExhausted(BasePowerup powerup)
+        {
+            if (powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
+            {
+                moveSpeed -= ((FastRunInvincibility)powerup).GetSpeed();
             }
         }
 
@@ -280,13 +286,6 @@ namespace AlyxAdventure
                 RunnerAnimator.SetBool("Sliding", sliding);
             }
 
-        }
-
-        private IEnumerator IEResetSpeed(float duration, float speed)
-        {
-            Debug.Log("Coroutine started");
-            yield return new WaitForSeconds(duration);
-            moveSpeed -= speed;
         }
         #endregion
     }

@@ -95,7 +95,10 @@ namespace AlyxAdventure
         {
             gameObject.SetActive(true);
             transform.SetPositionAndRotation(position, Quaternion.identity);
-            // OnPowerupCollected(null);
+            foreach(SlideBlock block in GetComponentsInChildren<SlideBlock>())
+            {
+                block.StartSliding();
+            }
         }
 
         public void Deactivate()
@@ -112,6 +115,10 @@ namespace AlyxAdventure
             {
                 p.DeactivatePowerup();
             }
+            foreach (SlideBlock block in GetComponentsInChildren<SlideBlock>())
+            {
+                block.StopSliding();
+            }
             gameObject.SetActive(false);
         }
 
@@ -119,16 +126,19 @@ namespace AlyxAdventure
         {
             if (ZombieParent != null)
             {
-                Transform t;
-                do
+                if (ZombieSpawnPoints.Count > 0)
                 {
-                    t = ZombieSpawnPoints.Dequeue();
-                    ZombieSpawnPoints.Enqueue(t);
-                    yield return new WaitForSeconds(.5f);
+                    Transform t;
+                    do
+                    {
+                        yield return new WaitForSeconds(.5f);
+                        t = ZombieSpawnPoints.Dequeue();
+                        ZombieSpawnPoints.Enqueue(t);                        
+                    }
+                    while (Mathf.Abs(t.position.x - GameData.Instance.theRunnerTransform.position.x) < 14f);
+                    zombie.ActivateAndSetPosition(t.position, transform);
                 }
-                while (Mathf.Abs(t.position.x - GameData.Instance.theRunnerTransform.position.x) < 14f);
 
-                zombie.ActivateAndSetPosition(t.position, transform);
             }
 
         }
@@ -170,57 +180,58 @@ namespace AlyxAdventure
         {
             return platformType;
         }
-
-
-        // public Collider2D[] InvincibilityColliders;
-
-        //private void OnEnable()
-        //{
-
-        //        MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
-        //        MyEventManager.Instance.OnPowerupExhausted.AddListener(OnPowerupExhausted);
-        //}
-
-        //private void OnDisable()
-        //{
-        //    if (MyEventManager.Instance != null )
-        //    {
-        //        MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
-        //        MyEventManager.Instance.OnPowerupExhausted.RemoveListener(OnPowerupExhausted);
-        //    }
-
-
-        //}
-
-        //private void OnPowerupCollected(BasePowerup powerup)
-        //{
-        //    if (powerup == null)
-        //    {
-        //        foreach (Collider2D collider in InvincibilityColliders)
-        //            collider.isTrigger = true;
-        //    }
-        //    else if (powerup.GetPowerupType() == PowerupType.Invincibility || powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
-        //    {
-        //        foreach (Collider2D collider in InvincibilityColliders)
-        //            collider.isTrigger = false;
-        //    }
-        //}
-
-        //private void OnPowerupExhausted(BasePowerup powerup)
-        //{
-        //    if (powerup.GetPowerupType() == PowerupType.Invincibility || powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
-        //    {
-        //        foreach (Collider2D collider in InvincibilityColliders)
-        //            collider.isTrigger = true;
-        //    }
-        //}
-
-        //public void ActivateAndSetPosition(Vector3 position, BasePowerup powerup)
-        //{
-        //    gameObject.SetActive(true);
-        //    transform.SetPositionAndRotation(position, Quaternion.identity);
-        //    OnPowerupCollected(powerup);
-
-        //}
     }
 }
+
+
+
+// public Collider2D[] InvincibilityColliders;
+
+//private void OnEnable()
+//{
+
+//        MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
+//        MyEventManager.Instance.OnPowerupExhausted.AddListener(OnPowerupExhausted);
+//}
+
+//private void OnDisable()
+//{
+//    if (MyEventManager.Instance != null )
+//    {
+//        MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
+//        MyEventManager.Instance.OnPowerupExhausted.RemoveListener(OnPowerupExhausted);
+//    }
+
+
+//}
+
+//private void OnPowerupCollected(BasePowerup powerup)
+//{
+//    if (powerup == null)
+//    {
+//        foreach (Collider2D collider in InvincibilityColliders)
+//            collider.isTrigger = true;
+//    }
+//    else if (powerup.GetPowerupType() == PowerupType.Invincibility || powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
+//    {
+//        foreach (Collider2D collider in InvincibilityColliders)
+//            collider.isTrigger = false;
+//    }
+//}
+
+//private void OnPowerupExhausted(BasePowerup powerup)
+//{
+//    if (powerup.GetPowerupType() == PowerupType.Invincibility || powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
+//    {
+//        foreach (Collider2D collider in InvincibilityColliders)
+//            collider.isTrigger = true;
+//    }
+//}
+
+//public void ActivateAndSetPosition(Vector3 position, BasePowerup powerup)
+//{
+//    gameObject.SetActive(true);
+//    transform.SetPositionAndRotation(position, Quaternion.identity);
+//    OnPowerupCollected(powerup);
+
+//}

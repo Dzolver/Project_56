@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameStrings  {
+public class GameStrings
+{
 
     public static string Enemy = "Enemy";
     public static string JumpBlock = "JumpBlock";
@@ -12,4 +13,5 @@ public class GameStrings  {
     public static string MainCamera = "MainCamera";
     public static string Ground = "Ground";
     public static string PlatformParent = "PlatformParent";
+    public static string Player = "Player";
 }

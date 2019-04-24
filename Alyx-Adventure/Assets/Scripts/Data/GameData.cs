@@ -24,7 +24,7 @@ public class GameData : SingletonMonoBehaviour<GameData>
     public int CurrentScore = 0;
     public int TotalKills = 0;
     public float MinutesSinceGame = 0f;
-  
+
     private BasePowerup currentPowerup = null;
 
 
@@ -90,7 +90,7 @@ public class GameData : SingletonMonoBehaviour<GameData>
         this.direction = direction;
     }
 
-    public BasePowerup GetCurrentPoweruup()
+    public BasePowerup GetCurrentPowerup()
     {
         return currentPowerup;
     }

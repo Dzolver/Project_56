@@ -8,6 +8,21 @@ public class SlideBlock : MonoBehaviour
 {
     CircleCollider2D myCollider;
 
+    public void StartSliding()
+    {
+        myCollider.isTrigger = false;
+        ToLeft();
+        if (GameData.Instance.GetCurrentPowerup() != null)
+        {
+            OnPowerupCollected(GameData.Instance.GetCurrentPowerup());
+        }
+    }
+
+    public void StopSliding()
+    {
+        LeanTween.cancel(gameObject);
+    }
+
     private void Awake()
     {
         myCollider = GetComponentInChildren<CircleCollider2D>();
@@ -17,7 +32,6 @@ public class SlideBlock : MonoBehaviour
     {
         MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
         MyEventManager.Instance.OnPowerupExhausted.AddListener(OnPowerupExhausted);
-        ToLeft();
     }
 
     private void OnDisable()

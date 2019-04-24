@@ -19,11 +19,13 @@ namespace AlyxAdventure
             while (true)
             {
                 yield return new WaitForSeconds(WaitTime);
-                int random = Random.Range(1, 4);
-                powerup = ObjectPool.Instance.GetPowerUp((PowerupType)random);
-                MyEventManager.Instance.OnPowerupGenerated.Dispatch(powerup);
+                if (GameData.Instance.GetCurrentPowerup() == null)
+                {
+                    int random = Random.Range(1, 4);
+                    powerup = ObjectPool.Instance.GetPowerUp((PowerupType)random);
+                    MyEventManager.Instance.OnPowerupGenerated.Dispatch(powerup);
+                }
             }
-
         }
 
     }

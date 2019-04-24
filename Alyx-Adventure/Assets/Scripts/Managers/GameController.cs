@@ -9,9 +9,10 @@ namespace AlyxAdventure
     public class GameController : MonoBehaviour
     {
         int Multiplier = 0;
-       
+
         private void OnEnable()
         {
+            MyEventManager.Instance.OnPowerupExhausted.AddListener(OnPowerupExhausted);
             MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
         }
 
@@ -20,6 +21,8 @@ namespace AlyxAdventure
             if (MyEventManager.Instance != null)
             {
                 MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
+                MyEventManager.Instance.OnPowerupExhausted.RemoveListener(OnPowerupExhausted);
+
             }
         }
 
@@ -35,14 +38,15 @@ namespace AlyxAdventure
             if (powerup.GetPowerupType() == PowerupType.ScoreMultiplier)
             {
                 Multiplier = ((ScoreMultiplier)powerup).GetMultiplier();
-                StartCoroutine(ResetMultiplier(powerup.GetPowerupDuration()));
             }
         }
 
-        private IEnumerator ResetMultiplier(float duration)
+        private void OnPowerupExhausted(BasePowerup powerup)
         {
-            yield return new WaitForSeconds(duration);
-            Multiplier = 0;
+            if (powerup.GetPowerupType() == PowerupType.ScoreMultiplier)
+            {
+                Multiplier = 0;
+            }
         }
 
         private IEnumerator GenerateCoinWave()
@@ -52,7 +56,7 @@ namespace AlyxAdventure
             {
                 yield return new WaitForSeconds(10f);
                 coinwave = ObjectPool.Instance.GetCoinWave();
-                MyEventManager.Instance.OnCoinWaveGenerated.Dispatch(coinwave);              
+                MyEventManager.Instance.OnCoinWaveGenerated.Dispatch(coinwave);
             }
         }
 

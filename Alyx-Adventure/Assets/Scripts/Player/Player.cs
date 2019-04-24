@@ -10,14 +10,14 @@ namespace AlyxAdventure
     public class Player : MonoBehaviour, IPlayer
     {
         public bool attacked;
-        private bool IsInvincible = false;
+        private bool IsInvincible = true;
 
-        Coroutine coroutine;
         PlayerController playerController;
 
         private void OnEnable()
         {
             MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
+            MyEventManager.Instance.OnPowerupExhausted.AddListener(OnPowerupExhausted);
         }
 
         private void OnDisable()
@@ -25,6 +25,7 @@ namespace AlyxAdventure
             if (MyEventManager.Instance != null)
             {
                 MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
+                MyEventManager.Instance.OnPowerupExhausted.RemoveListener(OnPowerupExhausted);
             }
         }
 
@@ -106,18 +107,18 @@ namespace AlyxAdventure
             if (powerup.GetPowerupType() == PowerupType.Invincibility || powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
             {
                 IsInvincible = true;
-                if (coroutine != null)
-                    StopCoroutine(coroutine);
                 LeanTween.color(gameObject, Color.cyan, 0.5f);
-                coroutine = StartCoroutine(DeactivateInvincibility(powerup.GetPowerupDuration()));
             }
         }
 
-        private IEnumerator DeactivateInvincibility(int Duration)
+        private void OnPowerupExhausted(BasePowerup powerup)
         {
-            yield return new WaitForSeconds(Duration);
-            IsInvincible = false;
-            LeanTween.color(gameObject, Color.white, 0.5f);
+            if (powerup.GetPowerupType() == PowerupType.Invincibility || powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
+            {
+                // IsInvincible = false;
+                LeanTween.color(gameObject, Color.white, 0.5f);
+            }
         }
+
     }
 }

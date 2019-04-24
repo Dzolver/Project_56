@@ -5,10 +5,6 @@ namespace AlyxAdventure
 {
     public class Coin : MonoBehaviour {
 
-        void Start() {
-           
-        }
-
         public void Activate()
         {
             if (!gameObject.activeInHierarchy)
@@ -19,18 +15,17 @@ namespace AlyxAdventure
             }
         }
 
-        public void ActivateAndSetPosition(Vector2 position)
+        public void Deactivate()
         {
-            gameObject.SetActive(true);
-            gameObject.transform.SetPositionAndRotation(position, Quaternion.identity);
-            
+            LeanTween.cancel(gameObject);
+            gameObject.SetActive(false);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.gameObject.tag.Equals("Player"))
+            if (collision.gameObject.CompareTag(GameStrings.Player))
             {
-                gameObject.SetActive(false);
+                Deactivate();
                 MyEventManager.Instance.OnCoinCollected.Dispatch();
             }
         }

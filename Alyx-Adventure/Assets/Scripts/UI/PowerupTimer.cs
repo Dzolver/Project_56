@@ -19,7 +19,7 @@ public class PowerupTimer : MonoBehaviour
 
     private void OnPowerupExhausted()
     {
-        MyEventManager.Instance.OnPowerupExhausted.Dispatch(GameData.Instance.GetCurrentPoweruup());
+        MyEventManager.Instance.OnPowerupExhausted.Dispatch(GameData.Instance.GetCurrentPowerup());
         Deactivate();
     }
 
