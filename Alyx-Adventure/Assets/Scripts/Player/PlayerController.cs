@@ -84,6 +84,7 @@ namespace AlyxAdventure
             TouchSwipe();
             //returns true or false whether the collider is touching another collider containing the layer called 'Ground'
             //grounded = Physics2D.IsTouchingLayers(RunnerCollider, whatIsGround);
+
             //Character will move in a direction with each frame
             RunnerRigidBody.velocity = new Vector2(moveSpeed * (int)GameData.Instance.direction, RunnerRigidBody.velocity.y);
             GameData.Instance.RunnerVelocity = RunnerRigidBody.velocity;
@@ -100,7 +101,7 @@ namespace AlyxAdventure
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject.CompareTag(GameStrings.Ground))
+            if (collision.gameObject.CompareTag(GameStrings.Ground) || collision.gameObject.CompareTag(GameStrings.Platform))
             {
                 grounded = true;
             }
@@ -239,7 +240,7 @@ namespace AlyxAdventure
         {
             if (powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
             {
-                 moveSpeed += ((FastRunInvincibility)powerup).GetSpeed();
+                moveSpeed += ((FastRunInvincibility)powerup).GetSpeed();
             }
         }
 

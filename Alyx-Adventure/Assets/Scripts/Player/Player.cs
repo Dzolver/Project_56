@@ -10,7 +10,7 @@ namespace AlyxAdventure
     public class Player : MonoBehaviour, IPlayer
     {
         public bool attacked;
-        private bool IsInvincible = true;
+        private bool IsInvincible = true; //Keep this false initially
 
         PlayerController playerController;
 

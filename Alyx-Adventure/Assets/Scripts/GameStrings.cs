@@ -13,5 +13,6 @@ public class GameStrings
     public static string MainCamera = "MainCamera";
     public static string Ground = "Ground";
     public static string PlatformParent = "PlatformParent";
+    public static string Platform = "Platform";
     public static string Player = "Player";
 }
