@@ -91,6 +91,7 @@ namespace AlyxAdventure
                 for (int i = 0; i < ZombieCount; i++)
                 {
                     GameObject gameObject = Instantiate(Zombie.gameObject, PooledObjectsHolder);
+                    gameObject.GetComponent<Zombie>().SetMoveSpeed(2f);
                     gameObject.name = "Zombie -" + i;
                     gameObject.SetActive(false);
                     Zombies.Add(gameObject.GetComponent<Zombie>());
@@ -104,6 +105,7 @@ namespace AlyxAdventure
                 for (int i = 0; i < RavenCount; i++)
                 {
                     GameObject gameObject = Instantiate(Raven.gameObject, PooledObjectsHolder);
+                    gameObject.GetComponent<Raven>().SetMoveSpeed(3f);
                     gameObject.name = "Raven -" + i;
                     gameObject.SetActive(false);
                     Ravens.Add(gameObject.GetComponent<Raven>());

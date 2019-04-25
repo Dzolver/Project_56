@@ -65,8 +65,10 @@ public class PlatformGenerator : MonoBehaviour
         {
             type = (PlatformType)Random.Range((int)PlatformType.Easy, (int)PlatformType.Hard + 1);
         }
+        else if (GameData.Instance.MinutesSinceGame <= 4f)
+            type = (PlatformType)Random.Range((int)PlatformType.Easy, (int)PlatformType.VeryHard + 1);
         else
-            type = (PlatformType)Random.Range((int)PlatformType.Average, (int)PlatformType.Hard + 1);
+            type = (PlatformType)Random.Range((int)PlatformType.Average, (int)PlatformType.VeryHard + 1);
 
         return ObjectPool.Instance.GetPlatform(type);
     }
@@ -113,7 +115,9 @@ public class PlatformGenerator : MonoBehaviour
         else
             parent = LeftPlatform;
         Vector2 pos = parent.GetPowerupPoint().position;
-        powerup.ActivateAndSetPosition(pos, parent.transform);
+
+        if (Mathf.Abs(pos.x - GameData.Instance.theRunnerTransform.position.x) > 13f)
+            powerup.ActivateAndSetPosition(pos, parent.transform);
     }
 
 
@@ -122,23 +126,23 @@ public class PlatformGenerator : MonoBehaviour
         Vector2 pos;
         Quaternion rotation;
         Platform parent;
-        do
-        {
-            if (GameData.Instance.direction == Direction.Right)
-            {
-                rotation = Quaternion.identity;
-                parent = RightPlatform;
-            }
-            else
-            {
-                rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-                parent = LeftPlatform;
-            }
-            pos = parent.GetCoinWavePoint().position;
-        }
-        while (Mathf.Abs(pos.x - GameData.Instance.theRunnerTransform.position.x) < 13f);
 
-        coinwave.ActivateAndSetPosition(pos, rotation, parent.transform);
+        if (GameData.Instance.direction == Direction.Right)
+        {
+            rotation = Quaternion.identity;
+            parent = RightPlatform;
+        }
+        else
+        {
+            rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+            parent = LeftPlatform;
+        }
+        pos = parent.GetCoinWavePoint().position;
+
+        if (Mathf.Abs(pos.x - GameData.Instance.theRunnerTransform.position.x) > 13f)
+        {
+            coinwave.ActivateAndSetPosition(pos, rotation, parent.transform);
+        }
     }
 
 

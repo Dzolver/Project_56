@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -54,7 +53,7 @@ namespace AlyxAdventure
             CoinWave coinwave;
             while (true)
             {
-                yield return new WaitForSeconds(10f);
+                yield return new WaitForSeconds(Random.Range(8, 12));
                 coinwave = ObjectPool.Instance.GetCoinWave();
                 MyEventManager.Instance.OnCoinWaveGenerated.Dispatch(coinwave);
             }

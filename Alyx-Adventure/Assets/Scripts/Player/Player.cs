@@ -10,7 +10,7 @@ namespace AlyxAdventure
     public class Player : MonoBehaviour, IPlayer
     {
         public bool attacked;
-        private bool IsInvincible = true; //Keep this false initially
+        private bool IsInvincible = false;
 
         PlayerController playerController;
 
@@ -66,13 +66,13 @@ namespace AlyxAdventure
         {
             if (collision.gameObject.CompareTag(GameStrings.Enemy))
             {
-                //if (!attacked)
-                //    GameOver();
+                if (!attacked)
+                    GameOver();
             }
 
             else if (collision.gameObject.CompareTag(GameStrings.JumpBlock) || collision.gameObject.CompareTag(GameStrings.SlideBlock))
             {
-                // GameOver(); 
+                GameOver();
             }
         }
 
@@ -86,8 +86,8 @@ namespace AlyxAdventure
 
         private void GameOver()
         {
-            Deactivate();
-            SceneManager.LoadScene(3);
+            //Deactivate();
+            //SceneManager.LoadScene(3);
         }
 
         public void ActivateAndSetPosition(Vector3 vector3)
@@ -115,7 +115,7 @@ namespace AlyxAdventure
         {
             if (powerup.GetPowerupType() == PowerupType.Invincibility || powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
             {
-                // IsInvincible = false;
+                IsInvincible = false;
                 LeanTween.color(gameObject, Color.white, 0.5f);
             }
         }

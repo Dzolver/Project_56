@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemyGenerator : MonoBehaviour
 {
     float WaitTime = 7f;
+    Coroutine coroutine;
 
     private void OnEnable()
     {
@@ -23,7 +24,6 @@ public class EnemyGenerator : MonoBehaviour
     private void Start()
     {
         StartCoroutine(GenerateZombie());
-        StartCoroutine(GenerateRaven());
     }
 
     private void OnTimePassed(float minutes)
@@ -38,9 +38,11 @@ public class EnemyGenerator : MonoBehaviour
         }
         else if (minutes < 2.5f)
         {
+            if (coroutine == null)
+                coroutine = StartCoroutine(GenerateRaven());
             WaitTime = 5f;
         }
-        else if (minutes < 3f)
+        else if (minutes <= 3f)
         {
             WaitTime = 4f;
         }
@@ -63,12 +65,11 @@ public class EnemyGenerator : MonoBehaviour
 
     private IEnumerator GenerateRaven()
     {
-        yield return new WaitForSeconds(2f);
         while (true)
         {
             AbstractEnemy raven = ObjectPool.Instance.GetRaven();
             MyEventManager.Instance.OnEnemyGenerated.Dispatch(raven);
-            yield return new WaitForSeconds(WaitTime + UnityEngine.Random.Range(1,3));
+            yield return new WaitForSeconds(WaitTime + UnityEngine.Random.Range(0, 3));
         }
     }
 }

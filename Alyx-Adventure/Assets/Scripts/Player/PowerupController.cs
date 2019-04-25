@@ -5,8 +5,6 @@ namespace AlyxAdventure
 {
     public class PowerupController : MonoBehaviour
     {
-        private float WaitTime = 25f;
-
         private void Start()
         {
             StartCoroutine(SpawnPowerups());
@@ -18,7 +16,7 @@ namespace AlyxAdventure
             BasePowerup powerup;
             while (true)
             {
-                yield return new WaitForSeconds(WaitTime);
+                yield return new WaitForSeconds(Random.Range(25, 35));
                 if (GameData.Instance.GetCurrentPowerup() == null)
                 {
                     int random = Random.Range(1, 4);

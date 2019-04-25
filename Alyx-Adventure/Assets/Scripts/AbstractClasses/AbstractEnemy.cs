@@ -12,7 +12,7 @@ public abstract class AbstractEnemy : MonoBehaviour
 
     [SerializeField]
     private EnemyType enemyType;
-    private float m_MoveSpeed = 2.0f;
+    private float m_MoveSpeed = 2f;
     WaitForSeconds endOfFrame = new WaitForSeconds(0.1f);
     Coroutine routine;
 
@@ -44,6 +44,11 @@ public abstract class AbstractEnemy : MonoBehaviour
         spriteRenderer.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         if (routine != null)
             StopCoroutine(routine);
+    }
+
+    public void SetMoveSpeed(float speed)
+    {
+        m_MoveSpeed = speed;
     }
 
     public float GetMoveSpeed()

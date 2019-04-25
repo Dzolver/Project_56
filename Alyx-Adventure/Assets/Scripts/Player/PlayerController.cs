@@ -89,10 +89,10 @@ namespace AlyxAdventure
             RunnerRigidBody.velocity = new Vector2(moveSpeed * (int)GameData.Instance.direction, RunnerRigidBody.velocity.y);
             GameData.Instance.RunnerVelocity = RunnerRigidBody.velocity;
 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Jump();
-            }
+            //if (Input.GetKeyDown(KeyCode.Space))
+            //{
+            //    Attack();
+            //}
             if (sliding)
                 return;
             RunnerAnimator.SetFloat("Speed", Mathf.Abs(RunnerRigidBody.velocity.x));

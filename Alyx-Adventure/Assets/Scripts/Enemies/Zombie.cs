@@ -9,6 +9,7 @@ namespace AlyxAdventure
     public class Zombie :  AbstractEnemy
     {
         public Rigidbody2D myRigidbody;
+
         public override void Move(Direction direction)
         {
             myRigidbody.velocity = new Vector2(GetMoveSpeed() * (int)direction * (-1), myRigidbody.velocity.y);
