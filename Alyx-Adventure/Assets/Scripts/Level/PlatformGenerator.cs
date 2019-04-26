@@ -65,8 +65,10 @@ public class PlatformGenerator : MonoBehaviour
         {
             type = (PlatformType)Random.Range((int)PlatformType.Easy, (int)PlatformType.Hard + 1);
         }
-        else if (GameData.Instance.MinutesSinceGame <= 4f)
+        else if (GameData.Instance.MinutesSinceGame <= 6f)
+        {
             type = (PlatformType)Random.Range((int)PlatformType.Easy, (int)PlatformType.VeryHard + 1);
+        }
         else
             type = (PlatformType)Random.Range((int)PlatformType.Average, (int)PlatformType.VeryHard + 1);
 
@@ -114,10 +116,14 @@ public class PlatformGenerator : MonoBehaviour
             parent = RightPlatform;
         else
             parent = LeftPlatform;
-        Vector2 pos = parent.GetPowerupPoint().position;
 
-        if (Mathf.Abs(pos.x - GameData.Instance.theRunnerTransform.position.x) > 13f)
-            powerup.ActivateAndSetPosition(pos, parent.transform);
+        if (parent.GetPowerupPoint() != null)
+        {
+            Vector2 pos = parent.GetPowerupPoint().position;
+
+            if (Mathf.Abs(pos.x - GameData.Instance.theRunnerTransform.position.x) > 13f)
+                powerup.ActivateAndSetPosition(pos, parent.transform);
+        }
     }
 
 
@@ -137,11 +143,15 @@ public class PlatformGenerator : MonoBehaviour
             rotation = Quaternion.Euler(new Vector3(0, 180, 0));
             parent = LeftPlatform;
         }
-        pos = parent.GetCoinWavePoint().position;
 
-        if (Mathf.Abs(pos.x - GameData.Instance.theRunnerTransform.position.x) > 13f)
+        if (parent.GetCoinWavePoint() != null)
         {
-            coinwave.ActivateAndSetPosition(pos, rotation, parent.transform);
+            pos = parent.GetCoinWavePoint().position;
+
+            if (Mathf.Abs(pos.x - GameData.Instance.theRunnerTransform.position.x) > 13f)
+            {
+                coinwave.ActivateAndSetPosition(pos, rotation, parent.transform);
+            }
         }
     }
 

@@ -19,7 +19,7 @@ namespace AlyxAdventure
         public int PlatformCount = 2;
         public int ZombieCount = 5;
         public int RavenCount = 5;
-        public int CoinWaveCount = 3;
+        public int CoinWaveCount = 2;
         public int PowerUpCount = 2;
 
         public Transform PooledObjectsHolder;
@@ -256,6 +256,7 @@ namespace AlyxAdventure
 
         public CoinWave GetCoinWave()
         {
+            CoinWaves.Shuffle();
             foreach (CoinWave cw in CoinWaves)
             {
                 if (!cw.gameObject.activeInHierarchy)

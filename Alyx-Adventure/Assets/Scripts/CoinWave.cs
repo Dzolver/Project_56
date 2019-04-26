@@ -27,7 +27,7 @@ namespace AlyxAdventure
 
         public void DeactivateWave()
         {
-            foreach (Coin coin in Coins)
+           foreach (Coin coin in Coins)
             {
                 coin.Deactivate();
             }

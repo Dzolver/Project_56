@@ -50,15 +50,23 @@ namespace AlyxAdventure
 
         private void Start()
         {
-            PowerUpPoints = new List<Transform>(PowerupParent.GetComponentsInChildren<Transform>());
-            PowerUpPoints.Remove(PowerupParent);
-            PowerUpPoints.Shuffle();
-            PowerupSpawnPoints = new Queue<Transform>(PowerUpPoints);
+            if (PowerupParent != null)
+            {
+                PowerUpPoints = new List<Transform>(PowerupParent.GetComponentsInChildren<Transform>());
+                PowerUpPoints.Remove(PowerupParent);
+                PowerUpPoints.Shuffle();
+                PowerupSpawnPoints = new Queue<Transform>(PowerUpPoints);
+                PowerUpPoints = null;
+            }
 
-            CoinPoints = new List<Transform>(CoinParent.GetComponentsInChildren<Transform>());
-            CoinPoints.Remove(CoinParent);
-            CoinWaveSpawnPoints = new Queue<Transform>(CoinPoints);
-            CoinPoints.Shuffle();
+            if (CoinParent != null)
+            {
+                CoinPoints = new List<Transform>(CoinParent.GetComponentsInChildren<Transform>());
+                CoinPoints.Remove(CoinParent);
+                CoinPoints.Shuffle();
+                CoinWaveSpawnPoints = new Queue<Transform>(CoinPoints);
+                CoinPoints = null;
+            }
 
             if (ZombieParent != null)
             {
@@ -66,15 +74,16 @@ namespace AlyxAdventure
                 ZombiePoints.Remove(ZombieParent);
                 ZombiePoints.Shuffle();
                 ZombieSpawnPoints = new Queue<Transform>(ZombiePoints);
+                ZombiePoints = null;
             }
 
             if (RavenParent != null)
             {
-
                 RavenPoints = new List<Transform>(RavenParent.GetComponentsInChildren<Transform>());
                 RavenPoints.Remove(RavenParent);
                 RavenPoints.Shuffle();
                 RavenSpawnPoints = new Queue<Transform>(RavenPoints);
+                RavenPoints = null;
             }
 
         }
@@ -95,7 +104,7 @@ namespace AlyxAdventure
         {
             gameObject.SetActive(true);
             transform.SetPositionAndRotation(position, Quaternion.identity);
-            foreach(SlideBlock block in GetComponentsInChildren<SlideBlock>())
+            foreach (SlideBlock block in GetComponentsInChildren<SlideBlock>())
             {
                 block.StartSliding();
             }
@@ -133,7 +142,7 @@ namespace AlyxAdventure
                     {
                         yield return new WaitForSeconds(.5f);
                         t = ZombieSpawnPoints.Dequeue();
-                        ZombieSpawnPoints.Enqueue(t);                        
+                        ZombieSpawnPoints.Enqueue(t);
                     }
                     while (Mathf.Abs(t.position.x - GameData.Instance.theRunnerTransform.position.x) < 14f);
                     zombie.ActivateAndSetPosition(t.position, transform);
@@ -163,16 +172,24 @@ namespace AlyxAdventure
 
         public Transform GetPowerupPoint()
         {
-            Transform t = PowerupSpawnPoints.Dequeue();
-            PowerupSpawnPoints.Enqueue(t);
-            return t;
+            if (PowerupParent != null)
+            {
+                Transform t = PowerupSpawnPoints.Dequeue();
+                PowerupSpawnPoints.Enqueue(t);
+                return t;
+            }
+            return null;
         }
 
         public Transform GetCoinWavePoint()
         {
-            Transform t = CoinWaveSpawnPoints.Dequeue();
-            CoinWaveSpawnPoints.Enqueue(t);
-            return t;
+            if (CoinParent != null)
+            {
+                Transform t = CoinWaveSpawnPoints.Dequeue();
+                CoinWaveSpawnPoints.Enqueue(t);
+                return t;
+            }
+            return null;
         }
 
 
