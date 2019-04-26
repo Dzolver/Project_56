@@ -86,8 +86,8 @@ namespace AlyxAdventure
 
         private void GameOver()
         {
-            //Deactivate();
-            //SceneManager.LoadScene(3);
+            Deactivate();
+            SceneManager.LoadScene(3);
         }
 
         public void ActivateAndSetPosition(Vector3 vector3)
