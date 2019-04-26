@@ -5,6 +5,11 @@ namespace AlyxAdventure
 {
     public class Coin : MonoBehaviour {
 
+        private void Start()
+        {
+            Activate();
+        }
+
         public void Activate()
         {
             if (!gameObject.activeInHierarchy)

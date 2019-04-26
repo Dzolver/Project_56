@@ -91,7 +91,6 @@ namespace AlyxAdventure
                     gameObject.SetActive(false);
                     Zombies.Add(gameObject.GetComponent<Zombie>());
                     MyEventManager.Instance.OnObjectInstantiated.Dispatch();
-                    Debug.Log("Instantiated "+ gameObject.name);
                     yield return wait;
                 }
             }
@@ -106,8 +105,6 @@ namespace AlyxAdventure
                     gameObject.SetActive(false);
                     Ravens.Add(gameObject.GetComponent<Raven>());
                     MyEventManager.Instance.OnObjectInstantiated.Dispatch();
-                    Debug.Log("Instantiated " + gameObject.name);
-
                     yield return wait;
                 }
             }
@@ -122,8 +119,6 @@ namespace AlyxAdventure
                     gameObject.SetActive(false);
                     Platforms.Add(gameObject.GetComponent<Platform>());
                     MyEventManager.Instance.OnObjectInstantiated.Dispatch();
-                    Debug.Log("Instantiated " + gameObject.name);
-
                     yield return wait;
                 }
             }
@@ -138,8 +133,6 @@ namespace AlyxAdventure
                     gameObject.SetActive(false);
                     CoinWaves.Add(gameObject.GetComponent<CoinWave>());
                     MyEventManager.Instance.OnObjectInstantiated.Dispatch();
-                    Debug.Log("Instantiated " + gameObject.name);
-
                     yield return wait;
                 }
             }
@@ -158,8 +151,6 @@ namespace AlyxAdventure
                 gameObject.SetActive(false);
                 Powerups.Add(gameObject.GetComponent<BasePowerup>());
                 MyEventManager.Instance.OnObjectInstantiated.Dispatch();
-                Debug.Log("Instantiated " + gameObject.name);
-
                 yield return wait;
             }
         }
