@@ -19,9 +19,7 @@ public class GameData : SingletonMonoBehaviour<GameData>
 
     public Direction direction = Direction.Right; //-1 = left direction, 1= right direction
 
-    public int ScorePerSecond;
     public float MultiplierPerKill;
-    public int CurrentScore = 0;
     public int TotalKills = 0;
     public float MinutesSinceGame = 0f;
 

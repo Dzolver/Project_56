@@ -7,7 +7,7 @@ namespace AlyxAdventure
 {
     public class GameController : MonoBehaviour
     {
-        int Multiplier = 0;
+        int Multiplier = 1;
 
         private void OnEnable()
         {
@@ -44,7 +44,7 @@ namespace AlyxAdventure
         {
             if (powerup.GetPowerupType() == PowerupType.ScoreMultiplier)
             {
-                Multiplier = 0;
+                Multiplier = 1;
             }
         }
 
@@ -65,12 +65,8 @@ namespace AlyxAdventure
             while (true)
             {
                 yield return new WaitForSeconds(1f);
-                previousScore = GameData.Instance.CurrentScore;
-                if (Multiplier == 0)
-                    GameData.Instance.CurrentScore += GameData.Instance.ScorePerSecond;
-                else
-                    GameData.Instance.CurrentScore += GameData.Instance.ScorePerSecond * Multiplier;
-                MyEventManager.Instance.OnScoreUpdated.Dispatch(previousScore, GameData.Instance.CurrentScore);
+                previousScore = ScoreManager.Instance.GetScore();
+                    ScoreManager.Instance.UpdateScore(Multiplier);
             }
         }
     }

@@ -15,4 +15,5 @@ public class GameStrings
     public static string PlatformParent = "PlatformParent";
     public static string Platform = "Platform";
     public static string Player = "Player";
+    public static string HudCoin = "HudCoin";
 }

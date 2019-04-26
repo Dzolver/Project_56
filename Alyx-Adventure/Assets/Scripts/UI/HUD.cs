@@ -1,6 +1,7 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace AlyxAdventure
 {
@@ -8,11 +9,12 @@ namespace AlyxAdventure
     {
         public PlayerController playerCtrl;
         public Menu PauseMenu;
-
+        public Image HudCoin;
         public TextMeshProUGUI Score;
         public TextMeshProUGUI Kills;
         public TextMeshProUGUI Coins;
         private int CoinsCollected = 0;
+        private int EnemiesKilled = 0;
 
         public PowerupTimer powerupTimer;
 
@@ -21,8 +23,14 @@ namespace AlyxAdventure
             ShowMenu();
             Time.timeScale = 1;
             CoinsCollected = 0;
+            EnemiesKilled = 0;
+            Coins.text = "0";
+            Kills.text = "0";
+            Score.text = "0";
             if(powerupTimer != null)
-            powerupTimer.Deactivate();
+                powerupTimer.Deactivate();
+            if(HudCoin!=null)
+                LeanTween.rotateAround(HudCoin.gameObject, Vector3.up, 360, 1f).setEase(LeanTweenType.linear).setLoopType(LeanTweenType.linear);
         }
 
         private void OnEnable()
@@ -56,8 +64,13 @@ namespace AlyxAdventure
         private void OnCoinCollected()
         {
             CoinsCollected++;
-            Coins.text = CoinsCollected.ToString(); ;
+            Coins.text = CoinsCollected.ToString();
 
+        }
+
+        private void OnCoinReached(object coin)
+        {
+            ((Coin)coin).Deactivate();
         }
 
         private void OnEnemyKilled(int UpdatedValue)
