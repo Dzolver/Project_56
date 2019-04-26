@@ -48,8 +48,6 @@ namespace AlyxAdventure
                             _instance = singleton.AddComponent<T>();
                             singleton.name = typeof(T).Name + " - singleton";
 
-                            DontDestroyOnLoad(singleton);
-
                             //Debug.Log("[Singleton] An instance of " + typeof(T) +
                             //    " is needed in the scene, so '" + singleton +
                             //    "' was created with DontDestroyOnLoad.");

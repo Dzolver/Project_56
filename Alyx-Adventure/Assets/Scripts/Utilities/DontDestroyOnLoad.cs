@@ -2,17 +2,12 @@
 
 namespace AlyxAdventure
 {
-    public class DontDestroyOnLoad : SingletonMonoBehaviour<DontDestroyOnLoad>
+    public class DontDestroyOnLoad : MonoBehaviour
     {
-        //[SerializeField]
-        //private GameObject[] gameObjects;
-
-        // Use this for initialization
+      
         private void Start()
         {
             DontDestroyOnLoad(this);
-            //foreach (GameObject go in gameObjects)
-            //    DontDestroyOnLoad(go);
         }
     }
 }
