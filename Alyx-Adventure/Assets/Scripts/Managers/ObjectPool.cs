@@ -12,15 +12,13 @@ namespace AlyxAdventure
         public BasePowerup InvincibilityGO;
         public BasePowerup ScoreMultiplier;
         public BasePowerup FastRun;
-        public CoinWave CoinWave1;
-        public CoinWave CoinWave2;
-        public CoinWave CoinWave3;
+        public CoinWave[] CoinWaveTypes;
 
-        public int PlatformCount = 2;
-        public int ZombieCount = 5;
-        public int RavenCount = 5;
-        public int CoinWaveCount = 2;
-        public int PowerUpCount = 2;
+        public int PlatformCount;
+        public int ZombieCount;
+        public int RavenCount;
+        public int CoinWaveCount;
+        public int PowerUpCount;
 
         public Transform PooledObjectsHolder;
 
@@ -64,17 +62,14 @@ namespace AlyxAdventure
         {
             int Total = 0;
 
-            Total += PlatformCount;
+            if (PlatformTypes != null)
+                Total += PlatformCount * PlatformTypes.Length;
             if (Zombie != null)
                 Total += ZombieCount;
             if (Raven != null)
                 Total += RavenCount;
-            if (CoinWave1 != null)
-                Total += CoinWaveCount;
-            if (CoinWave2 != null)
-                Total += CoinWaveCount;
-            if (CoinWave3 != null)
-                Total += CoinWaveCount;
+            if (CoinWaveTypes != null)
+                Total += CoinWaveCount * CoinWaveTypes.Length;
             if (InvincibilityGO != null)
                 Total += PowerUpCount;
             if (FastRun != null)
@@ -128,18 +123,12 @@ namespace AlyxAdventure
                 }
             }
 
-            if (CoinWave1 != null)
+            if (CoinWaveTypes != null)
             {
                 for (int i = 0; i < CoinWaveCount * 3; i++)
                 {
                     GameObject gameObject;
-                    if (i < 2)
-                        gameObject = Instantiate(CoinWave1.gameObject, PooledObjectsHolder);
-                    else if (i < 4)
-                        gameObject = Instantiate(CoinWave2.gameObject, PooledObjectsHolder);
-                    else
-                        gameObject = Instantiate(CoinWave3.gameObject, PooledObjectsHolder);
-
+                    gameObject = Instantiate(CoinWaveTypes[i % CoinWaveTypes.Length].gameObject, PooledObjectsHolder);
                     gameObject.name = "CoinWave " + i;
                     gameObject.SetActive(false);
                     CoinWaves.Add(gameObject.GetComponent<CoinWave>());

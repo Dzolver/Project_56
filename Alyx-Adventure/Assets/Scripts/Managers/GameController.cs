@@ -53,7 +53,7 @@ namespace AlyxAdventure
             CoinWave coinwave;
             while (true)
             {
-                yield return new WaitForSeconds(Random.Range(8, 12));
+                yield return new WaitForSeconds(Random.Range(5, 8));
                 coinwave = ObjectPool.Instance.GetCoinWave();
                 MyEventManager.Instance.OnCoinWaveGenerated.Dispatch(coinwave);
             }

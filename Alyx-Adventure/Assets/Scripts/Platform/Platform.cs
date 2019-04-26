@@ -54,7 +54,8 @@ namespace AlyxAdventure
             {
                 PowerUpPoints = new List<Transform>(PowerupParent.GetComponentsInChildren<Transform>());
                 PowerUpPoints.Remove(PowerupParent);
-                PowerUpPoints.Shuffle();
+                if (PowerUpPoints.Count > 1)
+                    PowerUpPoints.Shuffle();
                 PowerupSpawnPoints = new Queue<Transform>(PowerUpPoints);
                 PowerUpPoints = null;
             }
@@ -63,7 +64,8 @@ namespace AlyxAdventure
             {
                 CoinPoints = new List<Transform>(CoinParent.GetComponentsInChildren<Transform>());
                 CoinPoints.Remove(CoinParent);
-                CoinPoints.Shuffle();
+                if (CoinPoints.Count > 1)
+                    CoinPoints.Shuffle();
                 CoinWaveSpawnPoints = new Queue<Transform>(CoinPoints);
                 CoinPoints = null;
             }
@@ -72,7 +74,8 @@ namespace AlyxAdventure
             {
                 ZombiePoints = new List<Transform>(ZombieParent.GetComponentsInChildren<Transform>());
                 ZombiePoints.Remove(ZombieParent);
-                ZombiePoints.Shuffle();
+                if (ZombiePoints.Count > 1)
+                    ZombiePoints.Shuffle();
                 ZombieSpawnPoints = new Queue<Transform>(ZombiePoints);
                 ZombiePoints = null;
             }
@@ -81,7 +84,8 @@ namespace AlyxAdventure
             {
                 RavenPoints = new List<Transform>(RavenParent.GetComponentsInChildren<Transform>());
                 RavenPoints.Remove(RavenParent);
-                RavenPoints.Shuffle();
+                if (RavenPoints.Count > 1)
+                    RavenPoints.Shuffle();
                 RavenSpawnPoints = new Queue<Transform>(RavenPoints);
                 RavenPoints = null;
             }
