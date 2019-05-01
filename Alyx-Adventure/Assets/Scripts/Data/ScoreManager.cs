@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 namespace AlyxAdventure
 {
     public class ScoreManager : SingletonMonoBehaviour<ScoreManager>
@@ -15,12 +16,17 @@ namespace AlyxAdventure
         {
             int previousScore = GameScore;
             GameScore += multiplier;
-                MyEventManager.Instance.OnScoreUpdated.Dispatch(previousScore, GameScore);
+            MyEventManager.Instance.OnScoreUpdated.Dispatch(previousScore, GameScore);
         }
 
         public int GetScore()
         {
             return GameScore;
+        }
+
+        public void ResetScore()
+        {
+            GameScore = 0;
         }
     }
 

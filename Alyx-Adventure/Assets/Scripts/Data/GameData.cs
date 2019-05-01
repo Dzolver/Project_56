@@ -29,6 +29,7 @@ public class GameData : SingletonMonoBehaviour<GameData>
 
     private void Start()
     {
+        ScoreManager.Instance.ResetScore();
         FragmentsCollected = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.FragmentCount, 0);
         StartCoroutine(IncreaseTime());
         StartCoroutine(IncreaseSpeed());
