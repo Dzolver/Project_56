@@ -8,31 +8,36 @@ namespace AlyxAdventure
     {
         public Zombie Zombie;
         public Raven Raven;
-        public Platform[] PlatformTypes;
         public BasePowerup InvincibilityGO;
         public BasePowerup ScoreMultiplier;
         public BasePowerup FastRun;
+        public Platform[] PlatformTypes;
         public CoinWave[] CoinWaveTypes;
+        public CollectableFragmentBase[] FragmentTypes;
 
         public int PlatformCount;
         public int ZombieCount;
         public int RavenCount;
         public int CoinWaveCount;
         public int PowerUpCount;
+        public int FragmentCount;
 
         public Transform PooledObjectsHolder;
 
         [HideInInspector]
         public List<Zombie> Zombies = new List<Zombie>();
+
         [HideInInspector]
         public List<Raven> Ravens = new List<Raven>();
-
 
         [HideInInspector]
         public List<Platform> Platforms = new List<Platform>();
 
         [HideInInspector]
         public List<CoinWave> CoinWaves = new List<CoinWave>();
+
+        [HideInInspector]
+        public List<CollectableFragmentBase> Fragments = new List<CollectableFragmentBase>();
 
         [HideInInspector]
         public List<BasePowerup> Powerups = new List<BasePowerup>();
@@ -76,6 +81,8 @@ namespace AlyxAdventure
                 Total += PowerUpCount;
             if (ScoreMultiplier != null)
                 Total += PowerUpCount;
+            if (FragmentTypes != null)
+                Total += FragmentCount * FragmentTypes.Length;
             return Total;
         }
 
@@ -135,8 +142,22 @@ namespace AlyxAdventure
                     MyEventManager.Instance.OnObjectInstantiated.Dispatch();
                     yield return wait;
                 }
+                CoinWaves.Shuffle();
             }
 
+            if (FragmentTypes != null)
+            {
+                for (int i = 0; i < FragmentCount * FragmentTypes.Length; i++)
+                {
+                    GameObject gameObject;
+                    gameObject = Instantiate(FragmentTypes[i % FragmentTypes.Length].gameObject, PooledObjectsHolder);
+                    gameObject.name = "Fragment " + i;
+                    gameObject.SetActive(false);
+                    Fragments.Add(gameObject.GetComponent<CollectableFragmentBase>());
+                    MyEventManager.Instance.OnObjectInstantiated.Dispatch();
+                    yield return wait;
+                }
+            }
 
             for (int i = 0; i < PowerUpCount * 3; i++)
             {
@@ -243,9 +264,24 @@ namespace AlyxAdventure
 
         }
 
+        public CollectableFragmentBase GetFragment()
+        {
+            int random = Random.Range(0, Fragments.Count);
+            if (!Fragments[random].gameObject.activeInHierarchy)
+                return Fragments[random];
+
+            foreach (CollectableFragmentBase f in Fragments)
+            {
+                if (!f.gameObject.activeInHierarchy)
+                {
+                    return f.GetComponent<CollectableFragmentBase>();
+                }
+            }
+            return null;
+        }
+
         public CoinWave GetCoinWave()
         {
-            CoinWaves.Shuffle();
             foreach (CoinWave cw in CoinWaves)
             {
                 if (!cw.gameObject.activeInHierarchy)

@@ -25,9 +25,11 @@ public class GameData : SingletonMonoBehaviour<GameData>
 
     private BasePowerup currentPowerup = null;
 
+    private int FragmentsCollected;
 
     private void Start()
     {
+        FragmentsCollected = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.FragmentCount, 0);
         StartCoroutine(IncreaseTime());
         StartCoroutine(IncreaseSpeed());
     }
@@ -57,7 +59,7 @@ public class GameData : SingletonMonoBehaviour<GameData>
         MyEventManager.Instance.ChangeMoveDirection.AddListener(ChangeMoveDirection);
         MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
         MyEventManager.Instance.OnPowerupExhausted.AddListener(OnPowerupExhausted);
-
+        MyEventManager.Instance.OnFragmentCollected.AddListener(OnFragmentCollected);
 
     }
 
@@ -68,9 +70,15 @@ public class GameData : SingletonMonoBehaviour<GameData>
             MyEventManager.Instance.ChangeMoveDirection.RemoveListener(ChangeMoveDirection);
             MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
             MyEventManager.Instance.OnPowerupExhausted.RemoveListener(OnPowerupExhausted);
-
+            MyEventManager.Instance.OnFragmentCollected.RemoveListener(OnFragmentCollected);
 
         }
+    }
+
+    private void OnFragmentCollected(CollectableFragmentBase fragment)
+    {
+        FragmentsCollected++;
+        PrefManager.Instance.UpdateIntPref(PrefManager.PreferenceKey.FragmentCount, FragmentsCollected);
     }
 
     private void OnPowerupExhausted(BasePowerup powerup)
@@ -91,6 +99,11 @@ public class GameData : SingletonMonoBehaviour<GameData>
     public BasePowerup GetCurrentPowerup()
     {
         return currentPowerup;
+    }
+
+    public int GetFragmentCount()
+    {
+        return FragmentsCollected;
     }
 
     public void AddKills()

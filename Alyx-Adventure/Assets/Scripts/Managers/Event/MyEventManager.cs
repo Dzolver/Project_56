@@ -21,6 +21,7 @@ namespace AlyxAdventure
         public MyEvent<BasePowerup> OnPowerupCollected = new MyEvent<BasePowerup>();
         public MyEvent<BasePowerup> OnPowerupExhausted = new MyEvent<BasePowerup>();
         public MyEvent<CollectibleType> OnCollectibleCollected = new MyEvent<CollectibleType>();
+        public MyEvent<CollectableFragmentBase> OnFragmentCollected = new MyEvent<CollectableFragmentBase>();
 
         public MyEvent<AbstractEnemy> OnEnemyGenerated = new MyEvent<AbstractEnemy>();
         public MyEvent<BasePowerup> OnPowerupGenerated = new MyEvent<BasePowerup>();

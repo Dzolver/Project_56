@@ -10,7 +10,7 @@ namespace AlyxAdventure
     public class PlayerController : MonoBehaviour
     {
         public bool grounded;
-        public float moveSpeed = 3;
+        public float moveSpeed = 5;
         public float jumpForce = 17;
         public float fallGravity = 15;
         public float maxSpeed = 15f;
