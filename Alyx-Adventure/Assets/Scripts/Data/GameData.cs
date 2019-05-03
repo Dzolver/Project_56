@@ -57,6 +57,7 @@ public class GameData : SingletonMonoBehaviour<GameData>
 
     private void OnEnable()
     {
+        MyEventManager.Instance.OnGameStarted.AddListener(OnGameStarted);
         MyEventManager.Instance.ChangeMoveDirection.AddListener(ChangeMoveDirection);
         MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
         MyEventManager.Instance.OnPowerupExhausted.AddListener(OnPowerupExhausted);
@@ -72,8 +73,13 @@ public class GameData : SingletonMonoBehaviour<GameData>
             MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
             MyEventManager.Instance.OnPowerupExhausted.RemoveListener(OnPowerupExhausted);
             MyEventManager.Instance.OnFragmentCollected.RemoveListener(OnFragmentCollected);
-
+            MyEventManager.Instance.OnGameStarted.RemoveListener(OnGameStarted);
         }
+    }
+
+    private void OnGameStarted()
+    {
+        theRunner.SetActive(true);
     }
 
     private void OnFragmentCollected(CollectableFragmentBase fragment)

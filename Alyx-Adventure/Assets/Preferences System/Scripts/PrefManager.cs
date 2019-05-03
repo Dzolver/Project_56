@@ -9,6 +9,7 @@ public class PrefManager : SingletonMonoBehaviour<PrefManager>
     public enum PreferenceKey
     {
         FragmentCount,
+        TotalSeconds,
         Highscore
     }
 

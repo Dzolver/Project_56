@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace AlyxAdventure
 {
@@ -11,6 +12,7 @@ namespace AlyxAdventure
 
         private void OnEnable()
         {
+            MyEventManager.Instance.OnGameOver.AddListener(OnGameOver);
             MyEventManager.Instance.OnPowerupExhausted.AddListener(OnPowerupExhausted);
             MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
         }
@@ -21,15 +23,20 @@ namespace AlyxAdventure
             {
                 MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
                 MyEventManager.Instance.OnPowerupExhausted.RemoveListener(OnPowerupExhausted);
+                MyEventManager.Instance.OnGameOver.AddListener(OnGameOver);
 
             }
         }
 
         private void Start()
         {
-            GameData.Instance.theRunner.SetActive(true);
-            StartCoroutine(CalculateScore());
+            MyEventManager.Instance.OnGameStarted.Dispatch();
             StartCoroutine(GenerateCoinWave());
+        }
+
+        public void OnGameOver()
+        {
+            SceneManager.LoadScene(3);
         }
 
         private void OnPowerupCollected(BasePowerup powerup)
@@ -66,7 +73,7 @@ namespace AlyxAdventure
             {
                 yield return new WaitForSeconds(1f);
                 previousScore = ScoreManager.Instance.GetScore();
-                    ScoreManager.Instance.UpdateScore(Multiplier);
+                ScoreManager.Instance.UpdateScore(Multiplier);
             }
         }
     }

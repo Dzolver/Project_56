@@ -4,6 +4,8 @@ namespace AlyxAdventure
 {
     public class MyEventManager : SingletonMonoBehaviour<MyEventManager>
     {
+        public MyEvent OnGameStarted = new MyEvent();
+        public MyEvent OnGameOver = new MyEvent();
         public MyEvent<Vector3> OnPlatformGenerated = new MyEvent<Vector3>();
         public MyEvent OnJumpClicked = new MyEvent();
         public MyEvent OnFallOrSlideClicked = new MyEvent();
