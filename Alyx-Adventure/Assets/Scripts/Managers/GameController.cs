@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 namespace AlyxAdventure
 {
     public class GameController : MonoBehaviour
@@ -13,6 +14,7 @@ namespace AlyxAdventure
         private void OnEnable()
         {
             MyEventManager.Instance.OnGameOver.AddListener(OnGameOver);
+            MyEventManager.Instance.GenerateFragment.AddListener(GenerateFragment);
             MyEventManager.Instance.OnPowerupExhausted.AddListener(OnPowerupExhausted);
             MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
         }
@@ -21,6 +23,7 @@ namespace AlyxAdventure
         {
             if (MyEventManager.Instance != null)
             {
+                MyEventManager.Instance.GenerateFragment.RemoveListener(GenerateFragment);
                 MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
                 MyEventManager.Instance.OnPowerupExhausted.RemoveListener(OnPowerupExhausted);
                 MyEventManager.Instance.OnGameOver.AddListener(OnGameOver);
@@ -32,11 +35,19 @@ namespace AlyxAdventure
         {
             MyEventManager.Instance.OnGameStarted.Dispatch();
             StartCoroutine(GenerateCoinWave());
+            StartCoroutine(CalculateScore());
         }
 
         public void OnGameOver()
         {
             SceneManager.LoadScene(3);
+        }
+
+        private void GenerateFragment()
+        {
+            CollectableFragmentBase fragment = ObjectPool.Instance.GetFragment();
+            fragment.ActivateAndSetPosition(new Vector2(GameData.Instance.theRunnerTransform.position.x +
+                           (int)GameData.Instance.direction * 16f, GameData.Instance.theRunnerTransform.position.y + 1f));
         }
 
         private void OnPowerupCollected(BasePowerup powerup)

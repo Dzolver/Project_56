@@ -38,6 +38,8 @@ namespace AlyxAdventure
             {
                 yield return new WaitForSeconds(1f);
                 TotalSecPlayed++;
+                if (TotalSecPlayed % 300 == 0)
+                    MyEventManager.Instance.GenerateFragment.Dispatch();
             }
         }
 
@@ -45,7 +47,6 @@ namespace AlyxAdventure
         private void OnGameOver()
         {
             StopCoroutine(coroutine);
-            Debug.Log("Game over Total played = " + TotalSecPlayed);
             PrefManager.Instance.UpdateIntPref(PrefManager.PreferenceKey.TotalSeconds, TotalSecPlayed);
         }
 

@@ -19,9 +19,8 @@ public class CollectableFragmentBase : MonoBehaviour {
         DeactivateFragment();
     }
 
-    public void ActivateAndSetPosition(Vector2 pos, Transform parent)
+    public void ActivateAndSetPosition(Vector2 pos)
     {
-        transform.SetParent(parent);
         transform.position = pos;
         gameObject.SetActive(true);
     }
@@ -38,11 +37,4 @@ public class CollectableFragmentBase : MonoBehaviour {
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag(GameStrings.MainCamera))
-        {
-            DeactivateFragment();
-        }
-    }
 }

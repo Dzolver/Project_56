@@ -15,7 +15,7 @@ namespace AlyxAdventure
         public void UpdateScore(int multiplier)
         {
             int previousScore = GameScore;
-            GameScore += multiplier;
+            GameScore += ScorePerSecond * multiplier;
             MyEventManager.Instance.OnScoreUpdated.Dispatch(previousScore, GameScore);
         }
 

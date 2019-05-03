@@ -20,6 +20,7 @@ namespace AlyxAdventure
         public MyEvent<float> OnTimePassed = new MyEvent<float>();
         //public MyEvent<GameState> UpdateState = new MyEvent<GameState>();
         // public MyEvent OnGameStateChanged = new MyEvent();
+        public MyEvent GenerateFragment = new MyEvent();
         public MyEvent<BasePowerup> OnPowerupCollected = new MyEvent<BasePowerup>();
         public MyEvent<BasePowerup> OnPowerupExhausted = new MyEvent<BasePowerup>();
         public MyEvent<CollectibleType> OnCollectibleCollected = new MyEvent<CollectibleType>();
