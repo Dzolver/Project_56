@@ -1,9 +1,16 @@
 ﻿using UnityEngine.SceneManagement;
+using TMPro;
 
 namespace AlyxAdventure
 {
     public class MainMenu : Menu
     {
+        public TextMeshProUGUI FragmentCount;
+
+        private void Start()
+        {
+            FragmentCount.text = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.FragmentCount, 0).ToString();
+        }
         //private void OnEnable()
         //{
         //    MyEventManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);

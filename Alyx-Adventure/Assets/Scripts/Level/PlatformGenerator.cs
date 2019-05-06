@@ -53,19 +53,19 @@ public class PlatformGenerator : MonoBehaviour
     private Platform GetPlatform()
     {
         PlatformType type;
-        if (GameData.Instance.MinutesSinceGame <= 0.5f)
+        if (GameTimeManager.Instance.MinutesSinceGame <= 0.5f)
         {
             type = (PlatformType)Random.Range((int)PlatformType.VeryEasy, (int)PlatformType.Easy + 1);
         }
-        else if (GameData.Instance.MinutesSinceGame <= 1.5f)
+        else if (GameTimeManager.Instance.MinutesSinceGame <= 1.5f)
         {
             type = (PlatformType)Random.Range((int)PlatformType.VeryEasy, (int)PlatformType.Average + 1);
         }
-        else if (GameData.Instance.MinutesSinceGame <= 3f)
+        else if (GameTimeManager.Instance.MinutesSinceGame <= 3f)
         {
             type = (PlatformType)Random.Range((int)PlatformType.Easy, (int)PlatformType.Hard + 1);
         }
-        else if (GameData.Instance.MinutesSinceGame <= 6f)
+        else if (GameTimeManager.Instance.MinutesSinceGame <= 6f)
         {
             type = (PlatformType)Random.Range((int)PlatformType.Easy, (int)PlatformType.VeryHard + 1);
         }

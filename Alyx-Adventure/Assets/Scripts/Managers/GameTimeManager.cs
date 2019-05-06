@@ -7,8 +7,13 @@ namespace AlyxAdventure
 {
     public class GameTimeManager : SingletonMonoBehaviour<GameTimeManager>
     {
-        Coroutine coroutine;
-        int TotalSecPlayed;
+        private Coroutine countTime, countMinutes;
+        private int TotalSecPlayed;
+
+        [SerializeField]
+        private int TimeToUnlock;
+
+        public float MinutesSinceGame = 0f;
 
         private void OnEnable()
         {
@@ -28,8 +33,11 @@ namespace AlyxAdventure
         private void OnGameStarted()
         {
             TotalSecPlayed = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.TotalSeconds, 0);
+            if (TotalSecPlayed % TimeToUnlock == 0)
+                MyEventManager.Instance.GenerateFragment.Dispatch();
             Debug.Log("Start Total played = " + TotalSecPlayed);
-            coroutine = StartCoroutine(StartCountingTime());
+            countTime = StartCoroutine(StartCountingTime());
+            countMinutes = StartCoroutine(StartCountingMinutes());
         }
 
         private IEnumerator StartCountingTime()
@@ -38,15 +46,27 @@ namespace AlyxAdventure
             {
                 yield return new WaitForSeconds(1f);
                 TotalSecPlayed++;
-                if (TotalSecPlayed % 300 == 0)
+                MyEventManager.Instance.OnSecondPassed.Dispatch();
+                if (TotalSecPlayed % TimeToUnlock == 0)
                     MyEventManager.Instance.GenerateFragment.Dispatch();
             }
         }
 
 
+        private IEnumerator StartCountingMinutes()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(30f);
+                MinutesSinceGame += 0.5f;
+                MyEventManager.Instance.OnMinutesPassed.Dispatch(MinutesSinceGame);
+            }
+        }
+
         private void OnGameOver()
         {
-            StopCoroutine(coroutine);
+            StopCoroutine(countTime);
+            StopCoroutine(countMinutes);
             PrefManager.Instance.UpdateIntPref(PrefManager.PreferenceKey.TotalSeconds, TotalSecPlayed);
         }
 

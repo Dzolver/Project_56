@@ -10,14 +10,14 @@ public class EnemyGenerator : MonoBehaviour
 
     private void OnEnable()
     {
-        MyEventManager.Instance.OnTimePassed.AddListener(OnTimePassed);
+        MyEventManager.Instance.OnMinutesPassed.AddListener(OnMinutesPassed);
     }
 
     private void OnDisable()
     {
         if (MyEventManager.Instance != null)
         {
-            MyEventManager.Instance.OnTimePassed.RemoveListener(OnTimePassed);
+            MyEventManager.Instance.OnMinutesPassed.RemoveListener(OnMinutesPassed);
         }
     }
 
@@ -26,7 +26,7 @@ public class EnemyGenerator : MonoBehaviour
         StartCoroutine(GenerateZombie());
     }
 
-    private void OnTimePassed(float minutes)
+    private void OnMinutesPassed(float minutes)
     {
         if (minutes < 1f)
         {

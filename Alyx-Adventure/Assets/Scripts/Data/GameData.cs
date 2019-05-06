@@ -21,38 +21,15 @@ public class GameData : SingletonMonoBehaviour<GameData>
 
     public float MultiplierPerKill;
     public int TotalKills = 0;
-    public float MinutesSinceGame = 0f;
 
     private BasePowerup currentPowerup = null;
 
-    private int FragmentsCollected;
+    private int TotalFragments;
+    
 
     private void Start()
     {
-        ScoreManager.Instance.ResetScore();
-        FragmentsCollected = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.FragmentCount, 0);
-        StartCoroutine(IncreaseTime());
-        StartCoroutine(IncreaseSpeed());
-    }
-
-    private IEnumerator IncreaseTime()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(30f);
-            MinutesSinceGame += 0.5f;
-            MyEventManager.Instance.OnTimePassed.Dispatch(MinutesSinceGame);
-        }
-    }
-
-    private IEnumerator IncreaseSpeed()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(1f);
-            MyEventManager.Instance.IncreaseSpeed.Dispatch();
-        }
-
+        TotalFragments = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.FragmentCount, 0);
     }
 
     private void OnEnable()
@@ -84,8 +61,8 @@ public class GameData : SingletonMonoBehaviour<GameData>
 
     private void OnFragmentCollected(CollectableFragmentBase fragment)
     {
-        FragmentsCollected++;
-        PrefManager.Instance.UpdateIntPref(PrefManager.PreferenceKey.FragmentCount, FragmentsCollected);
+        TotalFragments++;
+        PrefManager.Instance.UpdateIntPref(PrefManager.PreferenceKey.FragmentCount, TotalFragments);
     }
 
     private void OnPowerupExhausted(BasePowerup powerup)
@@ -110,7 +87,7 @@ public class GameData : SingletonMonoBehaviour<GameData>
 
     public int GetFragmentCount()
     {
-        return FragmentsCollected;
+        return TotalFragments;
     }
 
     public void AddKills()

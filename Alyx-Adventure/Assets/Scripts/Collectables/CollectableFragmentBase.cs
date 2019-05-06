@@ -4,21 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CollectableFragmentBase : MonoBehaviour {
-    
-    [SerializeField]
-    float minsToUnlock; 
-     
-    public float GetMinsToUnlock()
-    {
-        return minsToUnlock;
-    }
-
-    public void OnFragmentCollected()
-    {
-        MyEventManager.Instance.OnFragmentCollected.Dispatch(this);
-        DeactivateFragment();
-    }
-
+   
     public void ActivateAndSetPosition(Vector2 pos)
     {
         transform.position = pos;
@@ -35,6 +21,12 @@ public class CollectableFragmentBase : MonoBehaviour {
         if (collision.gameObject.CompareTag(GameStrings.Player)) {
             OnFragmentCollected();
         }
+    }
+
+    public void OnFragmentCollected()
+    {
+        MyEventManager.Instance.OnFragmentCollected.Dispatch(this);
+        DeactivateFragment();
     }
 
 }

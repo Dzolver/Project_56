@@ -14,10 +14,11 @@ namespace AlyxAdventure
         public MyEvent<Direction> ChangeMoveDirection = new MyEvent<Direction>();
         public MyEvent<int, int> OnScoreUpdated = new MyEvent<int, int>();
         public MyEvent<int> OnEnemyKilled = new MyEvent<int>();
-        public MyEvent IncreaseSpeed = new MyEvent();
         public MyEvent DeactivatePooledObjects = new MyEvent();
         public MyEvent OnCoinCollected = new MyEvent();
-        public MyEvent<float> OnTimePassed = new MyEvent<float>();
+        public MyEvent<float> OnMinutesPassed = new MyEvent<float>();
+        public MyEvent OnSecondPassed = new MyEvent();
+
         //public MyEvent<GameState> UpdateState = new MyEvent<GameState>();
         // public MyEvent OnGameStateChanged = new MyEvent();
         public MyEvent GenerateFragment = new MyEvent();

@@ -44,7 +44,7 @@ namespace AlyxAdventure
             MyEventManager.Instance.OnJumpClicked.AddListener(Jump);
             MyEventManager.Instance.OnFallOrSlideClicked.AddListener(OnFallOrSlideClicked);
             MyEventManager.Instance.OnAttackClicked.AddListener(OnAttackClicked);
-            MyEventManager.Instance.IncreaseSpeed.AddListener(OnSpeedIncrease);
+            MyEventManager.Instance.OnSecondPassed.AddListener(IncreaseSpeed);
             MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
             MyEventManager.Instance.OnPowerupExhausted.AddListener(OnPowerupExhausted);
         }
@@ -58,7 +58,7 @@ namespace AlyxAdventure
                 MyEventManager.Instance.OnFallOrSlideClicked.RemoveListener(OnFallOrSlideClicked);
                 MyEventManager.Instance.OnAttackClicked.RemoveListener(OnAttackClicked);
                 MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
-                MyEventManager.Instance.IncreaseSpeed.RemoveListener(OnSpeedIncrease);
+                MyEventManager.Instance.OnSecondPassed.RemoveListener(IncreaseSpeed);
                 MyEventManager.Instance.OnPowerupExhausted.RemoveListener(OnPowerupExhausted);
             }
         }
@@ -71,7 +71,6 @@ namespace AlyxAdventure
             RunnerCollider = GetComponent<Collider2D>();
             RunnerRigidBody = GetComponent<Rigidbody2D>();
             RunnerAnimator = GetComponent<Animator>();
-            //RunnerWeaponAnimator = transform.GetChild(0).GetComponent<Animator>();
 
             player = GetComponent<Player>();
             gravity = RunnerRigidBody.gravityScale;
@@ -82,17 +81,11 @@ namespace AlyxAdventure
         {
             MouseSwipe();
             TouchSwipe();
-            //returns true or false whether the collider is touching another collider containing the layer called 'Ground'
-            //grounded = Physics2D.IsTouchingLayers(RunnerCollider, whatIsGround);
-
+     
             //Character will move in a direction with each frame
             RunnerRigidBody.velocity = new Vector2(moveSpeed * (int)GameData.Instance.direction, RunnerRigidBody.velocity.y);
             GameData.Instance.RunnerVelocity = RunnerRigidBody.velocity;
 
-            //if (Input.GetKeyDown(KeyCode.Space))
-            //{
-            //    Attack();
-            //}
             if (sliding)
                 return;
             RunnerAnimator.SetFloat("Speed", Mathf.Abs(RunnerRigidBody.velocity.x));
@@ -224,7 +217,6 @@ namespace AlyxAdventure
         {
             if (Time.time - lastSwing >= swingCoolDown)
             {
-                //RunnerWeaponAnimator.SetTrigger("Attack");
                 RunnerAnimator.SetTrigger("Attack");
                 lastSwing = Time.time;
                 player.attacked = true;
@@ -263,7 +255,7 @@ namespace AlyxAdventure
             Attack();
         }
 
-        private void OnSpeedIncrease()
+        private void IncreaseSpeed()
         {
             if (Mathf.Abs(moveSpeed) < maxSpeed)
             {

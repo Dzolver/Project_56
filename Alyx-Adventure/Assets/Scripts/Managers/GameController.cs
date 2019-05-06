@@ -9,14 +9,11 @@ namespace AlyxAdventure
 {
     public class GameController : MonoBehaviour
     {
-        int Multiplier = 1;
-
+      
         private void OnEnable()
         {
             MyEventManager.Instance.OnGameOver.AddListener(OnGameOver);
             MyEventManager.Instance.GenerateFragment.AddListener(GenerateFragment);
-            MyEventManager.Instance.OnPowerupExhausted.AddListener(OnPowerupExhausted);
-            MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
         }
 
         private void OnDisable()
@@ -24,8 +21,6 @@ namespace AlyxAdventure
             if (MyEventManager.Instance != null)
             {
                 MyEventManager.Instance.GenerateFragment.RemoveListener(GenerateFragment);
-                MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
-                MyEventManager.Instance.OnPowerupExhausted.RemoveListener(OnPowerupExhausted);
                 MyEventManager.Instance.OnGameOver.AddListener(OnGameOver);
 
             }
@@ -35,7 +30,6 @@ namespace AlyxAdventure
         {
             MyEventManager.Instance.OnGameStarted.Dispatch();
             StartCoroutine(GenerateCoinWave());
-            StartCoroutine(CalculateScore());
         }
 
         public void OnGameOver()
@@ -50,22 +44,6 @@ namespace AlyxAdventure
                            (int)GameData.Instance.direction * 16f, GameData.Instance.theRunnerTransform.position.y + 1f));
         }
 
-        private void OnPowerupCollected(BasePowerup powerup)
-        {
-            if (powerup.GetPowerupType() == PowerupType.ScoreMultiplier)
-            {
-                Multiplier = ((ScoreMultiplier)powerup).GetMultiplier();
-            }
-        }
-
-        private void OnPowerupExhausted(BasePowerup powerup)
-        {
-            if (powerup.GetPowerupType() == PowerupType.ScoreMultiplier)
-            {
-                Multiplier = 1;
-            }
-        }
-
         private IEnumerator GenerateCoinWave()
         {
             CoinWave coinwave;
@@ -74,17 +52,6 @@ namespace AlyxAdventure
                 yield return new WaitForSeconds(Random.Range(5, 8));
                 coinwave = ObjectPool.Instance.GetCoinWave();
                 MyEventManager.Instance.OnCoinWaveGenerated.Dispatch(coinwave);
-            }
-        }
-
-        private IEnumerator CalculateScore()
-        {
-            int previousScore;
-            while (true)
-            {
-                yield return new WaitForSeconds(1f);
-                previousScore = ScoreManager.Instance.GetScore();
-                ScoreManager.Instance.UpdateScore(Multiplier);
             }
         }
     }
