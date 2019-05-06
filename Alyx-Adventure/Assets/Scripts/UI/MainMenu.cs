@@ -9,7 +9,10 @@ namespace AlyxAdventure
 
         private void Start()
         {
+
+
             FragmentCount.text = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.FragmentCount, 0).ToString();
+
         }
         //private void OnEnable()
         //{

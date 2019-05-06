@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,11 +8,10 @@ namespace AlyxAdventure
     {
         private Coroutine countTime, countMinutes;
         private int TotalSecPlayed;
+        private int FragSpawnTime;
 
-        [SerializeField]
-        private int TimeToUnlock;
-
-        public float MinutesSinceGame = 0f;
+        public float MinutesSinceGame;
+      
 
         private void OnEnable()
         {
@@ -33,9 +31,9 @@ namespace AlyxAdventure
         private void OnGameStarted()
         {
             TotalSecPlayed = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.TotalSeconds, 0);
-            if (TotalSecPlayed % TimeToUnlock == 0)
-                MyEventManager.Instance.GenerateFragment.Dispatch();
-            Debug.Log("Start Total played = " + TotalSecPlayed);
+            Debug.Log(TotalSecPlayed);
+            MinutesSinceGame = 0f;
+            FragSpawnTime = TotalSecPlayed + Random.Range(40, 70);
             countTime = StartCoroutine(StartCountingTime());
             countMinutes = StartCoroutine(StartCountingMinutes());
         }
@@ -47,7 +45,7 @@ namespace AlyxAdventure
                 yield return new WaitForSeconds(1f);
                 TotalSecPlayed++;
                 MyEventManager.Instance.OnSecondPassed.Dispatch();
-                if (TotalSecPlayed % TimeToUnlock == 0)
+                if (TotalSecPlayed == FragSpawnTime)
                     MyEventManager.Instance.GenerateFragment.Dispatch();
             }
         }
@@ -68,6 +66,7 @@ namespace AlyxAdventure
             StopCoroutine(countTime);
             StopCoroutine(countMinutes);
             PrefManager.Instance.UpdateIntPref(PrefManager.PreferenceKey.TotalSeconds, TotalSecPlayed);
+
         }
 
     }

@@ -10,8 +10,6 @@ namespace AlyxAdventure
 
         void OnCollectibleCollected();
 
-        void ActivateAndSetPosition(Vector2 pos);
-        void Deactivate();
     }
 
     public enum CollectibleType
