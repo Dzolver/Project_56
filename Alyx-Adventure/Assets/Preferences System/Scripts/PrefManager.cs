@@ -8,8 +8,9 @@ public class PrefManager : SingletonMonoBehaviour<PrefManager>
 {
     public enum PreferenceKey
     {
-        FragmentCount,
-        CollectableCount,
+        TotalFragments,
+        FragmentFromTime,
+        TotalCollectables,
         TotalSeconds,
         Highscore
     }

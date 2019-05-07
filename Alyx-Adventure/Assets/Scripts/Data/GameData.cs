@@ -29,7 +29,7 @@ public class GameData : SingletonMonoBehaviour<GameData>
 
     private void Start()
     {
-        TotalFragments = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.FragmentCount, 0);
+        TotalFragments = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.TotalFragments, 0);
     }
 
     private void OnEnable()
@@ -62,7 +62,7 @@ public class GameData : SingletonMonoBehaviour<GameData>
     private void OnFragmentCollected(CollectableFragmentBase fragment)
     {
         TotalFragments++;
-        PrefManager.Instance.UpdateIntPref(PrefManager.PreferenceKey.FragmentCount, TotalFragments);
+        PrefManager.Instance.UpdateIntPref(PrefManager.PreferenceKey.TotalFragments, TotalFragments);
     }
 
     private void OnPowerupExhausted(BasePowerup powerup)

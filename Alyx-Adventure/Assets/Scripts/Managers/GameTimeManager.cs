@@ -8,11 +8,9 @@ namespace AlyxAdventure
     {
         private Coroutine countTime, countMinutes;
         private int TotalSecPlayed;
-        private int FragSpawnTime;
-
-        public float MinutesSinceGame;
+     
+        private float CurrentGameMins;
       
-
         private void OnEnable()
         {
             MyEventManager.Instance.OnGameStarted.AddListener(OnGameStarted);
@@ -30,35 +28,12 @@ namespace AlyxAdventure
 
         private void OnGameStarted()
         {
+            CurrentGameMins = 0f;
             TotalSecPlayed = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.TotalSeconds, 0);
             Debug.Log(TotalSecPlayed);
-            MinutesSinceGame = 0f;
-            FragSpawnTime = TotalSecPlayed + Random.Range(40, 70);
+         
             countTime = StartCoroutine(StartCountingTime());
             countMinutes = StartCoroutine(StartCountingMinutes());
-        }
-
-        private IEnumerator StartCountingTime()
-        {
-            while (true)
-            {
-                yield return new WaitForSeconds(1f);
-                TotalSecPlayed++;
-                MyEventManager.Instance.OnSecondPassed.Dispatch();
-                if (TotalSecPlayed == FragSpawnTime)
-                    MyEventManager.Instance.GenerateFragment.Dispatch();
-            }
-        }
-
-
-        private IEnumerator StartCountingMinutes()
-        {
-            while (true)
-            {
-                yield return new WaitForSeconds(30f);
-                MinutesSinceGame += 0.5f;
-                MyEventManager.Instance.OnMinutesPassed.Dispatch(MinutesSinceGame);
-            }
         }
 
         private void OnGameOver()
@@ -67,6 +42,27 @@ namespace AlyxAdventure
             StopCoroutine(countMinutes);
             PrefManager.Instance.UpdateIntPref(PrefManager.PreferenceKey.TotalSeconds, TotalSecPlayed);
 
+        }
+
+        private IEnumerator StartCountingTime()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(1f);
+                TotalSecPlayed++;
+                MyEventManager.Instance.OnSecondPassed.Dispatch(TotalSecPlayed);
+               
+            }
+        }
+
+        private IEnumerator StartCountingMinutes()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(30f);
+                CurrentGameMins += 0.5f;
+                MyEventManager.Instance.OnMinutesPassed.Dispatch(CurrentGameMins);
+            }
         }
 
     }

@@ -5,15 +5,17 @@ public class PlatformGenerator : MonoBehaviour
 {
     public Transform startPoint;
     public float CurrentPlatformWidth, PlatformWidth;
+
     [SerializeField]
     private Platform CurrentPlatform, LeftPlatform, RightPlatform;
+    private PlatformType type;
 
     private void OnEnable()
     {
         MyEventManager.Instance.OnEnemyGenerated.AddListener(OnEnemyGenerated);
         MyEventManager.Instance.OnPowerupGenerated.AddListener(OnPowerupGenerated);
         MyEventManager.Instance.OnCoinWaveGenerated.AddListener(OnCoinWaveGenerated);
-
+        MyEventManager.Instance.OnMinutesPassed.AddListener(OnMinutesPassed);
     }
 
     private void OnDisable()
@@ -23,6 +25,8 @@ public class PlatformGenerator : MonoBehaviour
             MyEventManager.Instance.OnEnemyGenerated.RemoveListener(OnEnemyGenerated);
             MyEventManager.Instance.OnPowerupGenerated.RemoveListener(OnPowerupGenerated);
             MyEventManager.Instance.OnCoinWaveGenerated.RemoveListener(OnCoinWaveGenerated);
+            MyEventManager.Instance.OnMinutesPassed.AddListener(OnMinutesPassed);
+
         }
     }
 
@@ -50,28 +54,32 @@ public class PlatformGenerator : MonoBehaviour
 
     }
 
-    private Platform GetPlatform()
+    private void OnMinutesPassed(float mins)
     {
-        PlatformType type;
-        if (GameTimeManager.Instance.MinutesSinceGame <= 0.5f)
+
+        if (mins <= 0.5f)
         {
             type = (PlatformType)Random.Range((int)PlatformType.VeryEasy, (int)PlatformType.Easy + 1);
         }
-        else if (GameTimeManager.Instance.MinutesSinceGame <= 1.5f)
+        else if (mins <= 1.5f)
         {
             type = (PlatformType)Random.Range((int)PlatformType.VeryEasy, (int)PlatformType.Average + 1);
         }
-        else if (GameTimeManager.Instance.MinutesSinceGame <= 3f)
+        else if (mins <= 3f)
         {
             type = (PlatformType)Random.Range((int)PlatformType.Easy, (int)PlatformType.Hard + 1);
         }
-        else if (GameTimeManager.Instance.MinutesSinceGame <= 6f)
+        else if (mins <= 6f)
         {
             type = (PlatformType)Random.Range((int)PlatformType.Easy, (int)PlatformType.VeryHard + 1);
         }
         else
             type = (PlatformType)Random.Range((int)PlatformType.Average, (int)PlatformType.VeryHard + 1);
 
+    }
+
+    private Platform GetPlatform()
+    {
         return ObjectPool.Instance.GetPlatform(type);
     }
 

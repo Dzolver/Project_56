@@ -13,16 +13,13 @@ namespace AlyxAdventure
         private void OnEnable()
         {
             MyEventManager.Instance.OnGameOver.AddListener(OnGameOver);
-            MyEventManager.Instance.GenerateFragment.AddListener(GenerateFragment);
         }
 
         private void OnDisable()
         {
             if (MyEventManager.Instance != null)
             {
-                MyEventManager.Instance.GenerateFragment.RemoveListener(GenerateFragment);
                 MyEventManager.Instance.OnGameOver.AddListener(OnGameOver);
-
             }
         }
 
@@ -37,13 +34,7 @@ namespace AlyxAdventure
             SceneManager.LoadScene(3);
         }
 
-        private void GenerateFragment()
-        {
-            CollectableFragmentBase fragment = ObjectPool.Instance.GetFragment();
-            fragment.ActivateAndSetPosition(new Vector2(GameData.Instance.theRunnerTransform.position.x +
-                           (int)GameData.Instance.direction * 16f, GameData.Instance.theRunnerTransform.position.y + 1f));
-        }
-
+      
         private IEnumerator GenerateCoinWave()
         {
             CoinWave coinwave;

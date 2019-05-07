@@ -1,5 +1,7 @@
 ﻿using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine;
+using System;
 
 namespace AlyxAdventure
 {
@@ -9,29 +11,29 @@ namespace AlyxAdventure
 
         private void Start()
         {
+            int total = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.TotalFragments, 0);
+            int earned = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.FragmentFromTime, 0);
 
-
-            FragmentCount.text = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.FragmentCount, 0).ToString();
+            if (earned > 0)
+            {
+                ShowFragmentText(total + earned);
+                PrefManager.Instance.UpdateIntPref(PrefManager.PreferenceKey.FragmentFromTime, 0);
+                PrefManager.Instance.UpdateIntPref(PrefManager.PreferenceKey.TotalFragments, earned + total);
+            }
+            else
+                ShowFragmentText(total);
 
         }
-        //private void OnEnable()
-        //{
-        //    MyEventManager.Instance.OnGameStateChanged.AddListener(OnGameStateChanged);
-        //}
 
-        //private void OnDisable()
-        //{
-        //    if (MyEventManager.Instance != null)
-        //    {
-        //        MyEventManager.Instance.OnGameStateChanged.RemoveListener(OnGameStateChanged);
-        //    }
-        //}
+        void ShowFragmentText(int count)
+        {
+            LeanTween.value(0f, count, .5f).setOnUpdate(OnUpdate);
+        }
 
-        //private void OnGameStateChanged()
-        //{
-        //    if (GameStateManager.Instance.CurrentState == GameState.MainMenu)
-        //        ShowMenu();
-        //}
+        private void OnUpdate(float val)
+        {
+            FragmentCount.text = (int)val + "";
+        }
 
         public void Play()
         {

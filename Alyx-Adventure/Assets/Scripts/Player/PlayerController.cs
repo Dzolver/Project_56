@@ -255,7 +255,7 @@ namespace AlyxAdventure
             Attack();
         }
 
-        private void IncreaseSpeed()
+        private void IncreaseSpeed(int totalSecPlayed)
         {
             if (Mathf.Abs(moveSpeed) < maxSpeed)
             {

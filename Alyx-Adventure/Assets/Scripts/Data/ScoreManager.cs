@@ -48,7 +48,7 @@ namespace AlyxAdventure
             }
         }
 
-        public void UpdateScore()
+        public void UpdateScore(int totalSecPlayed)
         {
             int previousScore = GameScore;
             GameScore += ScorePerSecond * ScoreMultiplier;
