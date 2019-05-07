@@ -52,7 +52,7 @@ namespace AlyxAdventure
             {
                 if (collision.gameObject.CompareTag(GameStrings.Enemy))
                 {
-                    GameData.Instance.AddKills();
+                    ScoreManager.Instance.AddKills();
                     collision.gameObject.GetComponent<AbstractEnemy>().Deactivate();
                 }
                 else if (collision.gameObject.CompareTag(GameStrings.JumpBlock))

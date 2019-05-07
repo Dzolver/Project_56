@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using AlyxAdventure;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -60,7 +61,7 @@ public abstract class AbstractEnemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag(GameStrings.Weapon))
         {
-            GameData.Instance.AddKills();
+            ScoreManager.Instance.AddKills();
             Deactivate();
         }
         if (collision.gameObject.CompareTag(GameStrings.MainCamera))

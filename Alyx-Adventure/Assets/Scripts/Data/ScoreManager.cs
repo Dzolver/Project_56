@@ -9,14 +9,17 @@ namespace AlyxAdventure
     {
         private int ScoreMultiplier = 1;
         private int GameScore;
+        private int TotalKills = 0;
 
         public int ScorePerSecond;
+        public int ScorePerKill;
+        
 
         private void OnEnable()
         {
             MyEventManager.Instance.OnPowerupExhausted.AddListener(OnPowerupExhausted);
             MyEventManager.Instance.OnPowerupCollected.AddListener(OnPowerupCollected);
-            MyEventManager.Instance.OnGameStarted.AddListener(ResetScore);
+            MyEventManager.Instance.OnGameStarted.AddListener(ResetData);
             MyEventManager.Instance.OnSecondPassed.AddListener(UpdateScore);
         }
 
@@ -26,7 +29,7 @@ namespace AlyxAdventure
             {
                 MyEventManager.Instance.OnPowerupCollected.RemoveListener(OnPowerupCollected);
                 MyEventManager.Instance.OnPowerupExhausted.RemoveListener(OnPowerupExhausted);
-                MyEventManager.Instance.OnGameStarted.RemoveListener(ResetScore);
+                MyEventManager.Instance.OnGameStarted.RemoveListener(ResetData);
                 MyEventManager.Instance.OnSecondPassed.RemoveListener(UpdateScore);
 
             }
@@ -60,10 +63,22 @@ namespace AlyxAdventure
             return GameScore;
         }
 
-        public void ResetScore()
+        public int GetKills()
+        {
+            return TotalKills;
+        }
+
+        public void ResetData()
         {
             GameScore = 0;
-            ScoreMultiplier = 1;
+            TotalKills = 0;
+            ScoreMultiplier = 1;          
+        }
+
+        public void AddKills()
+        {
+            TotalKills += 1;
+            MyEventManager.Instance.OnEnemyKilled.Dispatch(TotalKills);
         }
     }
 

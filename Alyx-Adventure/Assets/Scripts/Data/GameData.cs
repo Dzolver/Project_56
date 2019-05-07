@@ -20,8 +20,7 @@ public class GameData : SingletonMonoBehaviour<GameData>
     public Direction direction = Direction.Right; //-1 = left direction, 1= right direction
 
     public float MultiplierPerKill;
-    public int TotalKills = 0;
-
+ 
     private BasePowerup currentPowerup = null;
 
     private int TotalFragments;
@@ -88,12 +87,6 @@ public class GameData : SingletonMonoBehaviour<GameData>
     public int GetFragmentCount()
     {
         return TotalFragments;
-    }
-
-    public void AddKills()
-    {
-        TotalKills += 1;
-        MyEventManager.Instance.OnEnemyKilled.Dispatch(TotalKills);
     }
 
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using AlyxAdventure;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (collision.gameObject.CompareTag(GameStrings.Enemy))
         {
-            GameData.Instance.AddKills();
+            ScoreManager.Instance.AddKills();
             collision.gameObject.GetComponent<AbstractEnemy>().Deactivate();
         }
     }
