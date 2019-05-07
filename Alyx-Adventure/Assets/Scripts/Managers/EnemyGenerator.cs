@@ -30,25 +30,25 @@ public class EnemyGenerator : MonoBehaviour
     {
         if (minutes < 1f)
         {
-            WaitTime = 7f;
+            WaitTime = 6f;
         }
         else if (minutes < 2f)
         {
-            WaitTime = 6f;
+            WaitTime = 5f;
         }
         else if (minutes < 2.5f)
         {
             if (coroutine == null)
                 coroutine = StartCoroutine(GenerateRaven());
-            WaitTime = 5f;
-        }
-        else if (minutes <= 3f)
-        {
             WaitTime = 4f;
+        }
+        else if (minutes <= 4f)
+        {
+            WaitTime = 3f;
         }
         else
         {
-            WaitTime = 3f;
+            WaitTime = 2f;
         }
     }
 

@@ -25,7 +25,7 @@ public class PlatformGenerator : MonoBehaviour
             MyEventManager.Instance.OnEnemyGenerated.RemoveListener(OnEnemyGenerated);
             MyEventManager.Instance.OnPowerupGenerated.RemoveListener(OnPowerupGenerated);
             MyEventManager.Instance.OnCoinWaveGenerated.RemoveListener(OnCoinWaveGenerated);
-            MyEventManager.Instance.OnMinutesPassed.AddListener(OnMinutesPassed);
+            MyEventManager.Instance.OnMinutesPassed.RemoveListener(OnMinutesPassed);
 
         }
     }

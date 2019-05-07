@@ -19,7 +19,7 @@ namespace AlyxAdventure
         {
             if (MyEventManager.Instance != null)
             {
-                MyEventManager.Instance.OnGameOver.AddListener(OnGameOver);
+                MyEventManager.Instance.OnGameOver.RemoveListener(OnGameOver);
             }
         }
 

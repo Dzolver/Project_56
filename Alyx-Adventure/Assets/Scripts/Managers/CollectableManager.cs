@@ -21,8 +21,8 @@ public class CollectableManager : SingletonMonoBehaviour<CollectableManager>
     {
         if (MyEventManager.Instance != null)
         {
-            MyEventManager.Instance.OnGameStarted.AddListener(OnGameStarted);
-            MyEventManager.Instance.OnSecondPassed.AddListener(OnSecondPassed);
+            MyEventManager.Instance.OnGameStarted.RemoveListener(OnGameStarted);
+            MyEventManager.Instance.OnSecondPassed.RemoveListener(OnSecondPassed);
         }
     }
 
