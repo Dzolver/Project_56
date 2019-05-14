@@ -9,7 +9,9 @@ public class CollectableManager : SingletonMonoBehaviour<CollectableManager>
     private int FragSpawnTime;
 
     [SerializeField]
-    private int TotalSecToEarnOne = 900;
+    private int TotalSecToEarnOne;
+
+    public int TotalFragFor1Collectable;
 
     private void OnEnable()
     {
