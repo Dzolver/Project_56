@@ -7,6 +7,11 @@ namespace AlyxAdventure
     {
         public Menu HUD;
 
+        private void Start()
+        {
+
+        }
+
         public void Resume()
         {
             HideMenu();

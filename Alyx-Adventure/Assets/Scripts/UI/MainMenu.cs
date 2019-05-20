@@ -1,14 +1,13 @@
-﻿using UnityEngine.SceneManagement;
+﻿using System;
 using TMPro;
 using UnityEngine;
-using System;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace AlyxAdventure
 {
     public class MainMenu : Menu
     {
-        int total;
+        private int total;
 
         public RectTransform PosFrag, PosColl;
         public TextMeshProUGUI FragmentCount, Collectable;

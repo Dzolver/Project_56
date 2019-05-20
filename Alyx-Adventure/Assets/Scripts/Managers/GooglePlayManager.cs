@@ -1,9 +1,9 @@
 ﻿using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using System;
-using UnityEngine;
-using TMPro;
 using System.Collections;
+using TMPro;
+using UnityEngine;
 
 namespace AlyxAdventure
 {
@@ -24,7 +24,7 @@ namespace AlyxAdventure
             //// requests the email address of the player be available.
             //// Will bring up a prompt for consent.
             //.RequestEmail()
-            
+
             //// requests a server auth code be generated so it can be passed to an
             ////  associated back end server application and exchanged for an OAuth token.
             //.RequestServerAuthCode(false)
@@ -44,7 +44,7 @@ namespace AlyxAdventure
             StatusText.text = "Actrivate called";
             yield return new WaitForSeconds(1f);
             StatusText.text = "Authenticating";
-            Social.localUser.Authenticate(OnAuthenticationComplete);
+            Login();
         }
 
         private void OnAuthenticationComplete(bool result)
@@ -67,6 +67,11 @@ namespace AlyxAdventure
             else
                 Debug.Log("Score Updating Failed");
 
+        }
+
+        public void Login()
+        {
+            Social.localUser.Authenticate(OnAuthenticationComplete);
         }
     }
 }
