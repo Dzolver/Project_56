@@ -2,14 +2,20 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 namespace AlyxAdventure
 {
     public class SplashScreen : MonoBehaviour
     {
+        public Slider slider;
         int Counter = 0;
        
         void Start()
         {
+            slider.minValue = 0;
+            slider.maxValue = ObjectPool.Instance.GetTotalObjectCount();
+            slider.value = Counter;
             ObjectPool.Instance.StartInstantiatingObjects();
         }
 
@@ -30,16 +36,11 @@ namespace AlyxAdventure
         private void OnObjectInstantiated()
         {
             Counter++;
+            slider.value = Counter;
             if (Counter >= ObjectPool.Instance.GetTotalObjectCount())
                 SceneManager.LoadScene(1);
         }
 
-        //IEnumerator LoadMainMenu()
-        //{
-        //    yield return new WaitForSeconds(0.5f);
-        //    SceneManager.LoadScene(1);
-
-        //}
     }
 
 }

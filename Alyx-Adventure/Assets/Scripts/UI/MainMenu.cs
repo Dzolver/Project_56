@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace AlyxAdventure
 {
@@ -12,6 +13,7 @@ namespace AlyxAdventure
         public RectTransform PosFrag, PosColl;
         public TextMeshProUGUI FragmentCount, Collectable;
         public GameObject PanelFrag, PanelColl;
+        public Button FbButton;
 
         public void Play()
         {
@@ -31,10 +33,40 @@ namespace AlyxAdventure
         {
         }
 
+        public void FBLogin()
+        {
+            MyEventManager.Instance.LoginWithFacebook.Dispatch();
+        }
+
+        private void OnEnable()
+        {
+            MyEventManager.Instance.OnFacebookLogin.AddListener(OnFacebookLogin);
+        }
+
+        private void OnDisable()
+        {
+            if (MyEventManager.Instance != null)
+            {
+                MyEventManager.Instance.OnFacebookLogin.RemoveListener(OnFacebookLogin);
+            }
+        }
+
+        private void OnFacebookLogin()
+        {
+            FbButton.gameObject.SetActive(false);
+        }
+
+        public void ActivateFbButton()
+        {
+            FbButton.gameObject.SetActive(true);
+        }
+       
+
         private void Awake()
         {
             PanelFrag.GetComponent<CanvasGroup>().alpha = 0;
             PanelColl.GetComponent<CanvasGroup>().alpha = 0;
+            FbButton.gameObject.SetActive(false);
         }
 
         private void Start()
@@ -110,7 +142,7 @@ namespace AlyxAdventure
 
         private void MoveCollToTop()
         {
-            LeanTween.move(PanelColl.GetComponent<RectTransform>(), PosColl.anchoredPosition, .3f);
+            LeanTween.move(PanelColl.GetComponent<RectTransform>(), PosColl.anchoredPosition, .3f).setOnComplete(ActivateFbButton);
         }
 
         private void OnUpdateFragment(float val)

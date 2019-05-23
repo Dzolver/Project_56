@@ -5,11 +5,26 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+
 namespace AlyxAdventure
 {
     public class FacebookManager : MonoBehaviour
     {
         public TextMeshProUGUI Status;
+
+        private void OnEnable()
+        {
+            MyEventManager.Instance.LoginWithFacebook.AddListener(LoginWithFacebook);
+        }
+
+        private void OnDisable()
+        {
+            if (MyEventManager.Instance != null)
+            {
+                MyEventManager.Instance.LoginWithFacebook.RemoveListener(LoginWithFacebook);
+            }
+        }
+
         private void Awake()
         {
             if (!FB.IsInitialized)
@@ -26,11 +41,11 @@ namespace AlyxAdventure
             }
         }
 
-
         private void Start()
         {
-            LoginWithFacebook();
+            //LoginWithFacebook();
         }
+
         private void InitCallback()
         {
             Debug.Log("Init Call back");
@@ -59,20 +74,6 @@ namespace AlyxAdventure
                 Time.timeScale = 1;
             }
         }
-
-
-        //private void OnEnable()
-        //{
-        //    MyEventManager.Instance.LoginWithFacebook.AddListener(LoginWithFacebook);
-        //}
-
-        //private void OnDisable()
-        //{
-        //    if (MyEventManager.Instance != null)
-        //    {
-        //        MyEventManager.Instance.OnUserNotAuthenticated.RemoveListener(LoginWithFacebook);
-        //    }
-        //}
 
         private void LoginWithFacebook()
         {
@@ -107,6 +108,7 @@ namespace AlyxAdventure
                 }
 
                 GetUserData();
+                MyEventManager.Instance.OnFacebookLogin.Dispatch();
             }
             else
             {
@@ -123,11 +125,6 @@ namespace AlyxAdventure
         {
             MyFacebookData myFacebookData = JsonUtility.FromJson<MyFacebookData>(result.RawResult);
             Status.text = "Welcome " + myFacebookData.name;
-            //PlayerData playerData = (PlayerData)PrefManager.Instance.GetCustomPref(PreferenceKey.PlayerData, typeof(PlayerData));
-            //if (playerData == null)
-            //    playerData = new PlayerData(myFacebookData.name);
-            //playerData.PlayerProfile.Picture_url = myFacebookData.picture.data.url;
-            //MyEventManager.Instance.OnSocialLogin.Dispatch(SocialLoginType.Facebook, playerData);
         }
 
         [Serializable]

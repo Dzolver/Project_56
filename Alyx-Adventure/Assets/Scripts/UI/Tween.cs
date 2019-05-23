@@ -6,7 +6,8 @@ public class Tween : MonoBehaviour
 {
     private void Start()
     {
-        LeanTween.scale(gameObject, new Vector3(.5f, .5f, 0), .5f).setLoopPingPong();
+        LeanTween.rotateAround(gameObject.GetComponent<RectTransform>(), Vector3.up, 180f, 0.5f).setLoopPingPong();
+        // LeanTween.scale(gameObject, new Vector3(.5f, .5f, 0), .5f).setLoopPingPong();
     }
 
 }
