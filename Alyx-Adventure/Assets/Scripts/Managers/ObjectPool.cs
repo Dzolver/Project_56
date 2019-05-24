@@ -43,7 +43,7 @@ namespace AlyxAdventure
         public List<BasePowerup> Powerups = new List<BasePowerup>();
 
         public bool shouldExpand = false;
-        private WaitForSeconds wait = new WaitForSeconds(0.001f);
+        private WaitForSeconds wait = new WaitForSeconds(0.01f);
 
         private void OnEnable()
         {

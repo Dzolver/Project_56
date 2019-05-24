@@ -29,9 +29,14 @@ namespace AlyxAdventure
 
         public MyEvent<AbstractEnemy> OnEnemyGenerated = new MyEvent<AbstractEnemy>();
         public MyEvent<BasePowerup> OnPowerupGenerated = new MyEvent<BasePowerup>();
+
         public MyEvent<CoinWave> OnCoinWaveGenerated = new MyEvent<CoinWave>();
         public MyEvent<AbstractEnemy, Platform> OnGotEnemyParent = new MyEvent<AbstractEnemy, Platform>();
+
         public MyEvent LoginWithFacebook = new MyEvent();
         public MyEvent LoginWithGoogle = new MyEvent();
+        public MyEvent OnFacebookLogin = new MyEvent();
+
+
     }
 }

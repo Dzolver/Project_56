@@ -41,7 +41,7 @@ namespace AlyxAdventure
             PlayGamesPlatform.DebugLogEnabled = true;
             // Activate the Google Play Games platform
             PlayGamesPlatform.Activate();
-            StatusText.text = "Actrivate called";
+            StatusText.text = "Activate called";
         }
 
         private void OnEnable()
@@ -82,5 +82,86 @@ namespace AlyxAdventure
 
         }
 
+
+        public void Login()
+        {
+            Social.localUser.Authenticate(OnAuthenticationComplete);
+        }
+
+        public void Logout()
+        {
+            PlayGamesPlatform.Instance.SignOut();
+        }
+
+        public bool IsSignedIn()
+        {
+            return PlayGamesPlatform.Instance.localUser.authenticated;
+        }
+
+        public void AddToLeaderBoard(long score, string board, Action OnSuccess, Action OnError)
+        {
+            if (IsSignedIn())
+            {
+                PlayGamesPlatform.Instance.ReportScore(score, board, (bool success) =>
+                {
+                    if (success)
+                        OnSuccess();
+                    else
+                        OnError();
+                });
+            }
+        }
+
+        public void AddToLeaderBoard(long score, string board, string tag, Action OnSuccess, Action OnError)
+        {
+            if (IsSignedIn())
+            {
+                PlayGamesPlatform.Instance.ReportScore(score, board, tag, (bool success) =>
+                {
+                    if (success)
+                        OnSuccess();
+                    else
+                        OnError();
+                });
+            }
+        }
+
+        public void ShowDefaultLeaderBoards(string LeaderboardId = null)
+        {
+            if (string.IsNullOrEmpty(LeaderboardId))
+                PlayGamesPlatform.Instance.ShowLeaderboardUI();
+            else
+                PlayGamesPlatform.Instance.ShowLeaderboardUI(LeaderboardId);
+        }
+
+        public void GetLeaderBoardsAroundPlayer(string leaderboardId, int rowcount, Action<LeaderboardScoreData> OnFetched,
+                                                 LeaderboardCollection collection = LeaderboardCollection.Public,
+                                                 LeaderboardTimeSpan timeSpan = LeaderboardTimeSpan.AllTime)
+        {
+            if (IsSignedIn())
+            {
+                PlayGamesPlatform.Instance.LoadScores(leaderboardId, LeaderboardStart.PlayerCentered,
+                rowcount, collection, timeSpan,
+                (data) =>
+                {
+                    OnFetched(data);
+                });
+            }
+        }
+
+        public void GetTopLeaderBoards(string leaderboardId, int rowcount, Action<LeaderboardScoreData> OnFetched,
+                                                 LeaderboardCollection collection = LeaderboardCollection.Public,
+                                                 LeaderboardTimeSpan timeSpan = LeaderboardTimeSpan.AllTime)
+        {
+            if (IsSignedIn())
+            {
+                PlayGamesPlatform.Instance.LoadScores(leaderboardId, LeaderboardStart.TopScores,
+                 rowcount, collection, timeSpan,
+                (data) =>
+                {
+                    OnFetched(data);
+                });
+            }
+        }
     }
 }
