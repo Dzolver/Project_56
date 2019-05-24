@@ -29,7 +29,6 @@ namespace AlyxAdventure
 
         private void Start()
         {
-            LoginWithFacebook();
         }
         private void InitCallback()
         {
@@ -61,18 +60,20 @@ namespace AlyxAdventure
         }
 
 
-        //private void OnEnable()
-        //{
-        //    MyEventManager.Instance.LoginWithFacebook.AddListener(LoginWithFacebook);
-        //}
+        private void OnEnable()
+        {
+            MyEventManager.Instance.LoginWithFacebook.AddListener(LoginWithFacebook);
+        }
 
-        //private void OnDisable()
-        //{
-        //    if (MyEventManager.Instance != null)
-        //    {
-        //        MyEventManager.Instance.OnUserNotAuthenticated.RemoveListener(LoginWithFacebook);
-        //    }
-        //}
+        private void OnDisable()
+        {
+            MyEventManager.Instance.LoginWithFacebook.RemoveListener(LoginWithFacebook);
+
+            //if (MyEventManager.Instance != null)
+            //{
+            //    MyEventManager.Instance.OnUserNotAuthenticated.RemoveListener(LoginWithFacebook);
+            //}
+        }
 
         private void LoginWithFacebook()
         {

@@ -123,6 +123,16 @@ namespace AlyxAdventure
             Collectable.text = (int)val + "";
         }
 
+        public void LoginWithFacebook()
+        {
+            MyEventManager.Instance.LoginWithFacebook.Dispatch();
+        }
+
+        public void LoginWithGoogle()
+        {
+            MyEventManager.Instance.LoginWithGoogle.Dispatch();
+        }
+
 
     }
 }
