@@ -41,6 +41,7 @@ public abstract class AbstractEnemy : MonoBehaviour
     public virtual void Deactivate()
     {
         gameObject.SetActive(false);
+        ObjectPool.Instance.GetExplode().ExplodeObject(transform.position);
         gameObject.transform.position = Vector3.zero;
         spriteRenderer.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         if (routine != null)

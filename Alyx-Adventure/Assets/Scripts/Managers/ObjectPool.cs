@@ -11,6 +11,7 @@ namespace AlyxAdventure
         public BasePowerup InvincibilityGO;
         public BasePowerup ScoreMultiplier;
         public BasePowerup FastRun;
+        public Explode Explode;
         public Platform[] PlatformTypes;
         public CoinWave[] CoinWaveTypes;
         public CollectableFragmentBase[] FragmentTypes;
@@ -21,6 +22,7 @@ namespace AlyxAdventure
         public int CoinWaveCount;
         public int PowerUpCount;
         public int FragmentCount;
+        public int ExplodeCount;
 
         public Transform PooledObjectsHolder;
 
@@ -41,6 +43,8 @@ namespace AlyxAdventure
 
         [HideInInspector]
         public List<BasePowerup> Powerups = new List<BasePowerup>();
+        [HideInInspector]
+        public List<Explode> Explosions = new List<Explode>();
 
         public bool shouldExpand = false;
         private WaitForSeconds wait = new WaitForSeconds(0.01f);
@@ -83,6 +87,8 @@ namespace AlyxAdventure
                 Total += PowerUpCount;
             if (FragmentTypes != null)
                 Total += FragmentCount * FragmentTypes.Length;
+            if (Explode != null)
+                Total += ExplodeCount;
             return Total;
         }
 
@@ -159,6 +165,21 @@ namespace AlyxAdventure
                 }
             }
 
+            if (Explode != null)
+            {
+                for (int i = 0; i < ExplodeCount; i++)
+                {
+                    GameObject gameObject;
+                    gameObject = Instantiate(Explode.gameObject, PooledObjectsHolder);
+                    gameObject.name = "Explode " + i;
+                    gameObject.SetActive(false);
+                    Explosions.Add(gameObject.GetComponent<Explode>());
+                    MyEventManager.Instance.OnObjectInstantiated.Dispatch();
+                    yield return wait;
+                }
+            }
+
+
             for (int i = 0; i < PowerUpCount * 3; i++)
             {
                 GameObject gameObject;
@@ -194,6 +215,28 @@ namespace AlyxAdventure
                 gameObject.SetActive(false);
                 Zombies.Add(gameObject.GetComponent<Zombie>());
                 return gameObject.GetComponent<Zombie>();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public Explode GetExplode()
+        {
+            foreach (Explode explode in Explosions)
+            {
+                if (!explode.gameObject.activeInHierarchy)
+                {
+                    return explode.GetComponent<Explode>();
+                }
+            }
+            if (shouldExpand)
+            {
+                GameObject gameObject = Instantiate(Explode.gameObject);
+                gameObject.SetActive(false);
+                Explosions.Add(gameObject.GetComponent<Explode>());
+                return gameObject.GetComponent<Explode>();
             }
             else
             {
@@ -313,6 +356,10 @@ namespace AlyxAdventure
             foreach (Platform Platform in Platforms)
             {
                 Platform.Deactivate();
+            }
+            foreach (Explode Explode in Explosions)
+            {
+                Explode.Deactivate();
             }
 
         }

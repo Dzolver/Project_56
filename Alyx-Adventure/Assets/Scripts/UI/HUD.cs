@@ -105,6 +105,11 @@ namespace AlyxAdventure
             MyEventManager.Instance.OnAttackClicked.Dispatch();
         }
 
+        public void BlinkAttackPanel()
+        {
+
+        }
+
         public void Pause()
         {
             HideMenu();
