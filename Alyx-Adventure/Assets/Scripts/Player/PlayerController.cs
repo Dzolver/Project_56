@@ -33,9 +33,11 @@ namespace AlyxAdventure
         private float SwipeDetectionSensitivity;
 
         //Attack variable
-        public float swingCoolDown = 1; //player can only once per second
+        public float swingCoolDown = 1; //player can only swing once once per second
         private float lastSwing;
         private Player player; //to know if playerAttacked
+
+        private float BaseMovementSpeed;
 
 
         #region Life Cycle
@@ -66,6 +68,7 @@ namespace AlyxAdventure
         private void Start()
         {
             SwipeDetectionSensitivity = Screen.width / 30f;
+            BaseMovementSpeed = moveSpeed;
             coolDown = false;
 
             RunnerCollider = GetComponent<Collider2D>();
@@ -75,6 +78,14 @@ namespace AlyxAdventure
             player = GetComponent<Player>();
             gravity = RunnerRigidBody.gravityScale;
             MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Right);
+            StartCoroutine(UpdateAnimFrameRate());
+        }
+
+        private IEnumerator UpdateAnimFrameRate()
+        {
+            RunnerAnimator.speed = moveSpeed / BaseMovementSpeed; 
+            yield return new WaitForSeconds(10f);
+            
         }
 
         private void Update()

@@ -11,8 +11,8 @@ namespace AlyxAdventure
         private int GameScore;
         private int TotalKills = 0;
 
-        public int ScorePerSecond;
-        public int ScorePerKill;
+        private int ScorePerSecond = 1;
+        private int ScorePerKill = 2;
         
 
         private void OnEnable()
@@ -79,6 +79,11 @@ namespace AlyxAdventure
         {
             TotalKills += 1;
             MyEventManager.Instance.OnEnemyKilled.Dispatch(TotalKills);
+        }
+
+        public int GetScorePerKill()
+        {
+            return ScorePerKill;
         }
     }
 

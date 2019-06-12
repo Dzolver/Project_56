@@ -24,12 +24,12 @@
 
 public static class GPGSIds
 {
+        public const string achievement_avoid_zombies = "CgkI_YSshJYFEAIQAg"; // <GPGSID>
+        public const string achievement_run_for_fun = "CgkI_YSshJYFEAIQAQ"; // <GPGSID>
+        public const string achievement_avoid_zombies_2 = "CgkI_YSshJYFEAIQBA"; // <GPGSID>
+        public const string leaderboard_score_leaderboard = "CgkI_YSshJYFEAIQBg"; // <GPGSID>
         public const string achievement_run_for_fun_2 = "CgkI_YSshJYFEAIQAw"; // <GPGSID>
         public const string achievement_run_for_fun_3 = "CgkI_YSshJYFEAIQBQ"; // <GPGSID>
-        public const string achievement_run_for_fun = "CgkI_YSshJYFEAIQAQ"; // <GPGSID>
-        public const string leaderboard_score_leaderboard = "CgkI_YSshJYFEAIQBg"; // <GPGSID>
-        public const string achievement_avoid_zombies = "CgkI_YSshJYFEAIQAg"; // <GPGSID>
-        public const string achievement_avoid_zombies_2 = "CgkI_YSshJYFEAIQBA"; // <GPGSID>
 
 }
 

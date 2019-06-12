@@ -12,60 +12,71 @@ namespace AlyxAdventure
         public TextMeshProUGUI StatusText;
         public GameObject Canvas;
         private readonly string DefaultLeaderboard = "CgkI_YSshJYFEAIQBg";
+        public PlayerData playerData;
 
         private void Start()
         {
-            StatusText.text = "Running Google Play";
+            ActivatePlayGames();
+        }
 
+        void ActivatePlayGames()
+        {
             PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
-            //.EnableSavedGames()
+            .EnableSavedGames()
             //// registers a callback to handle game invitations received while the game is not running.
             ////.WithInvitationDelegate(< callback method >)
             //// requests the email address of the player be available.
             //// Will bring up a prompt for consent.
-            //.RequestEmail()
+            .RequestEmail()
 
             //// requests a server auth code be generated so it can be passed to an
             ////  associated back end server application and exchanged for an OAuth token.
-            //.RequestServerAuthCode(false)
+            .RequestServerAuthCode(false)
             //// requests an ID token be generated.  This OAuth token can be used to
             ////  identify the player to other services such as Firebase.
-            //.RequestIdToken()
+            .RequestIdToken()
             .Build();
-            StatusText.text = "Play Build done";
 
             PlayGamesPlatform.InitializeInstance(config);
-            StatusText.text = "Play Initialized";
-
             // recommended for debugging:
             PlayGamesPlatform.DebugLogEnabled = true;
             // Activate the Google Play Games platform
-            PlayGamesPlatform.Activate();
-            StatusText.text = "Activate called";
+            PlayGamesPlatform platform = PlayGamesPlatform.Activate();
+            if (PrefManager.Instance.GetBoolPref(PrefManager.PreferenceKey.GoogleLogin))
+                LoginWithGoogle();
         }
 
         private void OnEnable()
         {
             MyEventManager.Instance.LoginWithGoogle.AddListener(LoginWithGoogle);
+            MyEventManager.Instance.ShowAchievements.AddListener(ShowAchievements);
+            MyEventManager.Instance.ShowLeaderboard.AddListener(ShowDefaultLeaderBoard);
         }
 
         private void OnDisable()
         {
             MyEventManager.Instance.LoginWithGoogle.RemoveListener(LoginWithGoogle);
+            MyEventManager.Instance.ShowAchievements.RemoveListener(ShowAchievements);
+            MyEventManager.Instance.ShowLeaderboard.RemoveListener(ShowDefaultLeaderBoard);
         }
 
         private void LoginWithGoogle()
         {
             Social.localUser.Authenticate(OnAuthenticationComplete);
-
         }
 
-        private void OnAuthenticationComplete(bool result)
+        private void OnAuthenticationComplete(bool result,string message)
         {
+            PrefManager.Instance.UpdateBoolpref(PrefManager.PreferenceKey.GoogleLogin, result);
             if (result)
-                StatusText.text = "Succesful Integration";
+            {
+                playerData = new PlayerData();
+                playerData.PlayerName = Social.localUser.userName;
+                playerData.PlayerID = Social.localUser.id;
+                MyEventManager.Instance.OnGoogleLogin.Dispatch();
+            }
             else
-                StatusText.text = "Failed";
+                StatusText.text = "Try Again\n" + message;
         }
 
         public void UpdateScore(int Score)
@@ -126,12 +137,14 @@ namespace AlyxAdventure
             }
         }
 
-        public void ShowDefaultLeaderBoards(string LeaderboardId = null)
+        private void ShowAchievements()
         {
-            if (string.IsNullOrEmpty(LeaderboardId))
-                PlayGamesPlatform.Instance.ShowLeaderboardUI();
-            else
-                PlayGamesPlatform.Instance.ShowLeaderboardUI(LeaderboardId);
+            PlayGamesPlatform.Instance.ShowAchievementsUI();
+        }
+
+        private void ShowDefaultLeaderBoard()
+        {
+                PlayGamesPlatform.Instance.ShowLeaderboardUI(DefaultLeaderboard);
         }
 
         public void GetLeaderBoardsAroundPlayer(string leaderboardId, int rowcount, Action<LeaderboardScoreData> OnFetched,

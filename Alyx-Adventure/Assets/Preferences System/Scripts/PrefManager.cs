@@ -12,7 +12,9 @@ public class PrefManager : SingletonMonoBehaviour<PrefManager>
         FragmentFromTime,
         TotalCollectables,
         TotalSeconds,
-        Highscore
+        Highscore,
+        //Social Prefs
+        GoogleLogin
     }
 
     public void UpdateBoolpref(PreferenceKey Pref, bool value)

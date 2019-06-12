@@ -35,7 +35,10 @@ namespace AlyxAdventure
 
         public MyEvent LoginWithFacebook = new MyEvent();
         public MyEvent LoginWithGoogle = new MyEvent();
+        public MyEvent ShowAchievements = new MyEvent();
+        public MyEvent ShowLeaderboard = new MyEvent();
         public MyEvent OnFacebookLogin = new MyEvent();
+        public MyEvent OnGoogleLogin = new MyEvent();
 
 
     }

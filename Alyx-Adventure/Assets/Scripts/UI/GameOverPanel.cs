@@ -37,8 +37,8 @@ namespace AlyxAdventure
         private void AddToScore()
         {
             Kills.SetActive(false);
-            Debug.Log(ScoreManager.Instance.GetKills() * ScoreManager.Instance.ScorePerKill);
-            int score = ScoreManager.Instance.GetScore() + (ScoreManager.Instance.GetKills() * ScoreManager.Instance.ScorePerKill);
+            Debug.Log(ScoreManager.Instance.GetKills() * ScoreManager.Instance.GetScorePerKill());
+            int score = ScoreManager.Instance.GetScore() + (ScoreManager.Instance.GetKills() * ScoreManager.Instance.GetScorePerKill());
 
             LeanTween.value(ScoreManager.Instance.GetScore(), score, .5f).setOnUpdate(OnUpdate);
             CheckHighScore(score);

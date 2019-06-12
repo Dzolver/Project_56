@@ -15,27 +15,32 @@ namespace AlyxAdventure
         public GameObject PanelFrag, PanelColl;
         public Button FbButton;
 
+        public GameObject Leaderboard;
+        public GameObject Achievements;
+        public GameObject GoogleButton;
+
+        public Image ProfilePicture;
+        public TextMeshProUGUI PlayerName;
+        public GameObject ProfilePanel;
+
         public void Play()
         {
             HideMenu();
             SceneManager.LoadScene(2);
         }
 
-        public void Leaderboard()
-        {
-        }
+      
 
         public void Shop()
         {
         }
 
-        public void Achievements()
-        {
-        }
+      
 
         private void OnEnable()
         {
             MyEventManager.Instance.OnFacebookLogin.AddListener(OnFacebookLogin);
+            MyEventManager.Instance.OnGoogleLogin.AddListener(OnGoogleLogin) ;
         }
 
         private void OnDisable()
@@ -43,12 +48,24 @@ namespace AlyxAdventure
             if (MyEventManager.Instance != null)
             {
                 MyEventManager.Instance.OnFacebookLogin.RemoveListener(OnFacebookLogin);
+                MyEventManager.Instance.OnGoogleLogin.RemoveListener(OnGoogleLogin);
+
             }
         }
 
         private void OnFacebookLogin()
         {
             FbButton.gameObject.SetActive(false);
+        }
+
+        private void OnGoogleLogin()
+        {
+            LeanTween.scale(Leaderboard, Vector3.one, 1f);
+            LeanTween.scale(Achievements, Vector3.one, 1f);
+
+            ProfilePanel.SetActive(true);
+            LeanTween.scaleX(PlayerName.transform.parent.gameObject, 1, .8f);
+
         }
 
         public void ActivateFbButton()
@@ -66,6 +83,10 @@ namespace AlyxAdventure
 
         private void Start()
         {
+            Leaderboard.transform.localScale = Vector3.zero;
+            Achievements.transform.localScale = Vector3.zero;
+            if (PrefManager.Instance.GetBoolPref(PrefManager.PreferenceKey.GoogleLogin))
+                GoogleButton.SetActive(false);
             total = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.TotalFragments, 0);
             int earned = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.FragmentFromTime, 0);
 
@@ -79,6 +100,9 @@ namespace AlyxAdventure
                 FragmentCount.text = total + "";
 
             ShowFragments();
+            ProfilePanel.SetActive(false);
+            PlayerName.transform.parent.localScale = Vector3.zero +  Vector3.forward + Vector3.up;
+            ProfilePicture.transform.parent.SetActive(false);
 
         }
 
@@ -159,6 +183,17 @@ namespace AlyxAdventure
         public void LoginWithGoogle()
         {
             MyEventManager.Instance.LoginWithGoogle.Dispatch();
+        }
+
+        public void ShowAchievements()
+        {
+            MyEventManager.Instance.ShowAchievements.Dispatch();
+        }
+
+        public void ShowLeaderboard()
+        {
+            MyEventManager.Instance.ShowLeaderboard.Dispatch();
+
         }
 
 

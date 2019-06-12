@@ -13,6 +13,7 @@ namespace AlyxAdventure
        
         void Start()
         {
+            Application.targetFrameRate = 60;
             slider.minValue = 0;
             slider.maxValue = ObjectPool.Instance.GetTotalObjectCount();
             slider.value = Counter;

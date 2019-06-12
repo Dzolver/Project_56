@@ -51,7 +51,6 @@ namespace AlyxAdventure
                 yield return new WaitForSeconds(1f);
                 TotalSecPlayed++;
                 MyEventManager.Instance.OnSecondPassed.Dispatch(TotalSecPlayed);
-               
             }
         }
 
