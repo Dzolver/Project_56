@@ -25,7 +25,6 @@ namespace AlyxAdventure
 
         public void Play()
         {
-            HideMenu();
             SceneManager.LoadScene(2);
         }
 
@@ -101,21 +100,20 @@ namespace AlyxAdventure
 
             ShowFragments();
             ProfilePanel.SetActive(false);
-            PlayerName.transform.parent.localScale = Vector3.zero +  Vector3.forward + Vector3.up;
             ProfilePicture.transform.parent.SetActive(false);
-
         }
 
 
         private void ShowFragments()
         {
             LeanTween.alphaCanvas(PanelFrag.GetComponent<CanvasGroup>(), 1, .5f).setOnComplete(CheckFragment);
+            LeanTween.alphaCanvas(PanelColl.GetComponent<CanvasGroup>(), 1, .5f).setOnComplete(CheckCollectible);
         }
 
         //make Sure total value has been set via inspector
         private void CheckFragment()
         {
-            Debug.Log("total fragments before decreasing = " + total);
+            //Debug.Log("total fragments before decreasing = " + total);
             if (total >= CollectableManager.Instance.TotalFragFor1Collectable)
             {
                 DecreaseFragment(total % CollectableManager.Instance.TotalFragFor1Collectable);
@@ -127,33 +125,38 @@ namespace AlyxAdventure
             }
         }
 
+        public void CheckCollectible()
+        {
+            if (total >= CollectableManager.Instance.TotalFragFor1Collectable)
+            {
+                IncreaseCollectable(total / CollectableManager.Instance.TotalFragFor1Collectable);
+            }
+            else
+            {
+                MoveCollToTop();
+            }
+        }
+
         private void DecreaseFragment(int amount)
         {
-            Debug.Log("Decreasing to " + amount);
+            //Debug.Log("Decreasing to " + amount);
             PrefManager.Instance.UpdateIntPref(PrefManager.PreferenceKey.TotalFragments, amount);
             LeanTween.value(total, amount, 1f).setOnUpdate(OnUpdateFragment).setOnComplete(MoveFragToTop);
         }
 
         private void MoveFragToTop()
         {
-            LeanTween.move(PanelFrag.GetComponent<RectTransform>(), PosFrag.anchoredPosition, .3f).setOnComplete(ShowCollectables);
+            LeanTween.move(PanelFrag.GetComponent<RectTransform>(), PosFrag.anchoredPosition, .2f);
         }
 
-        private void ShowCollectables()
+        private void IncreaseCollectable(int increase)
         {
-            Collectable.text = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.TotalCollectables, 0) + "";
-            LeanTween.alphaCanvas(PanelColl.GetComponent<CanvasGroup>(), 1, .5f).setOnComplete(IncreaseCollectable, total / CollectableManager.Instance.TotalFragFor1Collectable);
-        }
-
-        private void IncreaseCollectable(object increase)
-        {
-            if ((int)increase > 0)
+            if (increase > 0)
             {
-                Debug.Log("Increasing collectable by " + increase);
+                //Debug.Log("Increasing collectable by " + increase);
                 int tot = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.TotalCollectables, 0);
-
-                LeanTween.value(tot, tot + (int)increase, 1f).setOnUpdate(OnUpdateCollectable).setOnComplete(MoveCollToTop);
-                PrefManager.Instance.UpdateIntPref(PrefManager.PreferenceKey.TotalCollectables, (tot + (int)increase));
+                PrefManager.Instance.UpdateIntPref(PrefManager.PreferenceKey.TotalCollectables, (tot + increase));
+                LeanTween.value(tot, tot + increase, 1f).setOnUpdate(OnUpdateCollectable).setOnComplete(MoveCollToTop);
 
             }
             else
@@ -162,7 +165,7 @@ namespace AlyxAdventure
 
         private void MoveCollToTop()
         {
-            LeanTween.move(PanelColl.GetComponent<RectTransform>(), PosColl.anchoredPosition, .3f).setOnComplete(ActivateFbButton);
+            LeanTween.move(PanelColl.GetComponent<RectTransform>(), PosColl.anchoredPosition, .2f).setOnComplete(ActivateFbButton);
         }
 
         private void OnUpdateFragment(float val)

@@ -15,6 +15,7 @@ namespace AlyxAdventure
         void Start()
         {
             HighScoreText.SetActive(false);
+            scoreText.text = "0";
             Kills.SetActive(false);
             MyEventManager.Instance.DeactivatePooledObjects.Dispatch();
             LeanTween.value(0f, ScoreManager.Instance.GetScore(), .5f).setOnUpdate(OnUpdate).setOnComplete(OnComplete);
@@ -26,7 +27,7 @@ namespace AlyxAdventure
             {
                 Kills.SetActive(true);
                 Kills.text = "+" + ScoreManager.Instance.GetKills() + " Kills";
-                LeanTween.moveY(Kills.rectTransform, 650f, 1f).setOnComplete(AddToScore);
+                LeanTween.moveY(Kills.rectTransform, 300f, 1f).setOnComplete(AddToScore);
             }
             else
             {

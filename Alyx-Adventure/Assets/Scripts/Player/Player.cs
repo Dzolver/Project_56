@@ -52,6 +52,7 @@ namespace AlyxAdventure
             {
                 if (collision.gameObject.CompareTag(GameStrings.Enemy))
                 {
+                    CameraShake.Instance.shakeDuration = 1f;
                     ScoreManager.Instance.AddKills();
                     collision.gameObject.GetComponent<AbstractEnemy>().Deactivate();
 
@@ -61,6 +62,16 @@ namespace AlyxAdventure
                     playerController.grounded = true;
                 }
             }
+        }
+
+        private void SlowDownTime(float value)
+        {
+            Time.timeScale = value;
+        }
+
+        private void NormalizeTime()
+        {
+            Time.timeScale = 1.0f;
         }
 
         private void OnCollision(Collision2D collision)
