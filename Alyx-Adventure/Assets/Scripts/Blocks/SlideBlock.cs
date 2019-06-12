@@ -57,7 +57,7 @@ public class SlideBlock : MonoBehaviour
 
     private void ToLeft()
     {
-        LeanTween.value(gameObject, OnRotationChanged, -45f, 45f, 2f).setOnComplete(ToRight);
+        LeanTween.value(gameObject, OnRotationChanged, -45f, 45f, 1f).setOnComplete(ToRight);
     }
 
     private void OnRotationChanged(float val)
@@ -67,7 +67,7 @@ public class SlideBlock : MonoBehaviour
 
     private void ToRight()
     {
-        LeanTween.value(gameObject, OnRotationChanged, 45f, -45f, 2f).setOnComplete(ToLeft);
+        LeanTween.value(gameObject, OnRotationChanged, 45f, -45f, 1f).setOnComplete(ToLeft);
     }
 
 }
