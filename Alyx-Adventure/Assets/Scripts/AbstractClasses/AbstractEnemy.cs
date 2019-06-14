@@ -62,6 +62,7 @@ public abstract class AbstractEnemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag(GameStrings.Weapon))
         {
+            CameraShake.Instance.shakeDuration = .2f;
             ScoreManager.Instance.AddKills();
             Deactivate();
         }

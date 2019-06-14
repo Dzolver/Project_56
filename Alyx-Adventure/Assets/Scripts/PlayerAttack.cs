@@ -10,6 +10,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (collision.gameObject.CompareTag(GameStrings.Enemy))
         {
+            CameraShake.Instance.shakeDuration = .2f;
             ScoreManager.Instance.AddKills();
             collision.gameObject.GetComponent<AbstractEnemy>().Deactivate();
         }

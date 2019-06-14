@@ -63,6 +63,7 @@ namespace AlyxAdventure
             LeanTween.scale(Achievements, Vector3.one, 1f);
 
             ProfilePanel.SetActive(true);
+            PlayerName.text = GooglePlayManager.Instance.playerData.PlayerName;
             LeanTween.scaleX(PlayerName.transform.parent.gameObject, 1, .8f);
 
         }

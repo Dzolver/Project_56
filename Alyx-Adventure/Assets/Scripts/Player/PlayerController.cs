@@ -11,8 +11,8 @@ namespace AlyxAdventure
     {
         public bool grounded;
         public float moveSpeed = 5;
-        public float jumpForce = 17;
-        public float fallGravity = 15;
+        public float jumpForce = 25;
+        public float fallGravity = 30;
         public float maxSpeed = 15f;
         public float speedIncreaseRate;
         public float slidingInterval = .5f;

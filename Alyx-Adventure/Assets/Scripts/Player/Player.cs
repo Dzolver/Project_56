@@ -98,8 +98,8 @@ namespace AlyxAdventure
 
         private void GameOver()
         {
-            Deactivate();
-            MyEventManager.Instance.OnGameOver.Dispatch();
+            //Deactivate();
+            //MyEventManager.Instance.OnGameOver.Dispatch();
         }
 
         public void ActivateAndSetPosition(Vector3 vector3)
