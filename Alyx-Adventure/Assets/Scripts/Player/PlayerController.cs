@@ -70,6 +70,10 @@ namespace AlyxAdventure
         {
             HorizontalSwipeDetectionSensitivity = Screen.width / 160f;
             VerticalSwipeDetectionSensitivity = Screen.width / 160f;
+
+#if UNITY_EDITOR
+
+#endif
             BaseMovementSpeed = moveSpeed;
             coolDown = false;
 
@@ -115,17 +119,16 @@ namespace AlyxAdventure
             }
 
         }
-        #endregion
+#endregion
 
-        #region SWIPE
+#region SWIPE
 
         private void MouseSwipe()
         {
             //if (!coolDown)
             //{
-                if (Input.GetMouseButtonDown(0) && Input.mousePosition.x < Screen.width/2)
+                if (Input.GetMouseButtonDown(0))
                 {
-                Debug.Log("Detecting");
                     m_FirstPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
                 }
                 if (Input.GetMouseButton(0) || Input.GetMouseButtonUp(0))
@@ -191,14 +194,11 @@ namespace AlyxAdventure
                     MyEventManager.Instance.OnFallOrSlideClicked.Dispatch();
                 }
 
-            }
-            //normalize the 2d vector
-
-           
-           
+            } 
             coolDown = true;
             StartCoroutine(WaitForCoolDown());
         }
+
         //private void MouseAttack()
         //{
         //    if (Input.GetMouseButtonDown(0) && Input.mousePosition.x > Screen.width / 2)
@@ -227,9 +227,9 @@ namespace AlyxAdventure
             coolDown = false;
         }
 
-        #endregion
+#endregion
 
-        #region Player Movements
+#region Player Movements
         private void Jump()
         {
             if (grounded || sliding)
@@ -271,9 +271,9 @@ namespace AlyxAdventure
 
         }
 
-        #endregion
+#endregion
 
-        #region Listeners
+#region Listeners
         private void OnPowerupCollected(BasePowerup powerup)
         {
             if (powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
@@ -309,9 +309,9 @@ namespace AlyxAdventure
             }
         }
 
-        #endregion
+#endregion
 
-        #region Other Methods
+#region Other Methods
         private void SetAttackOff()
         {
             player.attacked = false;
@@ -326,6 +326,6 @@ namespace AlyxAdventure
             }
 
         }
-        #endregion
+#endregion
     }
 }

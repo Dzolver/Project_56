@@ -46,15 +46,5 @@ namespace AlyxAdventure
             lastRunnerPosition = GameData.Instance.theRunnerTransform.position;
         }
 
-        /*private void OldScript() {
-            //Calculate the distance to move the camera
-            distanceToMove = theRunner.transform.position.x - lastRunnerPosition.x;
-
-            transform.position = new Vector3(transform.position.x + distanceToMove, transform.position.y, transform.position.z);
-            //updating the last player position every frame
-            lastRunnerPosition = theRunner.transform.position;
-        }*/
-
-      
     }
 }

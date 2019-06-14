@@ -1,4 +1,5 @@
-﻿using AlyxAdventure;
+﻿
+using AlyxAdventure;
 using UnityEngine;
 
 public class PlatformGenerator : MonoBehaviour
@@ -8,13 +9,14 @@ public class PlatformGenerator : MonoBehaviour
 
     [SerializeField]
     private Platform CurrentPlatform, LeftPlatform, RightPlatform;
-    private PlatformType type;
+    private PlatformType type = PlatformType.VeryEasy;
 
     private void OnEnable()
     {
         MyEventManager.Instance.OnEnemyGenerated.AddListener(OnEnemyGenerated);
         MyEventManager.Instance.OnPowerupGenerated.AddListener(OnPowerupGenerated);
         MyEventManager.Instance.OnCoinWaveGenerated.AddListener(OnCoinWaveGenerated);
+        MyEventManager.Instance.OnFragmentGenerated.AddListener(OnFragmentGenerated);
         MyEventManager.Instance.OnMinutesPassed.AddListener(OnMinutesPassed);
     }
 
@@ -25,6 +27,7 @@ public class PlatformGenerator : MonoBehaviour
             MyEventManager.Instance.OnEnemyGenerated.RemoveListener(OnEnemyGenerated);
             MyEventManager.Instance.OnPowerupGenerated.RemoveListener(OnPowerupGenerated);
             MyEventManager.Instance.OnCoinWaveGenerated.RemoveListener(OnCoinWaveGenerated);
+            MyEventManager.Instance.OnFragmentGenerated.RemoveListener(OnFragmentGenerated);
             MyEventManager.Instance.OnMinutesPassed.RemoveListener(OnMinutesPassed);
 
         }
@@ -57,9 +60,9 @@ public class PlatformGenerator : MonoBehaviour
     private void OnMinutesPassed(float mins)
     {
 
-        if (mins <= 0.5f)
+        if (mins == 0.5f)
         {
-            type = (PlatformType)Random.Range((int)PlatformType.VeryEasy, (int)PlatformType.Easy + 1);
+            type = (PlatformType)Random.Range((int)PlatformType.VeryEasy, (int)PlatformType.Easy + 1); ;
         }
         else if (mins <= 1.5f)
         {
@@ -160,6 +163,22 @@ public class PlatformGenerator : MonoBehaviour
             {
                 coinwave.ActivateAndSetPosition(pos, rotation, parent.transform);
             }
+        }
+    }
+
+
+    private void OnFragmentGenerated(CollectableFragmentBase fragment)
+    {
+        Platform parent;
+        if (GameData.Instance.direction == Direction.Right)
+            parent = RightPlatform;
+        else
+            parent = LeftPlatform;
+
+        if (parent.FragmentPoint != null)
+        {
+            Vector2 pos = parent.FragmentPoint.position;
+            fragment.ActivateAndSetPosition(pos);
         }
     }
 

@@ -20,6 +20,7 @@ namespace AlyxAdventure
         [SerializeField]
         PlatformType platformType;
 
+        public Transform FragmentPoint;
         public Transform ZombieParent;
         public Transform RavenParent;
         public Transform PowerupParent;
@@ -98,9 +99,9 @@ namespace AlyxAdventure
             if (platform == this)
             {
                 if (enemy.GetEnemyType() == AbstractEnemy.EnemyType.Zombie)
-                    StartCoroutine(GetPointAndActivateZombie((Zombie)enemy));
+                    GetPointAndActivateZombie((Zombie)enemy);
                 else
-                    StartCoroutine(GetPointAndActivateRaven((Raven)enemy));
+                    GetPointAndActivateRaven((Raven)enemy);
             }
         }
 
@@ -135,43 +136,27 @@ namespace AlyxAdventure
             gameObject.SetActive(false);
         }
 
-        private IEnumerator GetPointAndActivateZombie(Zombie zombie)
+        private void GetPointAndActivateZombie(Zombie zombie)
         {
             if (ZombieParent != null)
             {
                 if (ZombieSpawnPoints.Count > 0)
                 {
-                    Transform t;
-                    do
-                    {
-                        yield return new WaitForSeconds(.5f);
-                        t = ZombieSpawnPoints.Dequeue();
-                        ZombieSpawnPoints.Enqueue(t);
-                    }
-                    while (Mathf.Abs(t.position.x - GameData.Instance.theRunnerTransform.position.x) < 14f);
+                    Transform t = ZombieSpawnPoints.Dequeue();
+                    ZombieSpawnPoints.Enqueue(t);
                     zombie.ActivateAndSetPosition(t.position, transform);
                 }
-
             }
-
         }
 
-        private IEnumerator GetPointAndActivateRaven(Raven raven)
+        private void GetPointAndActivateRaven(Raven raven)
         {
             if (RavenParent != null)
             {
-                Transform t;
-                do
-                {
-                    t = RavenSpawnPoints.Dequeue();
-                    RavenSpawnPoints.Enqueue(t);
-                    yield return new WaitForEndOfFrame();
-                }
-                while (Mathf.Abs(t.position.x - GameData.Instance.theRunnerTransform.position.x) < 14f);
-
+                Transform t = RavenSpawnPoints.Dequeue();
+                RavenSpawnPoints.Enqueue(t);
                 raven.ActivateAndSetPosition(t.position, transform);
             }
-
         }
 
         public Transform GetPowerupPoint()
@@ -195,7 +180,6 @@ namespace AlyxAdventure
             }
             return null;
         }
-
 
         public PlatformType GetPlatformType()
         {

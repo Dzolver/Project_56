@@ -11,7 +11,7 @@ namespace AlyxAdventure
         public float shakeDuration = 0f;
 
         // Amplitude of the shake. A larger value shakes the camera harder.
-        public float shakeAmount = 0.7f;
+        public float shakeAmount = 0.2f;
         public float decreaseFactor = 1.0f;
 
         Vector3 originalPos;
@@ -34,7 +34,6 @@ namespace AlyxAdventure
             if (shakeDuration > 0)
             {
                 camTransform.localPosition = originalPos + Random.insideUnitSphere * shakeAmount;
-
                 shakeDuration -= Time.deltaTime * decreaseFactor;
             }
             else

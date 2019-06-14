@@ -30,6 +30,8 @@ public class EnemyGenerator : MonoBehaviour
     {
         if (minutes < 1f)
         {
+            if (coroutine == null)
+                coroutine = StartCoroutine(GenerateRaven());
             WaitTime = 6f;
         }
         else if (minutes < 2f)
@@ -38,8 +40,6 @@ public class EnemyGenerator : MonoBehaviour
         }
         else if (minutes < 2.5f)
         {
-            if (coroutine == null)
-                coroutine = StartCoroutine(GenerateRaven());
             WaitTime = 4f;
         }
         else if (minutes <= 4f)
@@ -69,7 +69,7 @@ public class EnemyGenerator : MonoBehaviour
         {
             AbstractEnemy raven = ObjectPool.Instance.GetRaven();
             MyEventManager.Instance.OnEnemyGenerated.Dispatch(raven);
-            yield return new WaitForSeconds(WaitTime + UnityEngine.Random.Range(0, 3));
+            yield return new WaitForSeconds(WaitTime + UnityEngine.Random.Range(1, 3));
         }
     }
 }

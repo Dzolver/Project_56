@@ -28,13 +28,9 @@ namespace AlyxAdventure
             SceneManager.LoadScene(2);
         }
 
-      
-
         public void Shop()
         {
         }
-
-      
 
         private void OnEnable()
         {

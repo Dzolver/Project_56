@@ -47,8 +47,7 @@ public class CollectableManager : SingletonMonoBehaviour<CollectableManager>
     private void GenerateFragment()
     {
         CollectableFragmentBase fragment = ObjectPool.Instance.GetFragment();
-        fragment.ActivateAndSetPosition(new Vector2(GameData.Instance.theRunnerTransform.position.x +
-                       (int)GameData.Instance.direction * 16f, GameData.Instance.theRunnerTransform.position.y + 1f));
+        MyEventManager.Instance.OnFragmentGenerated.Dispatch(fragment);
     }
 
 
