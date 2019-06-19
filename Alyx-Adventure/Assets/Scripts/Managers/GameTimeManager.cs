@@ -30,7 +30,6 @@ namespace AlyxAdventure
         {
             CurrentGameMins = 0f;
             TotalSecPlayed = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.TotalSeconds, 0);
-            Debug.Log(TotalSecPlayed);
          
             countTime = StartCoroutine(StartCountingTime());
             countMinutes = StartCoroutine(StartCountingMinutes());

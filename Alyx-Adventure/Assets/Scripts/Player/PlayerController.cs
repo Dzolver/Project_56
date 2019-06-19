@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace AlyxAdventure
 {
@@ -30,6 +31,8 @@ namespace AlyxAdventure
         private Vector2 m_FirstPressPos;
         private Vector2 m_SecondPressPos;
         private Vector2 m_CurrentSwipe;
+
+        public float minSwipeLength = 200f;
         private float HorizontalSwipeDetectionSensitivity;
         private float VerticalSwipeDetectionSensitivity;
 
@@ -68,8 +71,9 @@ namespace AlyxAdventure
 
         private void Start()
         {
-            HorizontalSwipeDetectionSensitivity = Screen.width / 160f;
-            VerticalSwipeDetectionSensitivity = Screen.width / 160f;
+
+            HorizontalSwipeDetectionSensitivity = Screen.width / 70f;
+            VerticalSwipeDetectionSensitivity = Screen.width / 40f;
 
 #if UNITY_EDITOR
 
@@ -89,9 +93,9 @@ namespace AlyxAdventure
 
         private IEnumerator UpdateAnimFrameRate()
         {
-            RunnerAnimator.speed = moveSpeed / BaseMovementSpeed; 
+            RunnerAnimator.speed = moveSpeed / BaseMovementSpeed;
             yield return new WaitForSeconds(10f);
-            
+
         }
 
         private void Update()
@@ -119,84 +123,113 @@ namespace AlyxAdventure
             }
 
         }
-#endregion
+        #endregion
 
-#region SWIPE
+        #region SWIPE
 
         private void MouseSwipe()
         {
-            //if (!coolDown)
-            //{
-                if (Input.GetMouseButtonDown(0))
-                {
-                    m_FirstPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-                }
-                if (Input.GetMouseButton(0) || Input.GetMouseButtonUp(0))
-                {
-                    m_SecondPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-                    SwipePlayer();
-                }
-            //}
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                m_FirstPressPos = Input.mousePosition;
+            }
+            if (Input.GetMouseButton(0) || Input.GetMouseButtonUp(0))
+            {
+                m_SecondPressPos = Input.mousePosition;
+                SwipePlayer();
+            }
+
         }
 
         private void TouchSwipe()
         {
-            //if (!coolDown)
-            //{
-                if (Input.touchCount == 1)
+            if (Input.touchCount == 1)
+            {
+                Touch touch = Input.GetTouch(0);
+                if (touch.phase == TouchPhase.Began /*&& touch.position.x < Screen.width / 2*/)
                 {
-                    Touch touch = Input.GetTouch(0);
-                    if (touch.phase == TouchPhase.Began && touch.position.x < Screen.width / 2)
-                    {
-                        m_FirstPressPos = touch.position;
-                    }
-                    if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Ended)
-                    {
-                        m_SecondPressPos = touch.position;
-                        SwipePlayer();
-                        m_FirstPressPos = touch.position;
-                    }
+                    m_FirstPressPos = touch.position;
                 }
-            //}
+                if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Ended)
+                {
+                    m_SecondPressPos = touch.position;
+                    SwipePlayer();
+                    //m_FirstPressPos = touch.position;
+                }
+            }
         }
 
         public void SwipePlayer()
         {
             //create vector from the two points
             m_CurrentSwipe = new Vector2(m_SecondPressPos.x - m_FirstPressPos.x, m_SecondPressPos.y - m_FirstPressPos.y);
-            if (Mathf.Abs(m_CurrentSwipe.x) >= HorizontalSwipeDetectionSensitivity)
-            {
-                m_CurrentSwipe.Normalize();
-                if (m_CurrentSwipe.x < 0 && !coolDown)
-                {
-                    MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Left);
-                    RunnerRigidBody.velocity = Vector2.zero;
-                    // moveSpeed = -Mathf.Abs(moveSpeed);
-                    transform.localRotation = new Quaternion(0, 180, 0, transform.rotation.w);
 
-                }
-                else if (m_CurrentSwipe.x > 0 && !coolDown/* && (currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)*/)
-                {
-                    MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Right);
-                    //moveSpeed = Mathf.Abs(moveSpeed);
-                    transform.localRotation = Quaternion.identity;
-                }
+            if (m_CurrentSwipe.magnitude < minSwipeLength)
+            {
+                return;
             }
-            else if (Mathf.Abs(m_CurrentSwipe.y) >= VerticalSwipeDetectionSensitivity)
-            {
-                m_CurrentSwipe.Normalize();
-                if (m_CurrentSwipe.y > 0)
-                {
-                    MyEventManager.Instance.OnJumpClicked.Dispatch();
-                }
-                else if (m_CurrentSwipe.y < 0)
-                {
-                    MyEventManager.Instance.OnFallOrSlideClicked.Dispatch();
-                }
+            m_CurrentSwipe.Normalize();
 
-            } 
-            coolDown = true;
-            StartCoroutine(WaitForCoolDown());
+            //swipe upwards
+            if (m_CurrentSwipe.y > 0 && Mathf.Abs(m_CurrentSwipe.x) < 0.5f)
+            {
+                MyEventManager.Instance.OnJumpClicked.Dispatch();
+            }
+            //swipe down
+            if (m_CurrentSwipe.y < 0 && Mathf.Abs(m_CurrentSwipe.x) < 0.5f)
+            {
+                MyEventManager.Instance.OnFallOrSlideClicked.Dispatch();
+            }
+            //swipe left
+            if (m_CurrentSwipe.x < 0 && Mathf.Abs(m_CurrentSwipe.y) < 0.5f)
+            {
+                MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Left);
+                RunnerRigidBody.velocity = Vector2.zero;
+                transform.localRotation = new Quaternion(0, 180, 0, transform.rotation.w);
+            }
+            //swipe right
+            if (m_CurrentSwipe.x > 0 && Mathf.Abs(m_CurrentSwipe.y) < 0.5f)
+            {
+                MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Right);
+                transform.localRotation = Quaternion.identity;
+            }
+
+            //coolDown = true;
+            //StartCoroutine(WaitForCoolDown());
+
+            //if (Mathf.Abs(m_CurrentSwipe.x) >= HorizontalSwipeDetectionSensitivity)
+            //{
+            //    m_CurrentSwipe.Normalize();
+            //    if (m_CurrentSwipe.x < 0 && !coolDown)
+            //    {
+            //        MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Left);
+            //        RunnerRigidBody.velocity = Vector2.zero;
+            //        // moveSpeed = -Mathf.Abs(moveSpeed);
+            //        transform.localRotation = new Quaternion(0, 180, 0, transform.rotation.w);
+
+            //    }
+            //    else if (m_CurrentSwipe.x > 0 && !coolDown)
+            //    {
+            //        MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Right);
+            //        //moveSpeed = Mathf.Abs(moveSpeed);
+            //        transform.localRotation = Quaternion.identity;
+            //    }
+            //}
+            //if (Mathf.Abs(m_CurrentSwipe.y) >= VerticalSwipeDetectionSensitivity)
+            //{
+            //    m_CurrentSwipe.Normalize();
+            //    if (m_CurrentSwipe.y > 0)
+            //    {
+            //        MyEventManager.Instance.OnJumpClicked.Dispatch();
+            //    }
+            //    else if (m_CurrentSwipe.y < 0)
+            //    {
+            //        MyEventManager.Instance.OnFallOrSlideClicked.Dispatch();
+            //    }
+
+            //}
+
         }
 
         //private void MouseAttack()
@@ -220,16 +253,16 @@ namespace AlyxAdventure
         //        }
         //    }
         //}
-      
+
         private IEnumerator WaitForCoolDown()
         {
             yield return new WaitForSeconds(CoolDownTime);
             coolDown = false;
         }
 
-#endregion
+        #endregion
 
-#region Player Movements
+        #region Player Movements
         private void Jump()
         {
             if (grounded || sliding)
@@ -271,9 +304,9 @@ namespace AlyxAdventure
 
         }
 
-#endregion
+        #endregion
 
-#region Listeners
+        #region Listeners
         private void OnPowerupCollected(BasePowerup powerup)
         {
             if (powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
@@ -309,9 +342,9 @@ namespace AlyxAdventure
             }
         }
 
-#endregion
+        #endregion
 
-#region Other Methods
+        #region Other Methods
         private void SetAttackOff()
         {
             player.attacked = false;
@@ -326,6 +359,6 @@ namespace AlyxAdventure
             }
 
         }
-#endregion
+        #endregion
     }
 }
