@@ -32,7 +32,8 @@ namespace AlyxAdventure
         private Vector2 m_SecondPressPos;
         private Vector2 m_CurrentSwipe;
 
-        public float minSwipeLength = 200f;
+        public float minSwipeLength;
+
         private float HorizontalSwipeDetectionSensitivity;
         private float VerticalSwipeDetectionSensitivity;
 
@@ -71,13 +72,15 @@ namespace AlyxAdventure
 
         private void Start()
         {
+            minSwipeLength = 100f;
+
+#if UNITY_EDITOR
+            minSwipeLength = 200f;
+#endif
 
             HorizontalSwipeDetectionSensitivity = Screen.width / 70f;
             VerticalSwipeDetectionSensitivity = Screen.width / 40f;
 
-#if UNITY_EDITOR
-
-#endif
             BaseMovementSpeed = moveSpeed;
             coolDown = false;
 
@@ -182,21 +185,22 @@ namespace AlyxAdventure
                 MyEventManager.Instance.OnFallOrSlideClicked.Dispatch();
             }
             //swipe left
-            if (m_CurrentSwipe.x < 0 && Mathf.Abs(m_CurrentSwipe.y) < 0.5f)
+            if (m_CurrentSwipe.x < 0 && Mathf.Abs(m_CurrentSwipe.y) < 0.5f && !coolDown)
             {
                 MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Left);
                 RunnerRigidBody.velocity = Vector2.zero;
                 transform.localRotation = new Quaternion(0, 180, 0, transform.rotation.w);
+                coolDown = true;
+                StartCoroutine(WaitForCoolDown());
             }
             //swipe right
-            if (m_CurrentSwipe.x > 0 && Mathf.Abs(m_CurrentSwipe.y) < 0.5f)
+            if (m_CurrentSwipe.x > 0 && Mathf.Abs(m_CurrentSwipe.y) < 0.5f && !coolDown)
             {
                 MyEventManager.Instance.ChangeMoveDirection.Dispatch(Direction.Right);
                 transform.localRotation = Quaternion.identity;
+                coolDown = true;
+                StartCoroutine(WaitForCoolDown());
             }
-
-            //coolDown = true;
-            //StartCoroutine(WaitForCoolDown());
 
             //if (Mathf.Abs(m_CurrentSwipe.x) >= HorizontalSwipeDetectionSensitivity)
             //{

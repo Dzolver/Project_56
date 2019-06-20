@@ -35,7 +35,7 @@ namespace AlyxAdventure
         private void OnEnable()
         {
             MyEventManager.Instance.OnFacebookLogin.AddListener(OnFacebookLogin);
-            MyEventManager.Instance.OnGoogleLogin.AddListener(OnGoogleLogin) ;
+            MyEventManager.Instance.OnGoogleLogin.AddListener(OnGoogleLogin);
         }
 
         private void OnDisable()
@@ -95,6 +95,8 @@ namespace AlyxAdventure
             else
                 FragmentCount.text = total + "";
 
+            CheckFragment();
+            CheckCollectible();
             ShowFragments();
             ProfilePanel.SetActive(false);
             ProfilePicture.transform.parent.SetActive(false);
@@ -103,76 +105,43 @@ namespace AlyxAdventure
 
         private void ShowFragments()
         {
-            LeanTween.alphaCanvas(PanelFrag.GetComponent<CanvasGroup>(), 1, .5f).setOnComplete(CheckFragment);
-            LeanTween.alphaCanvas(PanelColl.GetComponent<CanvasGroup>(), 1, .5f).setOnComplete(CheckCollectible);
+            LeanTween.alphaCanvas(PanelFrag.GetComponent<CanvasGroup>(), 1, .5f).setOnComplete(MoveFragToTop);
+            LeanTween.alphaCanvas(PanelColl.GetComponent<CanvasGroup>(), 1, .5f).setOnComplete(MoveCollToTop);
         }
 
-        //make Sure total value has been set via inspector
         private void CheckFragment()
         {
-            //Debug.Log("total fragments before decreasing = " + total);
             if (total >= CollectableManager.Instance.TotalFragFor1Collectable)
             {
-                DecreaseFragment(total % CollectableManager.Instance.TotalFragFor1Collectable);
+                PrefManager.Instance.UpdateIntPref(PrefManager.PreferenceKey.TotalFragments, total % CollectableManager.Instance.TotalFragFor1Collectable);
+                FragmentCount.text = total % CollectableManager.Instance.TotalFragFor1Collectable + "";
             }
             else
             {
                 PrefManager.Instance.UpdateIntPref(PrefManager.PreferenceKey.TotalFragments, total);
-                MoveFragToTop();
             }
         }
 
         public void CheckCollectible()
         {
+            int tot = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.TotalCollectables, 0);
             if (total >= CollectableManager.Instance.TotalFragFor1Collectable)
             {
-                IncreaseCollectable(total / CollectableManager.Instance.TotalFragFor1Collectable);
+                tot += total / CollectableManager.Instance.TotalFragFor1Collectable;
+                PrefManager.Instance.UpdateIntPref(PrefManager.PreferenceKey.TotalCollectables, tot);
             }
-            else
-            {
-                MoveCollToTop();
-            }
+            Collectable.text = tot + "";
         }
 
-        private void DecreaseFragment(int amount)
-        {
-            //Debug.Log("Decreasing to " + amount);
-            PrefManager.Instance.UpdateIntPref(PrefManager.PreferenceKey.TotalFragments, amount);
-            LeanTween.value(total, amount, 1f).setOnUpdate(OnUpdateFragment).setOnComplete(MoveFragToTop);
-        }
 
         private void MoveFragToTop()
         {
             LeanTween.move(PanelFrag.GetComponent<RectTransform>(), PosFrag.anchoredPosition, .2f);
         }
 
-        private void IncreaseCollectable(int increase)
-        {
-            if (increase > 0)
-            {
-                //Debug.Log("Increasing collectable by " + increase);
-                int tot = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.TotalCollectables, 0);
-                PrefManager.Instance.UpdateIntPref(PrefManager.PreferenceKey.TotalCollectables, (tot + increase));
-                LeanTween.value(tot, tot + increase, 1f).setOnUpdate(OnUpdateCollectable).setOnComplete(MoveCollToTop);
-
-            }
-            else
-                MoveCollToTop();
-        }
-
         private void MoveCollToTop()
         {
             LeanTween.move(PanelColl.GetComponent<RectTransform>(), PosColl.anchoredPosition, .2f).setOnComplete(ActivateFbButton);
-        }
-
-        private void OnUpdateFragment(float val)
-        {
-            FragmentCount.text = (int)val + "";
-        }
-
-        private void OnUpdateCollectable(float val)
-        {
-            Collectable.text = (int)val + "";
         }
 
         public void LoginWithFacebook()
