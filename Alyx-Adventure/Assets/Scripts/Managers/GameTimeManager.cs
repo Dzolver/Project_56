@@ -57,9 +57,9 @@ namespace AlyxAdventure
         {
             while (true)
             {
-                yield return new WaitForSeconds(30f);
-                CurrentGameMins += 0.5f;
-                MyEventManager.Instance.OnMinutesPassed.Dispatch(CurrentGameMins);
+                yield return new WaitForSeconds(15f);
+                CurrentGameMins += 0.25f;
+                MyEventManager.Instance.OnQuarterMinutePassed.Dispatch(CurrentGameMins);
             }
         }
 

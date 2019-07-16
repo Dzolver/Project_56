@@ -9,7 +9,7 @@ public class PlatformGenerator : MonoBehaviour
 
     [SerializeField]
     private Platform CurrentPlatform, LeftPlatform, RightPlatform;
-    private PlatformType type = PlatformType.VeryEasy;
+    private PlatformType type = PlatformType.Easy;
 
     private void OnEnable()
     {
@@ -17,7 +17,7 @@ public class PlatformGenerator : MonoBehaviour
         MyEventManager.Instance.OnPowerupGenerated.AddListener(OnPowerupGenerated);
         MyEventManager.Instance.OnCoinWaveGenerated.AddListener(OnCoinWaveGenerated);
         MyEventManager.Instance.OnFragmentGenerated.AddListener(OnFragmentGenerated);
-        MyEventManager.Instance.OnMinutesPassed.AddListener(OnMinutesPassed);
+        MyEventManager.Instance.OnQuarterMinutePassed.AddListener(OnMinutesPassed);
     }
 
     private void OnDisable()
@@ -28,14 +28,14 @@ public class PlatformGenerator : MonoBehaviour
             MyEventManager.Instance.OnPowerupGenerated.RemoveListener(OnPowerupGenerated);
             MyEventManager.Instance.OnCoinWaveGenerated.RemoveListener(OnCoinWaveGenerated);
             MyEventManager.Instance.OnFragmentGenerated.RemoveListener(OnFragmentGenerated);
-            MyEventManager.Instance.OnMinutesPassed.RemoveListener(OnMinutesPassed);
+            MyEventManager.Instance.OnQuarterMinutePassed.RemoveListener(OnMinutesPassed);
 
         }
     }
 
     private void Start()
     {
-        CurrentPlatform = ObjectPool.Instance.GetPlatform(PlatformType.VeryEasy);
+        CurrentPlatform = ObjectPool.Instance.GetPlatform(PlatformType.Easy);
         CurrentPlatform.ActivateAndSetPosition(startPoint.localPosition);
         CurrentPlatformWidth = CurrentPlatform.GetComponent<BoxCollider2D>().size.x - 0.01f;
 
@@ -51,39 +51,35 @@ public class PlatformGenerator : MonoBehaviour
     private void FixedUpdate()
     {
         if (GameData.Instance.theRunnerTransform.position.x - CurrentPlatform.transform.position.x > CurrentPlatformWidth)
+        {
             ActivateRightPlatform();
+        }
         else if (CurrentPlatform.transform.position.x - GameData.Instance.theRunnerTransform.position.x > 0)
+        {
             ActivateLeftPlatform();
-
+        }
     }
 
     private void OnMinutesPassed(float mins)
     {
-
-        if (mins == 0.5f)
+        if (mins == 0.25f)
         {
-            type = (PlatformType)Random.Range((int)PlatformType.VeryEasy, (int)PlatformType.Easy + 1); ;
+            type = PlatformType.Average;
         }
-        else if (mins <= 1.5f)
+        else if (mins == 0.75f)
         {
-            type = (PlatformType)Random.Range((int)PlatformType.VeryEasy, (int)PlatformType.Average + 1);
+            type = PlatformType.Hard;
         }
-        else if (mins <= 3f)
+        else if (mins >= 1.5f)
         {
-            type = (PlatformType)Random.Range((int)PlatformType.Easy, (int)PlatformType.Hard + 1);
+            type = PlatformType.VeryHard;
         }
-        else if (mins <= 6f)
-        {
-            type = (PlatformType)Random.Range((int)PlatformType.Easy, (int)PlatformType.VeryHard + 1);
-        }
-        else
-            type = (PlatformType)Random.Range((int)PlatformType.Average, (int)PlatformType.VeryHard + 1);
-
     }
 
     private Platform GetPlatform()
     {
-        return ObjectPool.Instance.GetPlatform(type);
+        int random = Random.Range((int)type - 1 == -1 ? 0 : (int)type - 1, (int)type + 1);
+        return ObjectPool.Instance.GetPlatform((PlatformType)random);
     }
 
     private void ActivateRightPlatform()

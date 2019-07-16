@@ -7,7 +7,6 @@ namespace AlyxAdventure
 {
     public enum PlatformType
     {
-        VeryEasy,
         Easy,
         Average,
         Hard,
@@ -144,7 +143,8 @@ namespace AlyxAdventure
                 {
                     Transform t = ZombieSpawnPoints.Dequeue();
                     ZombieSpawnPoints.Enqueue(t);
-                    zombie.ActivateAndSetPosition(t.position, transform);
+                    if (Mathf.Abs(t.position.x - GameData.Instance.theRunnerTransform.position.x) > 10f)
+                        zombie.ActivateAndSetPosition(t.position, transform);
                 }
             }
         }
@@ -155,7 +155,8 @@ namespace AlyxAdventure
             {
                 Transform t = RavenSpawnPoints.Dequeue();
                 RavenSpawnPoints.Enqueue(t);
-                raven.ActivateAndSetPosition(t.position, transform);
+                if (Mathf.Abs(t.position.x - GameData.Instance.theRunnerTransform.position.x) > 10f)
+                    raven.ActivateAndSetPosition(t.position, transform);
             }
         }
 

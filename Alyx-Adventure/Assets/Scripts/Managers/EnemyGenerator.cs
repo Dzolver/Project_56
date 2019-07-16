@@ -10,14 +10,14 @@ public class EnemyGenerator : MonoBehaviour
 
     private void OnEnable()
     {
-        MyEventManager.Instance.OnMinutesPassed.AddListener(OnMinutesPassed);
+        MyEventManager.Instance.OnQuarterMinutePassed.AddListener(OnMinutesPassed);
     }
 
     private void OnDisable()
     {
         if (MyEventManager.Instance != null)
         {
-            MyEventManager.Instance.OnMinutesPassed.RemoveListener(OnMinutesPassed);
+            MyEventManager.Instance.OnQuarterMinutePassed.RemoveListener(OnMinutesPassed);
         }
     }
 

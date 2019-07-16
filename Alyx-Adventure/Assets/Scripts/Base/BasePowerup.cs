@@ -35,13 +35,13 @@ namespace AlyxAdventure
             gameObject.SetActive(true);
         }
 
-        private void OnTriggerExit2D(Collider2D collision)
-        {
-            if (collision.CompareTag(GameStrings.MainCamera))
-            {
-                DeactivatePowerup();
-            }
-        }
+        //private void OnTriggerExit2D(Collider2D collision)
+        //{
+        //    if (collision.CompareTag(GameStrings.MainCamera))
+        //    {
+        //        DeactivatePowerup();
+        //    }
+        //}
     }
 
     public enum PowerupType

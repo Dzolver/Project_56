@@ -32,7 +32,7 @@ namespace AlyxAdventure
         [HideInInspector]
         public List<Raven> Ravens = new List<Raven>();
 
-        [HideInInspector]
+        //[HideInInspector]
         public List<Platform> Platforms = new List<Platform>();
 
         [HideInInspector]
@@ -134,6 +134,7 @@ namespace AlyxAdventure
                     MyEventManager.Instance.OnObjectInstantiated.Dispatch();
                     yield return wait;
                 }
+                ShufflePlatforms();
             }
 
             if (CoinWaveTypes != null)
@@ -363,5 +364,19 @@ namespace AlyxAdventure
             }
 
         }
+
+        public void ShufflePlatforms()
+        {
+            int count = Platforms.Count;
+            int last = count - 1;
+            for (var i = 0; i < last; ++i)
+            {
+                int r = UnityEngine.Random.Range(i, count);
+                Platform tmp = Platforms[i];
+                Platforms[i] = Platforms[r];
+                Platforms[r] = tmp;
+            }
+        }
+
     }
 }

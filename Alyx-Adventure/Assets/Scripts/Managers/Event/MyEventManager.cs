@@ -16,7 +16,7 @@ namespace AlyxAdventure
         public MyEvent<int> OnEnemyKilled = new MyEvent<int>();
         public MyEvent DeactivatePooledObjects = new MyEvent();
         public MyEvent OnCoinCollected = new MyEvent();
-        public MyEvent<float> OnMinutesPassed = new MyEvent<float>();
+        public MyEvent<float> OnQuarterMinutePassed = new MyEvent<float>();
         public MyEvent<int> OnSecondPassed = new MyEvent<int>();
 
         //public MyEvent<GameState> UpdateState = new MyEvent<GameState>();

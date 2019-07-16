@@ -22,25 +22,25 @@ namespace AlyxAdventure
             {
                 coin.Activate();
             }
-            
+
         }
 
         public void DeactivateWave()
         {
-           foreach (Coin coin in Coins)
+            foreach (Coin coin in Coins)
             {
                 coin.Deactivate();
             }
             gameObject.SetActive(false);
         }
 
-        private void OnTriggerExit2D(Collider2D collision)
-        {
-            if (collision.CompareTag(GameStrings.MainCamera))
-            {
-                DeactivateWave();
-            }
-        }
+        //private void OnTriggerExit2D(Collider2D collision)
+        //{
+        //    if (collision.CompareTag(GameStrings.MainCamera))
+        //    {
+        //        DeactivateWave();
+        //    }
+        //}
     }
 
 }

@@ -9,7 +9,11 @@ namespace AlyxAdventure
 {
     public class GameController : MonoBehaviour
     {
-      
+        private void Awake()
+        {
+            ObjectPool.Instance.ShufflePlatforms();
+        }
+
         private void OnEnable()
         {
             MyEventManager.Instance.OnGameOver.AddListener(OnGameOver);
