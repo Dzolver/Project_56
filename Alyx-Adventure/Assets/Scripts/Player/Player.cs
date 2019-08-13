@@ -119,7 +119,8 @@ namespace AlyxAdventure
             if (powerup.GetPowerupType() == PowerupType.Invincibility || powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
             {
                 IsInvincible = true;
-                LeanTween.color(gameObject, Color.cyan, 0.5f);
+                //LeanTween.color(gameObject, Color.cyan, 0.5f);
+                GetComponentInChildren<ParticleSystem>().Play();
             }
         }
 
@@ -128,7 +129,8 @@ namespace AlyxAdventure
             if (powerup.GetPowerupType() == PowerupType.Invincibility || powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
             {
                 IsInvincible = false;
-                LeanTween.color(gameObject, Color.white, 0.5f);
+                //LeanTween.color(gameObject, Color.white, 0.5f);
+                GetComponentInChildren<ParticleSystem>().Stop();
             }
         }
 
