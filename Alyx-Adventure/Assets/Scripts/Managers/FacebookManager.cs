@@ -108,7 +108,6 @@ namespace AlyxAdventure
                 }
 
                 GetUserData();
-                MyEventManager.Instance.OnFacebookLogin.Dispatch();
             }
             else
             {
@@ -124,6 +123,7 @@ namespace AlyxAdventure
         private void OnFBDataRecieved(IGraphResult result)
         {
             MyFacebookData myFacebookData = JsonUtility.FromJson<MyFacebookData>(result.RawResult);
+            MyEventManager.Instance.OnFacebookLogin.Dispatch(myFacebookData);
             Status.text = "Welcome " + myFacebookData.name;
         }
 
