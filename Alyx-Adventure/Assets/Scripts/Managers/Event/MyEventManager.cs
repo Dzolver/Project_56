@@ -32,13 +32,14 @@ namespace AlyxAdventure
         public MyEvent<CollectableFragmentBase> OnFragmentGenerated = new MyEvent<CollectableFragmentBase>();
 
         public MyEvent<CoinWave> OnCoinWaveGenerated = new MyEvent<CoinWave>();
+        public MyEvent<bool> EnableDeath = new MyEvent<bool>();
         public MyEvent<AbstractEnemy, Platform> OnGotEnemyParent = new MyEvent<AbstractEnemy, Platform>();
 
         public MyEvent LoginWithFacebook = new MyEvent();
         public MyEvent LoginWithGoogle = new MyEvent();
         public MyEvent ShowAchievements = new MyEvent();
         public MyEvent ShowLeaderboard = new MyEvent();
-        public MyEvent OnFacebookLogin = new MyEvent();
+        public MyEvent<FacebookManager.MyFacebookData> OnFacebookLogin = new MyEvent<FacebookManager.MyFacebookData>();
         public MyEvent OnGoogleLogin = new MyEvent();
 
 

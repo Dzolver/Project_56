@@ -1,6 +1,4 @@
 ﻿using AlyxAdventure;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CollectableFragmentBase : MonoBehaviour
@@ -10,8 +8,9 @@ public class CollectableFragmentBase : MonoBehaviour
     {
         Collider2D horizontalObject = Physics2D.OverlapBox(transform.position, new Vector2(4, .1f), 0f);
         Collider2D verticalObject = Physics2D.OverlapBox(transform.position, new Vector2(.1f, 4), 0f);
-        if (horizontalObject.CompareTag(GameStrings.Ground) || 
-            verticalObject.CompareTag(GameStrings.Platform) || verticalObject.CompareTag(GameStrings.JumpBlock))
+        if ((horizontalObject != null && horizontalObject.CompareTag(GameStrings.Ground)) ||
+            (verticalObject != null &&
+                (verticalObject.CompareTag(GameStrings.Platform) || verticalObject.CompareTag(GameStrings.JumpBlock))))
         {
             Debug.Log("Moving forward " + gameObject.name);
             transform.position = new Vector2(transform.position.x + (int)GameData.Instance.direction, transform.position.y);

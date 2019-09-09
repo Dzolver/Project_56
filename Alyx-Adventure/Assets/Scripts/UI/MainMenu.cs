@@ -48,20 +48,31 @@ namespace AlyxAdventure
             }
         }
 
-        private void OnFacebookLogin()
+        private void OnFacebookLogin(FacebookManager.MyFacebookData facebookData)
         {
             FbButton.gameObject.SetActive(false);
+            ActivateProfilePanel(facebookData.name);
         }
 
         private void OnGoogleLogin()
         {
             LeanTween.scale(Leaderboard, Vector3.one, 1f);
             LeanTween.scale(Achievements, Vector3.one, 1f);
+            GoogleButton.SetActive(false);
+            ActivateProfilePanel(GooglePlayManager.Instance.playerData.PlayerName);
 
+
+        }
+        private void ActivateProfilePanel(string name)
+        {
             ProfilePanel.SetActive(true);
-            PlayerName.text = GooglePlayManager.Instance.playerData.PlayerName;
+            PlayerName.text = name;
             LeanTween.scaleX(PlayerName.transform.parent.gameObject, 1, .8f);
+        }
 
+        public void EnableDeath(bool enable)
+        {
+            MyEventManager.Instance.EnableDeath.Dispatch(enable);
         }
 
         public void ActivateFbButton()

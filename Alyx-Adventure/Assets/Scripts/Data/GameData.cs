@@ -20,11 +20,11 @@ public class GameData : SingletonMonoBehaviour<GameData>
     public Direction direction = Direction.Right; //-1 = left direction, 1= right direction
 
     public float MultiplierPerKill;
- 
+
     private BasePowerup currentPowerup = null;
 
     private int TotalFragments;
-    
+
 
     private void Start()
     {
@@ -50,8 +50,11 @@ public class GameData : SingletonMonoBehaviour<GameData>
             MyEventManager.Instance.OnPowerupExhausted.RemoveListener(OnPowerupExhausted);
             MyEventManager.Instance.OnFragmentCollected.RemoveListener(OnFragmentCollected);
             MyEventManager.Instance.OnGameStarted.RemoveListener(OnGameStarted);
+
         }
     }
+
+
 
     private void OnGameStarted()
     {

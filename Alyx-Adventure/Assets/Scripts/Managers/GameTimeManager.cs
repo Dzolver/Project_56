@@ -8,13 +8,21 @@ namespace AlyxAdventure
     {
         private Coroutine countTime, countMinutes;
         private int TotalSecPlayed;
-     
+
         private float CurrentGameMins;
-      
+        public bool CanDie;
+
         private void OnEnable()
         {
             MyEventManager.Instance.OnGameStarted.AddListener(OnGameStarted);
             MyEventManager.Instance.OnGameOver.AddListener(OnGameOver);
+            MyEventManager.Instance.EnableDeath.AddListener(EnableDeath);
+
+        }
+
+        private void Start()
+        {
+            CanDie = true;
         }
 
         private void OnDisable()
@@ -23,14 +31,21 @@ namespace AlyxAdventure
             {
                 MyEventManager.Instance.OnGameStarted.RemoveListener(OnGameStarted);
                 MyEventManager.Instance.OnGameOver.RemoveListener(OnGameOver);
+                MyEventManager.Instance.EnableDeath.RemoveListener(EnableDeath);
+
             }
+        }
+
+        private void EnableDeath(bool enable)
+        {
+            CanDie = enable;
         }
 
         private void OnGameStarted()
         {
             CurrentGameMins = 0f;
             TotalSecPlayed = PrefManager.Instance.GetIntPref(PrefManager.PreferenceKey.TotalSeconds, 0);
-         
+
             countTime = StartCoroutine(StartCountingTime());
             countMinutes = StartCoroutine(StartCountingMinutes());
         }

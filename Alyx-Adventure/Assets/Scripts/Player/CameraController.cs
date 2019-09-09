@@ -16,6 +16,11 @@ namespace AlyxAdventure
         private float boundaryView = 7.2f;
         private Vector3 targetPosition;
 
+        [SerializeField]
+        private Camera MainCamera;
+        [SerializeField]
+        private BoxCollider2D CameraCollider;
+
         private void Start()
         {
             //Finding reference to the player
@@ -23,7 +28,10 @@ namespace AlyxAdventure
             //Initialize the last player position for the first frame
             lastRunnerPosition = GameData.Instance.theRunnerTransform.position;
             speedIncreaseRate = GameData.Instance.theRunner.GetComponent<PlayerController>().speedIncreaseRate;//setting same increase rate as the player
+            SetupBoxCollider();
         }
+
+
 
         private void Update()
         {
@@ -44,6 +52,16 @@ namespace AlyxAdventure
             transform.position = Vector3.Lerp(new Vector3(xPos, transform.position.y, transform.position.z), targetPosition, speed * Time.deltaTime);
             //updating the last player position every frame
             lastRunnerPosition = GameData.Instance.theRunnerTransform.position;
+        }
+
+        private void SetupBoxCollider()
+        {
+            CameraCollider.size = new Vector2(GetXSize(AspectRatio.GetAspectRatio(Screen.width, Screen.height)), 10);
+        }
+
+        private float GetXSize(Vector2 aspectRatio)
+        {
+            return (10 * aspectRatio.x) / aspectRatio.y;
         }
 
     }

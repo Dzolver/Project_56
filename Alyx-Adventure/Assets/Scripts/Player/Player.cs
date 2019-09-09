@@ -64,14 +64,12 @@ namespace AlyxAdventure
             }
         }
 
-        private void SlowDownTime(float value)
+        private void OnCollisionStay2D(Collision2D collision)
         {
-            Time.timeScale = value;
-        }
-
-        private void NormalizeTime()
-        {
-            Time.timeScale = 1.0f;
+            if (!IsInvincible)
+            {
+                OnCollision(collision);
+            }
         }
 
         private void OnCollision(Collision2D collision)
@@ -88,18 +86,23 @@ namespace AlyxAdventure
             }
         }
 
-        private void OnCollisionStay2D(Collision2D collision)
+        private void GameOver()
         {
-            if (!IsInvincible)
+            if (GameTimeManager.Instance.CanDie)
             {
-                OnCollision(collision);
+                Deactivate();
+                MyEventManager.Instance.OnGameOver.Dispatch();
             }
         }
 
-        private void GameOver()
+        private void SlowDownTime(float value)
         {
-            //Deactivate();
-            //MyEventManager.Instance.OnGameOver.Dispatch();
+            Time.timeScale = value;
+        }
+
+        private void NormalizeTime()
+        {
+            Time.timeScale = 1.0f;
         }
 
         public void ActivateAndSetPosition(Vector3 vector3)

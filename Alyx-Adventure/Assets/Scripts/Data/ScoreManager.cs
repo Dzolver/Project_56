@@ -13,7 +13,7 @@ namespace AlyxAdventure
 
         private int ScorePerSecond = 1;
         private int ScorePerKill = 2;
-        
+
 
         private void OnEnable()
         {
@@ -72,7 +72,7 @@ namespace AlyxAdventure
         {
             GameScore = 0;
             TotalKills = 0;
-            ScoreMultiplier = 1;          
+            ScoreMultiplier = 1;
         }
 
         public void AddKills()
