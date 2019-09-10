@@ -317,6 +317,11 @@ namespace AlyxAdventure
             {
                 moveSpeed += ((FastRunInvincibility)powerup).GetSpeed();
             }
+            else if (powerup.GetPowerupType() == PowerupType.Invincibility)
+            {
+                LeanTween.color(gameObject, Color.green, .5f);
+            }
+
         }
 
 
@@ -325,6 +330,10 @@ namespace AlyxAdventure
             if (powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
             {
                 moveSpeed -= ((FastRunInvincibility)powerup).GetSpeed();
+            }
+            else if (powerup.GetPowerupType() == PowerupType.Invincibility)
+            {
+                LeanTween.color(gameObject, Color.white, .5f);
             }
         }
 
@@ -366,6 +375,6 @@ namespace AlyxAdventure
         #endregion
 
 
-        
+
     }
 }
