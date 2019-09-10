@@ -8,6 +8,8 @@ namespace AlyxAdventure
     {
         int time, effectTime;
 
+        public bool quickWeather = false;
+
         public ParticleSystem SnowEffect, RainEffect;
         public FogEffect fogEffect;
 
@@ -37,7 +39,14 @@ namespace AlyxAdventure
         {
             MyEventManager.Instance.OnGameStarted.Dispatch();
             StartCoroutine(GenerateCoinWave());
-            effectTime = Random.Range(15, 30);
+            if (!quickWeather)
+            {
+                effectTime = Random.Range(15, 30);
+            }
+            else
+            {
+                effectTime = 12;
+            }
             Debug.Log("effect time = " + effectTime);
         }
 
@@ -49,7 +58,7 @@ namespace AlyxAdventure
         private void OnSecondPassed(int obj)
         {
             time++;
-            if(time == effectTime)
+            if (time == effectTime)
             {
                 int effect = Random.Range(0, 3);
                 Debug.Log("effect = " + effect);
@@ -65,9 +74,17 @@ namespace AlyxAdventure
                         fogEffect.Activate();
                         break;
                 }
-                effectTime = Random.Range(effectTime + 15, effectTime + 30);
+                if (!quickWeather)
+                {
+                    effectTime = Random.Range(effectTime + 15, effectTime + 30);
+                }
+                else
+                {
+                    effectTime += 12;
+                }
+
             }
-            
+
         }
 
         private IEnumerator GenerateCoinWave()
