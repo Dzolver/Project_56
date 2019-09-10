@@ -47,7 +47,7 @@ namespace AlyxAdventure
             while (true)
             {
                 float x = GameData.Instance.RunnerVelocity.x / factor;
-                mRenderer.material.mainTextureOffset = mRenderer.material.mainTextureOffset + new Vector2(/*(int)direction **/x, 0f);
+                mRenderer.material.mainTextureOffset = mRenderer.material.mainTextureOffset + new Vector2(x, 0f);
                 yield return 0.1f;
             }
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,9 +8,9 @@ namespace AlyxAdventure
     public class GameTimeManager : SingletonMonoBehaviour<GameTimeManager>
     {
         private Coroutine countTime, countMinutes;
+        private float CurrentGameMins;
         private int TotalSecPlayed;
 
-        private float CurrentGameMins;
         public bool CanDie;
 
         private void OnEnable()
@@ -18,11 +19,6 @@ namespace AlyxAdventure
             MyEventManager.Instance.OnGameOver.AddListener(OnGameOver);
             MyEventManager.Instance.EnableDeath.AddListener(EnableDeath);
 
-        }
-
-        private void Start()
-        {
-            CanDie = true;
         }
 
         private void OnDisable()
@@ -34,6 +30,11 @@ namespace AlyxAdventure
                 MyEventManager.Instance.EnableDeath.RemoveListener(EnableDeath);
 
             }
+        }
+
+        private void Start()
+        {
+            CanDie = true;
         }
 
         private void EnableDeath(bool enable)
@@ -48,6 +49,7 @@ namespace AlyxAdventure
 
             countTime = StartCoroutine(StartCountingTime());
             countMinutes = StartCoroutine(StartCountingMinutes());
+          
         }
 
         private void OnGameOver()
@@ -65,6 +67,7 @@ namespace AlyxAdventure
                 yield return new WaitForSeconds(1f);
                 TotalSecPlayed++;
                 MyEventManager.Instance.OnSecondPassed.Dispatch(TotalSecPlayed);
+                
             }
         }
 
