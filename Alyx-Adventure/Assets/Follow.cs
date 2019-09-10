@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Follow : MonoBehaviour
 {
@@ -15,4 +13,5 @@ public class Follow : MonoBehaviour
     {
         transform.position = Camera.main.transform.position - offset;
     }
+
 }

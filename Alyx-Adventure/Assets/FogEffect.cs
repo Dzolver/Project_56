@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,7 +22,17 @@ public class FogEffect : MonoBehaviour
     {
         time = 0;
         gameObject.SetActive(true);
-        mRenderer.material.mainTextureOffset = Vector2.zero;
+        mRenderer.material.mainTextureOffset = new Vector2(0, 0.3f);
+        LeanTween.value(0.3f, 0f, 2).setOnUpdate(UpdateOffset).setOnComplete(OnComplete);        
+    }
+
+    private void UpdateOffset(float yOffset)
+    {
+        mRenderer.material.mainTextureOffset = new Vector2(0, yOffset);
+    }
+
+    private void OnComplete()
+    {
         StartCoroutine(ChangeOffset());
     }
 
@@ -29,10 +40,15 @@ public class FogEffect : MonoBehaviour
     {
         while (time < 10)
         {
-            mRenderer.material.mainTextureOffset = mRenderer.material.mainTextureOffset + new Vector2(0.01f, 0f);
+            mRenderer.material.mainTextureOffset = mRenderer.material.mainTextureOffset + new Vector2(0.07f * (int)GameData.Instance.direction, 0f);
             time += 0.1f;
             yield return new WaitForSeconds(0.1f);
         }
+        LeanTween.value(0f, 0.3f, 2).setOnUpdate(UpdateOffset).setOnComplete(Deactivate);
+    }
+
+    private void Deactivate()
+    {
         gameObject.SetActive(false);
     }
 }

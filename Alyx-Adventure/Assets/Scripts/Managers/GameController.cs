@@ -8,8 +8,6 @@ namespace AlyxAdventure
     {
         int time, effectTime;
 
-        public bool quickWeather = false;
-
         public ParticleSystem SnowEffect, RainEffect;
         public FogEffect fogEffect;
 
@@ -39,14 +37,7 @@ namespace AlyxAdventure
         {
             MyEventManager.Instance.OnGameStarted.Dispatch();
             StartCoroutine(GenerateCoinWave());
-            if (!quickWeather)
-            {
-                effectTime = Random.Range(15, 30);
-            }
-            else
-            {
-                effectTime = 12;
-            }
+            effectTime = Random.Range(15, 30);
             Debug.Log("effect time = " + effectTime);
         }
 
@@ -74,15 +65,7 @@ namespace AlyxAdventure
                         fogEffect.Activate();
                         break;
                 }
-                if (!quickWeather)
-                {
                     effectTime = Random.Range(effectTime + 15, effectTime + 30);
-                }
-                else
-                {
-                    effectTime += 12;
-                }
-
             }
 
         }
