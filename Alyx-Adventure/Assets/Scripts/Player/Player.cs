@@ -124,7 +124,13 @@ namespace AlyxAdventure
                 IsInvincible = true;
                 //LeanTween.color(gameObject, Color.cyan, 0.5f);
                 GetComponentInChildren<ParticleSystem>().Play();
+                Invoke("StopParticles", powerup.GetPowerupDuration() - 1.5f);
             }
+        }
+
+        private void StopParticles()
+        {
+            GetComponentInChildren<ParticleSystem>().Stop();
         }
 
         private void OnPowerupExhausted(BasePowerup powerup)
@@ -132,8 +138,7 @@ namespace AlyxAdventure
             if (powerup.GetPowerupType() == PowerupType.Invincibility || powerup.GetPowerupType() == PowerupType.FastRunInvincibility)
             {
                 IsInvincible = false;
-                //LeanTween.color(gameObject, Color.white, 0.5f);
-                GetComponentInChildren<ParticleSystem>().Stop();
+                //LeanTween.color(gameObject, Color.white, 0.5f);               
             }
         }
 

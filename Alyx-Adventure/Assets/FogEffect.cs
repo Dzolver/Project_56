@@ -40,7 +40,7 @@ public class FogEffect : MonoBehaviour
     {
         while (time < 10)
         {
-            mRenderer.material.mainTextureOffset = mRenderer.material.mainTextureOffset + new Vector2(0.07f * (int)GameData.Instance.direction, 0f);
+            mRenderer.material.mainTextureOffset = mRenderer.material.mainTextureOffset + new Vector2(0.07f, 0f);
             time += 0.1f;
             yield return new WaitForSeconds(0.1f);
         }
